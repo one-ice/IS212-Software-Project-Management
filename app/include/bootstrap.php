@@ -70,7 +70,35 @@ function doBootstrap() {
 			}
 			else {
 				$connMgr = new ConnectionManager();
-				$conn = $connMgr->getConnection();
+                $conn = $connMgr->getConnection();
+                 # start processing
+                
+                /****************start Student****************/
+
+
+                /****************end Student*****************/
+
+
+
+                /****************start Course*****************/
+                
+
+                /****************end Course*****************/
+
+
+                /****************start Section*****************/
+
+
+                /****************end Section*****************/
+                
+                /************  Prerequisite Here *******************/
+                # truncate current SQL tables here
+				$prereqDAO = new PrereqDAO();
+                $prereqDAO->removeAll();
+                
+				# process each line and check for errors
+                
+                // process each line, check for errors, then insert if no errors
             }
         }
     }
