@@ -99,6 +99,25 @@ function doBootstrap() {
 				# process each line and check for errors
                 
                 // process each line, check for errors, then insert if no errors
+                $header = fgetcsv($prereq);
+                $lineCount = 1;
+				while (($data = fgetcsv($prereq))!== false){
+
+                    #function to remove all white spaces
+                    $data = removeWhiteSpace($data);
+                    $lineCount ++;
+
+                    if ( sizeof(checkForEmptyCol($data, $header)) != 0 ) {
+                        $errorInRow = checkForEmptyCol($data, $header);
+                        $errorDetails = [
+                            "file" => "prerequisite.csv",
+                            "line" => $lineCount,
+                            "message" => $errorInRow
+                        ];
+                        array_push($errors , $errorDetails);
+                       
+                    }
+                }
             }
         }
     }
