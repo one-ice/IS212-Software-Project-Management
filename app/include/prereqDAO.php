@@ -38,7 +38,63 @@ class PrereqDAO{
         return $result;
     }
 
+    public function removeAll(){
+        // can be truncated directly. Only contain two pk
+        $sql = 'SET FOREIGN_KEY_CHECKS = 0;
+        TRUNCATE TABLE prerequisite';
 
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->getConnection();
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        
+        $sqlAddFK = 'SET FOREIGN_KEY_CHECKS = 1';
+
+        $stmt = $conn->prepare($sqlAddFK);
+        $stmt->execute();
+
+        $cout = $stmt->rowCount();
+    }
+
+    public function update($prereq){
+        $sql = "UPDATE prerequisite SET course = :course,prerequisite = :prerequisite";
+
+        $connMgr = new ConnectionManager();           
+        $conn = $connMgr->getConnection();
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindParam(':course', $prerequisite->course, PDO::PARAM_STR);
+        $stmt->bindParam(':prerequisite', $prerequisite->prerequisite, PDO::PARAM_STR);
+
+        $isUpdateOk = False;
+        if ($stmt->execute()) {
+            $isUpdateOk = True;
+        }
+
+        return $isUpdateOk;
+    }
+
+    public function add($prerequisite){
+        $sql = 'INSERT IGNORE INTO prerequisite(course,prerequisite) VALUES (:course, :prerequisite)';
+        
+        $connMgr = new ConnectionManager();       
+        $conn = $connMgr->getConnection();
+         
+        $stmt = $conn->prepare($sql); 
+
+        $stmt->bindParam(':course', $prerequisite->course, PDO::PARAM_STR);
+        $stmt->bindParam(':prerequisite', $prerequisite->prerequisite, PDO::PARAM_STR);
+
+
+        
+        $isAddOK = False;
+        if ($stmt->execute()) {
+            $isAddOK = True;
+        }
+
+        return $isAddOK; 
+    }
 
 }
 ?>
