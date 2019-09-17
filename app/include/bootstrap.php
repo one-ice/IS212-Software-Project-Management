@@ -149,5 +149,23 @@ function doBootstrap() {
             }
         }
     }
+    
+	if (!isEmpty($errors))
+	{	
+        //ignore these 2 lines below, next time then need to sort
+		//$sortclass = new Sort();
+		//$errors = $sortclass->sort_it($errors,"bootstrap");
+		$result = [ 
+            "status" => "error",
+            "num-record-loaded" =>  [
+                #Add processed count for your csv files, IN THIS FORMAT
+                #["Name.csv" => $name_processed] ,
+                ["Prerequisite.csv" => $prereq_processed],
+            ],
+			"messages" => $errors
+		];
+	}
+
+	
 }
 ?>
