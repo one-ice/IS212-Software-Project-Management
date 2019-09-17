@@ -117,7 +117,35 @@ function doBootstrap() {
                         array_push($errors , $errorDetails);
                        
                     }
-                }
+                    #Add Validations checker for Prerequisite here
+                    #only after your line check for empty fields is working
+                    else{
+                        $prereqObj = new Prereq($data[0], $data[1]);
+                        $prereqDAO->add($prereqObj);
+                        $prereq_processed++;
+                    }
+
+				}
+
+				// Remember to clean up
+				fclose($prereq);
+				@unlink($prereq_path);
+
+                /**************** end of Prerequisite *********************** */
+
+
+                /****************start Course_completed**************** */
+
+
+                /****************end Course_completed**************** */
+
+
+                /****************start Bid**************** */
+
+                
+                /****************end Bid**************** */
+
+                
             }
         }
     }
