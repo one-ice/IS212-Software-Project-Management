@@ -164,8 +164,22 @@ function doBootstrap() {
             ],
 			"messages" => $errors
 		];
-	}
-
+    }
+    
+	else
+	{	
+		$result = [ 
+			"status" => "success",
+            "num-record-loaded" => [
+                #Add processed count for your csv files, IN THIS FORMAT
+                #["Name.csv" => $name_processed] ,
+				"Prerequisite.csv" => $prereq_processed,
+			]
+		];
+    }
+    
+	header('Content-Type: application/json');
+	echo json_encode($result, JSON_PRETTY_PRINT);
 	
 }
 ?>
