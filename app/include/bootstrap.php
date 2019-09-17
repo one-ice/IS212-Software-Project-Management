@@ -16,4 +16,12 @@ function checkForEmptyCol( $data, $header){
 }
 
 
+function removeWhiteSpace($data){
+    $arrayToReturn =[];
+    for ($i=0; $i < sizeof($data) ; $i++) {
+        array_push($arrayToReturn, trim($data[$i], ' '));  
+    }
+    return $arrayToReturn;
+}
+
 ?>
