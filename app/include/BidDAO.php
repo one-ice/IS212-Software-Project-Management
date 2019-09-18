@@ -67,5 +67,28 @@ class BidDAO {
     }
     
         
-    
+    public function remove($userid) {
+        $sql = 'DELETE FROM bid WHERE userid = :userid';
+        
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->getConnection();
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':userid', $userid, PDO::PARAM_STR);
+        
+        $stmt->execute();
+        $count = $stmt->rowCount();
+    }
+
+    public function removeAll() {
+        $sql = 'TRUNCATE TABLE bid';
+        
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->getConnection();
+        
+        $stmt = $conn->prepare($sql);
+        
+        $stmt->execute();
+        $count = $stmt->rowCount();
+    }    
 }
