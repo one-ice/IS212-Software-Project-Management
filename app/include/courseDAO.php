@@ -20,7 +20,7 @@ class CourseDAO{
     }
     
     public function retrieve($course){
-        $sql = 'SELECT course, type FROM course WHERE course=:course';
+        $sql = 'SELECT * FROM course WHERE course=:course';
         
         
         $connMgr = new ConnectionManager();
@@ -32,7 +32,8 @@ class CourseDAO{
         $stmt->execute();
         $result = array();
         if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-            $result = new Course($row['course'],$row['school'],$row['title'],$row['description'],$row['examDate'],$row['examStart'],$row['examEnd']);
+            $result[] = new Course($row['course'],$row['school'],$row['title'],$row['description'],
+            $row['exam_date'],$row['exam_start'],$row['exam_end']);
         }
 
         return $result;

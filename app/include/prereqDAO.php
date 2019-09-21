@@ -19,7 +19,7 @@ class PrereqDAO{
         return $result;
     }  
     public function retrieve($course){
-        $sql = 'SELECT course, type FROM prerequisite WHERE course=:course';
+        $sql = 'SELECT * FROM prerequisite WHERE course=:course';
         
         
         $connMgr = new ConnectionManager();
@@ -32,7 +32,7 @@ class PrereqDAO{
 
         $result = [];
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-            $result = new course($row['course'],$row['prerequisite']);
+            $result[] = new course($row['course'],$row['prerequisite']);
         }
 
         return $result;
