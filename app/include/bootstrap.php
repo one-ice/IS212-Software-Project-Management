@@ -55,25 +55,38 @@ function doBootstrap() {
             
             #Add your temp directory here
             $student_path = "$temp_dir/student.csv";
+            $course_path = "$temp_dir/course.csv";
+            $section_path = "$temp_dir/section.csv";
             $prereq_path = "$temp_dir/prerequisite.csv";
             $course_completed_path = "$temp_dir/course_completed.csv";    
             $bid_path = "$temp_dir/bid.csv";
             
             #Add your @fopen here
             $student = @fopen($student_path, "r");
+            $course = @fopen($course_path, "r");
+            $section = @fopen($section_path, "r");
             $prereq = @fopen($prereq_path, "r");
             $course_completed = @fopen($course_completed_path, "r");
             $bid = @fopen($bid_path, "r" );
             
             #Add your emptys here
             # empty($prereq) || empty($course) ||.........
-			if (empty($student) || empty($prereq) || empty($course_completed)|| empty($bid)){
+            if (empty($student) || empty($course)||empty($section) ||
+                empty($prereq) || empty($course_completed)|| empty($bid)){
                 $errors[] = "input files not found";
                 
                 #add @unlinks and fclose
                 if (!empty($student)){
 					fclose($student);
 					@unlink($student_path);
+                } 
+                if (!empty($course)){
+					fclose($course);
+					@unlink($course_path);
+                } 
+                if (!empty($section)){
+					fclose($section);
+					@unlink($section_path);
                 } 
 				if (!empty($prereq)){
 					fclose($prereq);
@@ -128,7 +141,43 @@ function doBootstrap() {
 
 
                 /****************start Course*****************/
+                $courseDAO =  new courseDAO();
                 
+                # truncate current SQL tables
+                $courseDAO-> removeAll();
+                $header = fgetcsv($course);   #to get past the first line
+                
+                $lineCount = 1;
+
+                while (($data=fgetcsv($course))!= False){
+                    
+                    $data = removeWhiteSpace($data);
+                    $lineCount ++;
+            
+                    if ( sizeof(checkForEmptyCol($data, $header)) != 0 ) {
+                        $errorInRow = checkForEmptyCol($data, $header);
+                        $errorDetails = [
+                            "file" => "course.csv",
+                            "line" => $lineCount,
+                            "message" => $errorInRow
+                        ];
+                        array_push($errors , $errorDetails);
+                    }
+            
+                    // elseif(){
+                    // add validation!
+                    // }
+            
+                    else{
+                        $courseObj = new course($data[0], $data[1], $data[2], $data[3], 
+                        $data[4], $data[5], $data[6]);
+                        $courseDAO->add($courseObj);
+                        $course_processed++;
+                    }
+                }
+                 // Remember to clean up
+				fclose($course);
+                @unlink($course_path);
 
                 /****************end Course*****************/
 
