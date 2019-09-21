@@ -94,8 +94,35 @@ function doBootstrap() {
                  # start processing
                 
                 /****************start Student****************/
+                $studentDAO = new StudentDAO();
+                $studentDAO->removeAll();
 
+                $header = fgetcsv($student);
+                $lineCount = 1;
+				while (($data = fgetcsv($student))!= false){
+                    $data = removeWhiteSpace($data);
+                    $lineCount++;
+                    if (sizeof(checkForEmptyCol($data, $header)) !== 0 ) {
+                        $errorInRow = checkForEmptyCol($data, $header);
+                        $errorDetails = [
+                            "file" => "student.csv",
+                            "line" => $lineCount,
+                            "message" => $errorInRow
+                        ];
+                        array_push($errors , $errorDetails);
+                    }
+                    #Add Validations checker for Student here
+                    #only after your line check for empty fields is working
+                    else{
+                        $studentobj = new Student($data[0], $data[1], $data[2], $data[3], $data[4]);
+                        $studentDAO->add($studentobj);
+                        $student_processed++;
+                    }
+                }
 
+                // Remember to clean up
+                fclose($student);
+				@unlink($student_path);
                 /****************end Student*****************/
 
 
