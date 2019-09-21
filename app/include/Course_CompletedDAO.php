@@ -37,9 +37,12 @@ class Course_CompletedDAO {
         $stmt->bindParam(':userid', $userid, PDO::PARAM_STR);
         $stmt->execute();
 
+        $result = [];
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            return new Course_Completed($row['userid'], $row['code']);
+            $result[] = new Course_Completed($row['userid'], $row['code']);
         }
+        return $result;
+
     }
 
     public function add($course_completed) {
