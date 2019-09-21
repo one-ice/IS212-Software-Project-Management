@@ -216,7 +216,39 @@ function doBootstrap() {
 
 
                 /****************start Bid**************** */
+                $bidDAO = new bidDAO();
+                $bidDAO->removeAll();
 
+				#processing
+				$header = fgetcsv($bid);
+                $lineCount = 1;
+				while (($data = fgetcsv($bid))!== false){
+                    $data = removeWhiteSpace($data);
+                    $lineCount ++;
+                    if ( sizeof(checkForEmptyCol($data, $header)) != 0 ) {
+                        $errorInRow = checkForEmptyCol($data, $header);
+                        $errorDetails = [
+                            "file" => "bid.csv",
+                            "line" => $lineCount,
+                            "message" => $errorInRow
+                        ];
+                        array_push($errors , $errorDetails);
+                       
+                    }
+					else {
+						#Validation Check#
+						#Invalid userid
+						#Invalid amount
+						#Invalid Course
+                        #Invalid section
+                        $bidObj = new Bid($data[0], $data[1], $data[2], $data[3]);
+						$bidDAO->add($bidObj);
+                        $bid_processed++;
+					}
+                }	 
+
+				fclose($bid);
+				@unlink($bid_path);
                 
                 /****************end Bid**************** */
 
