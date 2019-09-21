@@ -35,7 +35,10 @@ function doBootstrap() {
 
     # keep track of number of lines successfully processed for each file
     #Add your processed count here
-	$prereq_processed=0;
+    $student_processed = 0;
+    $prereq_processed=0;
+    $course_completed_processed = 0;
+    $bid_processed = 0;
 
 	# check file size
 	if ($_FILES["bootstrap-file"]["size"] <= 0)
@@ -51,22 +54,39 @@ function doBootstrap() {
 			$zip->close();
             
             #Add your temp directory here
-			$prereq_path = "$temp_dir/prerequisite.csv";
+            $student_path = "$temp_dir/student.csv";
+            $prereq_path = "$temp_dir/prerequisite.csv";
+            $course_completed_path = "$temp_dir/course_completed.csv";    
+            $bid_path = "$temp_dir/bid.csv";
             
             #Add your @fopen here
-			$prereq = @fopen($prereq_path, "r");
+            $student = @fopen($student_path, "r");
+            $prereq = @fopen($prereq_path, "r");
+            $course_completed = @fopen($course_completed_path, "r");
+            $bid = @fopen($bid_path, "r" );
             
             #Add your emptys here
             # empty($prereq) || empty($course) ||.........
-			if (empty($prereq) ){
+			if (empty($student) || empty($prereq) || empty($course_completed)|| empty($bid)){
                 $errors[] = "input files not found";
                 
                 #add @unlinks and fclose
+                if (!empty($student)){
+					fclose($student);
+					@unlink($student_path);
+                } 
 				if (!empty($prereq)){
 					fclose($prereq);
 					@unlink($prereq_path);
                 } 
-                
+                if (!empty($course_completed)){
+					fclose($course_completed);
+					@unlink($course_completed_path);
+                } 
+                if (!empty($bid)){
+					fclose($bid);
+					@unlink($bid_path);
+                } 
 			}
 			else {
 				$connMgr = new ConnectionManager();
