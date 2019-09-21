@@ -182,7 +182,35 @@ function doBootstrap() {
 
 
                 /****************start Course_completed**************** */
+                $course_completedDAO = new Course_CompletedDAO();
+                $course_completedDAO->removeAll();
 
+                $header = fgetcsv($course_completed);
+                $lineCount = 1;
+				while (($data = fgetcsv($course_completed))!= false){
+                    $data = removeWhiteSpace($data);
+                    $lineCount ++;
+                    if (sizeof(checkForEmptyCol($data, $header)) !== 0 ) {
+                        $errorInRow = checkForEmptyCol($data, $header);
+                        $errorDetails = [
+                            "file" => "course_completed.csv",
+                            "line" => $lineCount,
+                            "message" => $errorInRow
+                        ];
+                        array_push($errors, $errorDetails);
+                    }
+                    #Add Validations checker for Course_completed here
+                    #only after your line check for empty fields is working
+                    else{
+                        $course_completedobj = new Course_Completed($data[0], $data[1]);
+                        $course_completedDAO->add($course_completedobj);
+                        $course_completed_processed++;
+                    }
+                }
+
+                // Remember to clean up
+				fclose($course_completed);
+				@unlink($course_completed_path);
 
                 /****************end Course_completed**************** */
 
