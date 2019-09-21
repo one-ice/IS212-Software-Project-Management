@@ -183,7 +183,43 @@ function doBootstrap() {
 
 
                 /****************start Section*****************/
+                # start processing
+                $sectionDAO =  new sectionDAO();
+                                
+                # truncate current SQL tables
+                $sectionDAO-> removeAll();
+                $header = fgetcsv($section);   #to get past the first line
 
+                $lineCount = 1;
+
+                while (($data=fgetcsv($section))!= False){
+                    $data = removeWhiteSpace($data);
+                    $lineCount ++;
+                    $error_in_section = isSectionValid($data[0], $data[1], $data[2], $data[3], 
+                    $data[4], $data[5], $data[6], $data[7]);
+
+                    if ( sizeof(checkForEmptyCol($data, $header)) != 0 ) {
+                        $errorInRow = checkForEmptyCol($data, $header);
+                        $errorDetails = [
+                            "file" => "section.csv",
+                            "line" => $lineCount,
+                            "message" => $errorInRow
+                        ];
+                        array_push($errors , $errorDetails);
+                    }
+                    
+                    //add extra validation here
+
+                    else{
+                        $sectionObj = new section($data[0], $data[1], $data[2], $data[3], 
+                        $data[4], $data[5], $data[6], $data[7]);
+                        $sectionDAO->add($sectionObj);
+                        $section_processed++;
+                    }
+                }
+                // Remember to clean up
+                fclose($section);
+                @unlink($section_path);
 
                 /****************end Section*****************/
                 
