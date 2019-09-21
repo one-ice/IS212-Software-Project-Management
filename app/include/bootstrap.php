@@ -267,7 +267,12 @@ function doBootstrap() {
             "num-record-loaded" =>  [
                 #Add processed count for your csv files, IN THIS FORMAT
                 #["Name.csv" => $name_processed] ,
-                ["Prerequisite.csv" => $prereq_processed],
+                [
+                "student.csv" => $student_processed,
+                "prerequisite.csv" => $prereq_processed,
+                "course_completed.csv" => $course_completed_processed,
+                "bid.csv" => $bid_processed
+                ],
             ],
 			"messages" => $errors
 		];
@@ -280,7 +285,10 @@ function doBootstrap() {
             "num-record-loaded" => [
                 #Add processed count for your csv files, IN THIS FORMAT
                 #["Name.csv" => $name_processed] ,
-				"Prerequisite.csv" => $prereq_processed,
+                "student.csv" => $student_processed,
+                "Prerequisite.csv" => $prereq_processed,
+                "course_completed.csv" => $course_completed_processed,
+                "bid.csv" => $bid_processed
 			]
 		];
     }
