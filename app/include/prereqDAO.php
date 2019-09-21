@@ -18,7 +18,7 @@ class PrereqDAO{
 
         return $result;
     }  
-    public function retireve($course){
+    public function retrieve($course){
         $sql = 'SELECT course, type FROM prerequisite WHERE course=:course';
         
         
@@ -31,7 +31,7 @@ class PrereqDAO{
         $stmt->execute();
 
         $result = [];
-        if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             $result = new course($row['course'],$row['prerequisite']);
         }
 
