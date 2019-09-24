@@ -32,7 +32,7 @@ class PrereqDAO{
 
         $result = [];
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-            $result[] = new course($row['course'],$row['prerequisite']);
+            $result[] = new Prereq($row['course'],$row['prerequisite']);
         }
 
         return $result;

@@ -295,7 +295,75 @@ function isStudentValid($userid, $password, $name, $edollar)
         $errors[] = "invalid e-dollar";
     }
 
-    
+    #Check whether password is valid
+    if(strlen($password) > 128)
+    {
+        $errors[] = "invalid password";
+    }
 
+    #Check whether name is valid
+    if(strlen($name) > 100)
+    {
+        $errors[] = 'invalid name';
+    }
+
+    return $errors;
+
+}
+
+#Validations for course_completed
+function isCourse_CompletedValid($userid,$code)
+{
+    $errors = [];
+
+    $connMgr = new ConnectionManager();
+    $conn = $connMgr->getConnection();
+	#check if userid exist in student
+    $studentDAO = new StudentDAO();
+    $result = $studentDAO->retrieve($userid);
+    if (!$result)
+    {
+        $errors[] = "invalid userid";
+    }
+    
+    #check if code exist in course
+    $courseDAO = new CourseDAO();
+    $result = $courseDAO->retrieve($code);
+    if (!$result)
+    {
+        $errors[] = "invalid course";
+    }
+    else{
+        $course_completedDAO = new Course_CompletedDAO();
+        $prereqDAO = new PrereqDAO();
+        $prereq = $prereqDAO->retrieve($code);
+        // echo json_encode($prereq);
+        if($prereq)
+        {
+            $count = 0;
+            $course_completed = [];
+            #get the courses completed
+            $courses_completed = $course_completedDAO->retrieve($userid);
+            $prereqCodeList = [];
+            foreach($prereq as $prereqCode){
+                $prereqCodeList[] = $prereqCode->prerequisite;
+            }
+            // echo json_encode($prereqCodeList);
+            foreach ($courses_completed as $course)
+            {
+                $completed_code = $course->code;
+                #check whether course completed in array of prerequisites for the course
+                if(in_array($completed_code,$prereqCodeList))
+                {
+                    $count++;
+                }
+            }
+            if($count != count($prereq))
+            {
+                $errors[] = 'invalid course completed';
+            }   
+        }
+    return $errors;
+}
 }
 ?>
