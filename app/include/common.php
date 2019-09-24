@@ -222,3 +222,17 @@ function isSectionValid($course,$section,$day,$start,$end,$instructor,$venue,$si
 
     return $errors;
 }
+
+#Validations for student
+function isStudentValid($userid, $password, $name, $edollar)
+{
+    $errors = [];
+    
+    #Check whether userid is valid
+    if(strlen($userid) > 128)
+    {
+        $errors[] = "invalid userid";
+    }
+
+}
+?>
