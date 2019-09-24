@@ -13,11 +13,9 @@ class StudentDAO {
         $stmt->bindParam(':userid', $userid, PDO::PARAM_STR);
         $stmt->execute();
 
-        $result = [];
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $result[] = new Student($row['userid'], $row['password'],$row['name'], $row['school'],$row['edollar']);
+            return new Student($row['userid'], $row['password'],$row['name'], $row['school'], $row['edollar']);
         }
-        return $result;
 
     }
 
