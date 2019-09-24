@@ -123,3 +123,102 @@ function checkCourseVali($title,$description,$examDate,$examStart,$examEnd){
     }
     return $errors_in_course;
 }
+
+#section validation
+function isSectionValid($course,$section,$day,$start,$end,$instructor,$venue,$size){
+    $courseValid = False;
+    $sectionValid = False;
+    $dayValid = False;
+    $startValid = False;
+    $endValid = False;
+    $instructorValid = False;
+    $venueValid  = False;
+    $sizeValid  = False;
+    $errors = [];
+
+    #establish connection to DB
+    $connMgr = new ConnectionManager();
+    $conn = $connMgr->getConnection();
+
+    #generating courseDAO
+    $courseDAO = new CourseDAO();
+    # compare to course for courseValid
+    $check = $courseDAO -> retrieve($course);
+    //check if array is not empty. if array is not empty, course exists
+    if (!$check){
+        $courseValid = True;
+        #section validity (placed here as it should only be checked if course is valid)
+        if ($section[0]=="S"){
+            #getting the num string of section
+            $num = substr($section,1);
+            #check if the numbers of the section is between 1 to 99
+            if ($num>=1 and $num<=99){
+                $sectionValid = True;
+            }
+        }
+    }
+ 
+    #day validity
+    # check if day is between 1-7
+    if($day>=1 && $day<=7)
+    {
+        $dayValid=True;
+    }
+    #check start and end validity
+    if($startFormat = DateTime::createFromFormat('H:i',$start)){
+        $startValid = TRUE;
+        if($endFormat = DateTime::createFromFormat('H:i',$end)){
+            if($endFormat>$startFormat){
+                $endValid = TRUE; 
+            }   
+        }
+    }
+
+    #check instructor length
+    $instructor_count = strlen($instructor);
+    if ($instructor_count<=100){
+        $instructorValid= True;
+    }
+
+    #Check Venue length
+    $venue_count = strlen($venue);
+    if($venue_count<=100){
+        $venueValid = True;
+    }
+
+    #check size validity by making sure it is greater than 0
+    if($size>0){
+        $sizeValid = True;
+    }
+
+    #appending error messages
+
+    if (!$courseValid){
+        $errors[] = "invalid course";
+    }
+    else{
+        if (!$sectionValid){
+            $errors[] = "invalid section";
+        }
+    }
+    if (!$dayValid){
+        $errors[] = "invalid day";
+    }
+    if (!$startValid){
+        $errors[] = "invalid start";
+    }
+    if (!$endValid){
+        $errors[] = "invalid end";
+    }
+    if (!$instructorValid){
+        $errors[] = "invalid instructor";
+    }
+    if (!$venueValid){
+        $errors[] = "invalid venue";
+    }
+    if (!$sizeValid){
+        $errors[] = "invalid size";
+    }
+
+    return $errors;
+}
