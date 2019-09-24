@@ -366,4 +366,63 @@ function isCourse_CompletedValid($userid,$code)
     return $errors;
 }
 }
+
+#Bid Validations
+
+function checkValidUserID($userID){
+    $errors = [];
+    $connMgr = new ConnectionManager();
+    $conn = $connMgr->getConnection();
+    $studentDAO = new StudentDAO();
+    $result = $studentDAO->retrieve($userID);
+    if (!$result)
+    {
+        $errors[] = "invalid userid";
+    }
+
+    return $errors;
+}
+
+function checkValidCourse($courseCode, $sectionID){
+    $errors = [];
+    $connMgr = new ConnectionManager();
+    $conn = $connMgr->getConnection();
+    $courseDAO = new CourseDAO();
+    $result = $courseDAO->retrieve($courseCode);
+    if (!$result)
+    {
+        $errors[] = "invalid course code";
+    }
+	else {
+		$errors = checkValidSection($courseCode, $sectionID);
+	}
+	return $errors;
+}
+
+function checkValidSection($courseCode, $sectionID) {
+	$errors = [];
+    $connMgr = new ConnectionManager();
+	$conn = $connMgr->getConnection();
+	$sectionDAO = new SectionDAO();
+	$result = $sectionDAO->retrieve($courseCode, $sectionID);
+	if (!$result){
+		$errors[] = "invalid section code";
+	}
+	return $errors;
+}
+
+function checkValidAmt($amt) {
+    #Less than $10
+    $errors = [];
+	if ($amt < 10) {
+		$errors[] = "invalid Bid Amount" ;
+	}
+	#Not Numeric in Amount
+	elseif (!preg_match('/^-?[0-9]+(?:\.[0-9]{1,2})?$/', $amt)) {
+	    $errors[] =  "invalid Bid Amount";
+	}
+	return $errors;
+
+}
+
 ?>

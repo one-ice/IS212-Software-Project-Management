@@ -71,6 +71,7 @@ class sectionDAO{
         #identify unique row using PK of course and section
         $sql = 'SELECT * FROM section WHERE course=:course and section = :section';
         
+        $result = "";
         
         $connMgr = new ConnectionManager();
         $conn = $connMgr->getConnection();

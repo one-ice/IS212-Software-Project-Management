@@ -362,9 +362,25 @@ function doBootstrap() {
                     }
 					else {
 						#Validation Check#
-						#Invalid userid
-						#Invalid amount
-						#Invalid Course
+                        #Invalid userid
+                        $errorInRow = [];
+                        $errorDetails = checkValidUserID($data[0]);
+                        if (sizeof($errorDetails) > 0) {
+                        array_push($errorInRow, $errorDetails);
+                        }
+                        #Invalid amount
+                        $errorDetails = checkValidAmt($data[1]);
+						if (sizeof($errorDetails) > 0 ) {
+                            array_push($errorInRow, $errorDetails);
+						}
+                        #Invalid Course
+                        #Invalid Course / Course & Section
+						$courseID = $data[2];
+						$sectionID = $data[3];
+						$errorDetails = checkValidCourse($courseID, $sectionID);
+						if (sizeof($errorDetails) > 0) {
+							array_push($errorInRow , $errorDetails);
+						}
                         #Invalid section
                         $bidObj = new Bid($data[0], $data[1], $data[2], $data[3]);
 						$bidDAO->add($bidObj);
