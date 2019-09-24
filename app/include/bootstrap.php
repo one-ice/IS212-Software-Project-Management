@@ -344,6 +344,7 @@ function doBootstrap() {
         }
     }
     
+	 
 	if (!isEmpty($errors))
 	{	
         //ignore these 2 lines below, next time then need to sort
@@ -356,6 +357,8 @@ function doBootstrap() {
                 #["Name.csv" => $name_processed] ,
                 [
                 "student.csv" => $student_processed,
+                "course.csv" => $course_processed,
+                "section.csv" => $section_processed,
                 "prerequisite.csv" => $prereq_processed,
                 "course_completed.csv" => $course_completed_processed,
                 "bid.csv" => $bid_processed
@@ -373,7 +376,9 @@ function doBootstrap() {
                 #Add processed count for your csv files, IN THIS FORMAT
                 #["Name.csv" => $name_processed] ,
                 "student.csv" => $student_processed,
-                "Prerequisite.csv" => $prereq_processed,
+                "course.csv" => $course_processed,
+                "section.csv" => $section_processed,
+                "prerequisite.csv" => $prereq_processed,
                 "course_completed.csv" => $course_completed_processed,
                 "bid.csv" => $bid_processed
 			]
