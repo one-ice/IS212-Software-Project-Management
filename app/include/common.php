@@ -333,6 +333,36 @@ function isCourse_CompletedValid($userid,$code)
     {
         $errors[] = "invalid course";
     }
+    else{
+        $course_completedDAO = new Course_CompletedDAO();
+        $prereqDAO = new PrereqDAO();
+        $prereq = $prereqDAO->retrieve($code);
+        // echo json_encode($prereq);
+        if($prereq)
+        {
+            $count = 0;
+            $course_completed = [];
+            #get the courses completed
+            $courses_completed = $course_completedDAO->retrieve($userid);
+            $prereqCodeList = [];
+            foreach($prereq as $prereqCode){
+                $prereqCodeList[] = $prereqCode->prerequisite;
+            }
+            // echo json_encode($prereqCodeList);
+            foreach ($courses_completed as $course)
+            {
+                $completed_code = $course->code;
+                #check whether course completed in array of prerequisites for the course
+                if(in_array($completed_code,$prereqCodeList))
+                {
+                    $count++;
+                }
+            }
+            if($count != count($prereq))
+            {
+                $errors[] = 'invalid course completed';
+            }   
+        }
     return $errors;
 }
 ?>
