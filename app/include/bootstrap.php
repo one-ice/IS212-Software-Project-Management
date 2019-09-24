@@ -7,7 +7,7 @@ require_once 'common.php';
 function checkForEmptyCol( $data, $header){
     $errors = [];
     for ($i=0; $i < sizeof($data); $i++) { 
-        if (empty($data[$i])){
+        if ($data[$i] == ""){
             $fieldname = "Blank " . $header[$i];
             array_push($errors , $fieldname);
         }
@@ -210,8 +210,7 @@ function doBootstrap() {
                 while (($data=fgetcsv($section))!= False){
                     $data = removeWhiteSpace($data);
                     $lineCount ++;
-                    $error_in_section = isSectionValid($data[0], $data[1], $data[2], $data[3], 
-                    $data[4], $data[5], $data[6], $data[7]);
+                   
 
                     if ( sizeof(checkForEmptyCol($data, $header)) != 0 ) {
                         $errorInRow = checkForEmptyCol($data, $header);
@@ -223,20 +222,23 @@ function doBootstrap() {
                         array_push($errors , $errorDetails);
                     }
                     
-                    elseif(count($error_in_section)>0){
-                        $errorDetails = [
-                            "file" => "section.csv",
-                            "line" => $lineCount,
-                            "message" => $error_in_section
-                        ];
-                        array_push($errors , $errorDetails);
-                    }
-
                     else{
-                        $sectionObj = new section($data[0], $data[1], $data[2], $data[3], 
+                        $error_in_section = isSectionValid($data[0], $data[1], $data[2], $data[3], 
                         $data[4], $data[5], $data[6], $data[7]);
-                        $sectionDAO->add($sectionObj);
-                        $section_processed++;
+                        if(sizeof($error_in_section) != 0){
+                            $errorDetails = [
+                                "file" => "section.csv",
+                                "line" => $lineCount,
+                                "message" => $error_in_section
+                            ];
+                            array_push($errors , $errorDetails);
+                        }   
+                        else{
+                            $sectionObj = new section($data[0], $data[1], $data[2], $data[3], 
+                            $data[4], $data[5], $data[6], $data[7]);
+                            $sectionDAO->add($sectionObj);
+                            $section_processed++;
+                        }
                     }
                 }
                 // Remember to clean up
