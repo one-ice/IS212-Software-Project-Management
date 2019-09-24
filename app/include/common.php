@@ -276,6 +276,25 @@ function isStudentValid($userid, $password, $name, $edollar)
         $errors[] = "duplicate userid";
     }
 
+    #Check whether edollar is valid
+    #Convert edollar (decimal) to string
+    $stringedollar = strval($edollar);
+    $explodestringedollar = explode('.', $edollar);
+    if($edollar > 0.0)
+    {
+        if (count($explodestringedollar) == 2)
+        {
+            if ((strlen($explodestringedollar[1])) != 2)
+            {
+                $errors[] = "invalid e-dollar";
+            }
+        }  
+    } 
+    else
+    {
+        $errors[] = "invalid e-dollar";
+    }
+
     
 
 }
