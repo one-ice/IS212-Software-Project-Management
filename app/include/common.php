@@ -68,3 +68,58 @@ function isEmpty($var) {
     if (empty($var))
         return TRUE;
 }
+
+#course validation
+function checkCourseVali($title,$description,$examDate,$examStart,$examEnd){
+    # Does not check for Course and School! (takes in 5 columns of data only!!!)
+    $errors_in_course = [];
+    $examDateVali = FALSE;
+    $examEndVali = FALSE;
+    $examStartVali = FALSE;
+    $titleVali =FALSE;
+    $descriptionVali = FALSE;
+    
+    if(strlen($description) <= 1000){
+        $descriptionVali = TRUE;
+    }
+    if(strlen($title) <= 100){
+        $titleVali = TRUE;
+    }
+    $examDate = strval($examDate);
+    if(strlen($examDate) == 8){
+
+        $year = substr($examDate,0,4);
+        $month = substr($examDate,4,2);
+        $day = substr($examDate,6,2);
+        if(checkdate($month,$day,$year)){
+            $examDateVali = True;
+        }
+    }
+
+    if($startFormat = DateTime::createFromFormat('H:i',$examStart)){
+        $examStartVali = TRUE;
+        if($endFormat = DateTime::createFromFormat('H:i',$examEnd)){
+            if($endFormat>$startFormat){
+                $examEndVali = TRUE;
+            }   
+
+        }
+    }
+        
+    if(!$descriptionVali){
+        $errors_in_course[] = "invalid description";
+    }
+    if(!$titleVali){
+        $errors_in_course[] = "invalid title";
+    }
+    if(!$examStartVali){
+        $errors_in_course[] = "invalid exam start";
+    }
+    if(!$examDateVali){
+        $errors_in_course[] = "invalid exam date";
+    }
+    if(!$examEndVali){
+        $errors_in_course[] = "invalid exam end";
+    }
+    return $errors_in_course;
+}
