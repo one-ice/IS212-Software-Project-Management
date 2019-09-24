@@ -145,7 +145,7 @@ function isSectionValid($course,$section,$day,$start,$end,$instructor,$venue,$si
     # compare to course for courseValid
     $check = $courseDAO -> retrieve($course);
     //check if array is not empty. if array is not empty, course exists
-    if (!$check){
+    if ($check != False){
         $courseValid = True;
         #section validity (placed here as it should only be checked if course is valid)
         if ($section[0]=="S"){
