@@ -365,4 +365,5 @@ function isCourse_CompletedValid($userid,$code)
         }
     return $errors;
 }
+}
 ?>
