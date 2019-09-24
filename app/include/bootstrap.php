@@ -37,6 +37,7 @@ function doBootstrap() {
     #Add your processed count here
     $student_processed = 0;
     $course_processed = 0;
+    $section_processed = 0; 
     $prereq_processed=0;
     $course_completed_processed = 0;
     $bid_processed = 0;
