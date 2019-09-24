@@ -300,7 +300,13 @@ function isStudentValid($userid, $password, $name, $edollar)
     {
         $errors[] = "invalid password";
     }
-    
+
+    #Check whether name is valid
+    if(strlen($name) > 100)
+    {
+        $errors[] = 'invalid name';
+    }
+
     return $errors;
 
 }
