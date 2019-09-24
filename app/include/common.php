@@ -295,7 +295,13 @@ function isStudentValid($userid, $password, $name, $edollar)
         $errors[] = "invalid e-dollar";
     }
 
+    #Check whether password is valid
+    if(strlen($password) > 128)
+    {
+        $errors[] = "invalid password";
+    }
     
+    return $errors;
 
 }
 ?>
