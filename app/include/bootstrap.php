@@ -175,11 +175,14 @@ function doBootstrap() {
                         ];
                         array_push($errors , $errorDetails);
                     }
-            
-                    // elseif(){
-                    // add validation!
-                    // }
-            
+                    elseif(sizeof(checkCourseVali($data[2], $data[3],$data[4], $data[5], $data[6])) != 0){
+                        $errorInRow = checkCourseVali($data[2], $data[3],$data[4], $data[5], $data[6]);
+                        $errorDetails = [
+                            "file" => "course.csv",
+                            "line" => $lineCount,
+                            "message" => $errorInRow
+                        ];
+                    }
                     else{
                         $courseObj = new course($data[0], $data[1], $data[2], $data[3], 
                         $data[4], $data[5], $data[6]);
@@ -220,7 +223,14 @@ function doBootstrap() {
                         array_push($errors , $errorDetails);
                     }
                     
-                    //add extra validation here
+                    elseif(count($error_in_section)>0){
+                        $errorDetails = [
+                            "file" => "section.csv",
+                            "line" => $lineCount,
+                            "message" => $error_in_section
+                        ];
+                        array_push($errors , $errorDetails);
+                    }
 
                     else{
                         $sectionObj = new section($data[0], $data[1], $data[2], $data[3], 
