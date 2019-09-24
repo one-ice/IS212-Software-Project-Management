@@ -310,4 +310,22 @@ function isStudentValid($userid, $password, $name, $edollar)
     return $errors;
 
 }
+
+#Validations for course_completed
+function isCourse_CompletedValid($userid,$code)
+{
+    $errors = [];
+
+    $connMgr = new ConnectionManager();
+    $conn = $connMgr->getConnection();
+	#check if userid exist in student
+    $studentDAO = new StudentDAO();
+    $result = $studentDAO->retrieve($userid);
+    if (!$result)
+    {
+        $errors[] = "invalid userid";
+    }
+    
+    return $errors;
+}
 ?>
