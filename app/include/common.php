@@ -326,6 +326,13 @@ function isCourse_CompletedValid($userid,$code)
         $errors[] = "invalid userid";
     }
     
+    #check if code exist in course
+    $courseDAO = new CourseDAO();
+    $result = $courseDAO->retrieve($code);
+    if (!$result)
+    {
+        $errors[] = "invalid course";
+    }
     return $errors;
 }
 ?>
