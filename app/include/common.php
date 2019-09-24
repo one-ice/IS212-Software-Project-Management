@@ -264,6 +264,19 @@ function isStudentValid($userid, $password, $name, $edollar)
     {
         $errors[] = "invalid userid";
     }
+
+    #Check for duplicate userid
+    $connMgr = new ConnectionManager();
+    $conn = $connMgr->getConnection();
+
+    $studentDAO = new StudentDAO();
+    $result = $studentDAO->retrieve($userid);
+    if ($result)
+    {
+        $errors[] = "duplicate userid";
+    }
+
     
+
 }
 ?>
