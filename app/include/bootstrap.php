@@ -117,6 +117,7 @@ function doBootstrap() {
 				while (($data = fgetcsv($student))!= false){
                     $data = removeWhiteSpace($data);
                     $lineCount++;
+                    $errors_in_student = isStudentValid($data[0],$data[1],$data[2],$data[4]);
                     if (sizeof(checkForEmptyCol($data, $header)) !== 0 ) {
                         $errorInRow = checkForEmptyCol($data, $header);
                         $errorDetails = [
@@ -128,6 +129,15 @@ function doBootstrap() {
                     }
                     #Add Validations checker for Student here
                     #only after your line check for empty fields is working
+                    elseif(count($errors_in_student)>0)
+                    {
+                        $errorDetails = [
+                            "file" => "student.csv",
+                            "line" => $lineCount,
+                            "message" => $errors_in_student
+                        ];
+                        array_push($errors , $errorDetails);
+                    }
                     else{
                         $studentobj = new Student($data[0], $data[1], $data[2], $data[3], $data[4]);
                         $studentDAO->add($studentobj);
