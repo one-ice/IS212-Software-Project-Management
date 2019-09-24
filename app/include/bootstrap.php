@@ -36,6 +36,7 @@ function doBootstrap() {
     # keep track of number of lines successfully processed for each file
     #Add your processed count here
     $student_processed = 0;
+    $course_processed = 0;
     $prereq_processed=0;
     $course_completed_processed = 0;
     $bid_processed = 0;
