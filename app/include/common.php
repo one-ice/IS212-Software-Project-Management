@@ -222,3 +222,33 @@ function isSectionValid($course,$section,$day,$start,$end,$instructor,$venue,$si
 
     return $errors;
 }
+#prereq validation
+function isPrerequisiteValid($course,$prereq){
+    $courseValid = FALSE;
+    $prereqValid = FALSE;
+    $errors = [];
+
+    $connMgr = new ConnectionManager();
+    $conn = $connMgr->getConnection();
+
+    #generating courseDAO
+    $courseDAO = new CourseDAO();
+    # compare to course for courseValid
+    $check_course = $courseDAO -> retrieve($course);
+    if ($check_course){
+        $courseValid = True;
+    }
+    
+    $check_prereq = $courseDAO -> retrieve($prereq);
+    if ($check_prereq){
+        $prereqValid = True;
+    }
+    if(!$courseValid){
+        $errors[] = "invaild course";
+    }
+    if(!$prereqValid){
+        $errors[] = "invalid prerequisite";
+    }
+
+    return $errors;
+}

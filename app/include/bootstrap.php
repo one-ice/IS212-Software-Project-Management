@@ -250,6 +250,14 @@ function doBootstrap() {
                         ];
                         array_push($errors , $errorDetails);
                        
+                    }elseif(isPrerequisiteValid($data[0],$data[1])){
+                        $errorInRow = isPrerequisiteValid($data[0],$data[1]); 
+                        $errorDetails = [
+                            "file" => "prerequisite.csv",
+                            "line" => $lineCount,
+                            "message" => $errorInRow
+                        ];
+                        array_push($errors , $errorDetails);
                     }
                     #Add Validations checker for Prerequisite here
                     #only after your line check for empty fields is working
