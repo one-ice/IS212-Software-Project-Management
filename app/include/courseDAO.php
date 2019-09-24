@@ -19,9 +19,8 @@ class CourseDAO{
         return $result;
     }
     
-    public function retrieve($course){
-        $sql = 'SELECT * FROM course WHERE course=:course';
-        
+    public  function retrieve($course) {
+        $sql = 'SELECT * from course where course = :course';
         
         $connMgr = new ConnectionManager();
         $conn = $connMgr->getConnection();
@@ -30,15 +29,13 @@ class CourseDAO{
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $stmt->bindParam(':course', $course, PDO::PARAM_STR);
         $stmt->execute();
-        $result = array();
-        if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-            $result[] = new Course($row['course'],$row['school'],$row['title'],$row['description'],
-            $row['exam_date'],$row['exam_start'],$row['exam_end']);
+
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            return new Course($row['course'], $row['school'],$row['title'], $row['description'], $row['exam_date'], $row['exam_start'], $row['exam_end']);
         }
-
-        return $result;
-
+        return False;
     }
+
 
     public function update($course){
         $sql = "UPDATE course SET course = :course, school = :school, title = :title, description =:description, examDate = :examDate, examStart = :examStart, examEnd =:examEnd";
