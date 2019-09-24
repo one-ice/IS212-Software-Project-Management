@@ -222,6 +222,7 @@ function isSectionValid($course,$section,$day,$start,$end,$instructor,$venue,$si
 
     return $errors;
 }
+
 #prereq validation
 function isPrerequisiteValid($course,$prereq){
     $courseValid = FALSE;
@@ -252,3 +253,49 @@ function isPrerequisiteValid($course,$prereq){
 
     return $errors;
 }
+
+#Validations for student
+function isStudentValid($userid, $password, $name, $edollar)
+{
+    $errors = [];
+    
+    #Check whether userid is valid
+    if(strlen($userid) > 128)
+    {
+        $errors[] = "invalid userid";
+    }
+
+    #Check for duplicate userid
+    $connMgr = new ConnectionManager();
+    $conn = $connMgr->getConnection();
+
+    $studentDAO = new StudentDAO();
+    $result = $studentDAO->retrieve($userid);
+    if ($result)
+    {
+        $errors[] = "duplicate userid";
+    }
+
+    #Check whether edollar is valid
+    #Convert edollar (decimal) to string
+    $stringedollar = strval($edollar);
+    $explodestringedollar = explode('.', $edollar);
+    if($edollar > 0.0)
+    {
+        if (count($explodestringedollar) == 2)
+        {
+            if ((strlen($explodestringedollar[1])) != 2)
+            {
+                $errors[] = "invalid e-dollar";
+            }
+        }  
+    } 
+    else
+    {
+        $errors[] = "invalid e-dollar";
+    }
+
+    
+
+}
+?>
