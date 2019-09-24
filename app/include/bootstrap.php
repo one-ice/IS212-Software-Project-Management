@@ -213,7 +213,14 @@ function doBootstrap() {
                         array_push($errors , $errorDetails);
                     }
                     
-                    //add extra validation here
+                    elseif(count($error_in_section)>0){
+                        $errorDetails = [
+                            "file" => "section.csv",
+                            "line" => $lineCount,
+                            "message" => $error_in_section
+                        ];
+                        array_push($errors , $errorDetails);
+                    }
 
                     else{
                         $sectionObj = new section($data[0], $data[1], $data[2], $data[3], 
