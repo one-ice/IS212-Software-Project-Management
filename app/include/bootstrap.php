@@ -464,6 +464,30 @@ function doBootstrap() {
                         }
                         
                     }
+                    if (sizeof($errorInRow) == 0) {
+                        $studentDAO = new studentDAO(); 
+                        $student_obj = $studentDAO->retrieve($data[0]);
+                        $existing_edollar = $student_obj->edollar;
+
+                        if ($bidDAO->retrieveBid($data[0], $data[2])){
+                            $bidDetails = $bidDAO->retrieveBid($data[0], $data[2]);
+                            $prevAmount = $bidDetails->amount;
+                            $studentDAO->update($data[0], $prevAmount + $existing_edollar);   
+
+                            $bidDAO = new BidDAO();
+                            $bidDAO->remove($data[0], $data[2]);
+                        }
+
+                        $bidObj = new Bid($data[0], $data[1], $data[2], $data[3]);
+                        $bidDAO->add($bidObj);
+
+                        $student_obj = $studentDAO->retrieve($data[0]);
+                        $existing_edollar = $student_obj->edollar;
+
+                        $studentDAO->update($data[0], $existing_edollar - $data[1]);
+                        $bid_processed++;
+                        
+                    }
                   
                 }	 
 
