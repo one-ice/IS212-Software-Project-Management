@@ -45,6 +45,22 @@ class BidDAO {
         return $result;
     }
   
+    public  function retrieveBid($userid, $code) {
+        $sql = 'SELECT * FROM bid WHERE userid=:userid AND code=:code';
+        
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->bindParam(':userid', $userid, PDO::PARAM_STR);
+        $stmt->bindParam(':code', $code, PDO::PARAM_STR);
+        $stmt->execute();
+
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            return new bid($row['userid'], $row['amount'], $row['code'], $row['section']);
+        }
+    }
+  
     public function add($bid) {
         $sql = 'INSERT IGNORE INTO bid (userid, amount, code, section) VALUES (:userid, :amount, :code, :section)';
         
