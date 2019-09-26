@@ -24,6 +24,8 @@ function removeWhiteSpace($data){
     return $arrayToReturn;
 }
 
+
+
 function doBootstrap() {
 
     $errors = array();
@@ -37,7 +39,7 @@ function doBootstrap() {
     #Add your processed count here
     $student_processed = 0;
     $course_processed = 0;
-    $section_processed = 0; 
+    $section_processed = 0;
     $prereq_processed=0;
     $course_completed_processed = 0;
     $bid_processed = 0;
@@ -56,6 +58,7 @@ function doBootstrap() {
 			$zip->close();
             
             #Add your temp directory here
+
             $student_path = "$temp_dir/student.csv";
             $course_path = "$temp_dir/course.csv";
             $section_path = "$temp_dir/section.csv";
@@ -73,8 +76,7 @@ function doBootstrap() {
             
             #Add your emptys here
             # empty($prereq) || empty($course) ||.........
-            if (empty($student) || empty($course)||empty($section) ||
-                empty($prereq) || empty($course_completed)|| empty($bid)){
+			if (empty($student)|| empty($course)||empty($section) || empty($prereq) || empty($course_completed)|| empty($bid)){
                 $errors[] = "input files not found";
                 
                 #add @unlinks and fclose
@@ -102,6 +104,7 @@ function doBootstrap() {
 					fclose($bid);
 					@unlink($bid_path);
                 } 
+                
 			}
 			else {
 				$connMgr = new ConnectionManager();
@@ -111,9 +114,11 @@ function doBootstrap() {
                 /****************start Student****************/
                 $studentDAO = new StudentDAO();
                 $studentDAO->removeAll();
+				$arrayUserID = array();
 
                 $header = fgetcsv($student);
                 $lineCount = 1;
+				
 				while (($data = fgetcsv($student))!= false){
                     $data = removeWhiteSpace($data);
                     $lineCount++;
@@ -126,10 +131,11 @@ function doBootstrap() {
                             "message" => $errorInRow
                         ];
                         array_push($errors , $errorDetails);
+                       
                     }
                     #Add Validations checker for Student here
                     #only after your line check for empty fields is working
-                    elseif(count($errors_in_student)>0)
+					elseif(count($errors_in_student)>0)
                     {
                         $errorDetails = [
                             "file" => "student.csv",
@@ -140,18 +146,21 @@ function doBootstrap() {
                     }
                     else{
                         $studentobj = new Student($data[0], $data[1], $data[2], $data[3], $data[4]);
+						array_push($arrayUserID, $data[0]);
                         $studentDAO->add($studentobj);
                         $student_processed++;
                     }
                 }
 
                 // Remember to clean up
-                fclose($student);
+				fclose($student);
 				@unlink($student_path);
+
                 /****************end Student*****************/
 
 
 
+               
                 /****************start Course*****************/
                 $courseDAO =  new courseDAO();
                 
@@ -182,6 +191,7 @@ function doBootstrap() {
                             "line" => $lineCount,
                             "message" => $errorInRow
                         ];
+                        array_push($errors , $errorDetails);
                     }
                     else{
                         $courseObj = new course($data[0], $data[1], $data[2], $data[3], 
@@ -198,20 +208,22 @@ function doBootstrap() {
 
 
                 /****************start Section*****************/
+
                 # start processing
                 $sectionDAO =  new sectionDAO();
-                                
+                
                 # truncate current SQL tables
                 $sectionDAO-> removeAll();
+				$arraySection = array();
                 $header = fgetcsv($section);   #to get past the first line
-
+                
                 $lineCount = 1;
 
                 while (($data=fgetcsv($section))!= False){
                     $data = removeWhiteSpace($data);
                     $lineCount ++;
-                   
-
+					$error_in_section = isSectionValid($data[0], $data[1], $data[2], $data[3], 
+                    $data[4], $data[5], $data[6], $data[7]);
                     if ( sizeof(checkForEmptyCol($data, $header)) != 0 ) {
                         $errorInRow = checkForEmptyCol($data, $header);
                         $errorDetails = [
@@ -221,33 +233,33 @@ function doBootstrap() {
                         ];
                         array_push($errors , $errorDetails);
                     }
-                    
+            
+                    elseif(count($error_in_section)>0){
+                        $errorDetails = [
+                            "file" => "section.csv",
+                            "line" => $lineCount,
+                            "message" => $error_in_section
+                        ];
+                        array_push($errors , $errorDetails);
+                    }
+            
                     else{
-                        $error_in_section = isSectionValid($data[0], $data[1], $data[2], $data[3], 
+                        $sectionObj = new section($data[0], $data[1], $data[2], $data[3], 
                         $data[4], $data[5], $data[6], $data[7]);
-                        if(sizeof($error_in_section) != 0){
-                            $errorDetails = [
-                                "file" => "section.csv",
-                                "line" => $lineCount,
-                                "message" => $error_in_section
-                            ];
-                            array_push($errors , $errorDetails);
-                        }   
-                        else{
-                            $sectionObj = new section($data[0], $data[1], $data[2], $data[3], 
-                            $data[4], $data[5], $data[6], $data[7]);
-                            $sectionDAO->add($sectionObj);
-                            $section_processed++;
-                        }
+						$courseSection = $data[0] . " " . $data[1];
+						array_push($arraySection, $courseSection);
+                        $sectionDAO->add($sectionObj);
+                        $section_processed++;
                     }
                 }
                 // Remember to clean up
-                fclose($section);
-                @unlink($section_path);
+				fclose($section);
+				@unlink($section_path);
+
 
                 /****************end Section*****************/
                 
-                /************  Prerequisite Here *******************/
+               /************  Prerequisite Here *******************/
                 # truncate current SQL tables here
 				$prereqDAO = new PrereqDAO();
                 $prereqDAO->removeAll();
@@ -307,7 +319,7 @@ function doBootstrap() {
 				while (($data = fgetcsv($course_completed))!= false){
                     $data = removeWhiteSpace($data);
                     $lineCount ++;
-                    $errors_in_course_completed = isCourse_CompletedValid($data[0],$data[1]);
+					 $errors_in_course_completed = isCourse_CompletedValid($data[0],$data[1]);
                     if (sizeof(checkForEmptyCol($data, $header)) !== 0 ) {
                         $errorInRow = checkForEmptyCol($data, $header);
                         $errorDetails = [
@@ -317,9 +329,7 @@ function doBootstrap() {
                         ];
                         array_push($errors, $errorDetails);
                     }
-                    #Add Validations checker for Course_completed here
-                    #only after your line check for empty fields is working
-                    elseif(count($errors_in_course_completed)>0)
+					 elseif(count($errors_in_course_completed)>0)
                     {
                         $errorDetails = [
                             "file" => "course_completed.csv",
@@ -328,6 +338,8 @@ function doBootstrap() {
                         ];
                         array_push($errors , $errorDetails);
                     }
+                    #Add Validations checker for Student here
+                    #only after your line check for empty fields is working
                     else{
                         $course_completedobj = new Course_Completed($data[0], $data[1]);
                         $course_completedDAO->add($course_completedobj);
@@ -343,13 +355,16 @@ function doBootstrap() {
 
 
                 /****************start Bid**************** */
-                $bidDAO = new bidDAO();
+            
+				$bidDAO = new bidDAO();
                 $bidDAO->removeAll();
 
 				#processing
 				$header = fgetcsv($bid);
                 $lineCount = 1;
+
 				while (($data = fgetcsv($bid))!== false){
+					$x =0;
                     $data = removeWhiteSpace($data);
                     $lineCount ++;
                     if ( sizeof(checkForEmptyCol($data, $header)) != 0 ) {
@@ -363,35 +378,51 @@ function doBootstrap() {
                        
                     }
 					else {
-						#Validation Check#
-                        #Invalid userid
+						#Validation Check for bid
+						#Invalid userid
                         $errorInRow = [];
-                        $errorDetails = checkValidUserID($data[0]);
-                        if (sizeof($errorDetails) > 0) {
-                        array_push($errorInRow, $errorDetails);
-                        }
-                        #Invalid amount
-                        $errorDetails = checkValidAmt($data[1]);
-						if (sizeof($errorDetails) > 0 ) {
-                            array_push($errorInRow, $errorDetails);
-						}
-                        #Invalid Course
-                        #Invalid Course / Course & Section
-						$courseID = $data[2];
-						$sectionID = $data[3];
-						$errorDetails = checkValidCourse($courseID, $sectionID);
+						$errorDetails = checkValidUserID($data[0]);
 						if (sizeof($errorDetails) > 0) {
-							array_push($errorInRow , $errorDetails);
+							array_push($errorInRow, $errorDetails[0]);
 						}
-                        #Invalid section
-                        $bidObj = new Bid($data[0], $data[1], $data[2], $data[3]);
-						$bidDAO->add($bidObj);
-                        $bid_processed++;
-					}
+
+						#Invalid amount
+						$errorDetails = checkValidAmt($data[1]);
+						if (sizeof($errorDetails) > 0 ) {
+							array_push($errorInRow, $errorDetails[0]);
+						}
+
+						#Invalid Course / Course & Section
+                        $errorDetails = checkValidCourse($data[2], $data[3]);
+                        if (sizeof($errorDetails) > 0) {
+							array_push($errorInRow , $errorDetails[0]);
+                        }  
+                        #check valid section only after course is valid
+                        if (sizeof($errorDetails) == 0){
+                            $errorDetails = checkValidSection($data[2], $data[3]);
+                            if (sizeof($errorDetails) > 0) {
+                                array_push($errorInRow , $errorDetails[0]);
+                            }  
+                        }
+                        
+                        if (sizeof($errorInRow)>0){
+                            $errorDetails = [
+                            "file" => "bid.csv",
+                            "line" => $lineCount,
+                            "message" => $errorInRow
+                            ];
+                            array_push($errors, $errorDetails);
+                        }
+                    }
+                    #start checking for logic validations
+
+                  
                 }	 
 
 				fclose($bid);
 				@unlink($bid_path);
+                
+
                 
                 /****************end Bid**************** */
 
@@ -400,7 +431,6 @@ function doBootstrap() {
         }
     }
     
-	 
 	if (!isEmpty($errors))
 	{	
         //ignore these 2 lines below, next time then need to sort
