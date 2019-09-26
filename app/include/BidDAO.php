@@ -3,7 +3,7 @@
 class BidDAO {
 
     public  function retrieveAll() {
-        $sql = 'SELECT * FROM bid ORDER BY `amount`';
+        $sql = 'SELECT * FROM bid ORDER BY amount';
         
             
         $connMgr = new ConnectionManager();      
@@ -25,7 +25,7 @@ class BidDAO {
     
   
     public  function retrieve($userid) {
-        $sql = 'SELECT userid, amount FROM bid WHERE userid=:userid';
+        $sql = 'SELECT * FROM bid WHERE userid=:userid';
         
         
         $connMgr = new ConnectionManager();
@@ -36,13 +36,14 @@ class BidDAO {
         $stmt->bindParam(':userid', $userid, PDO::PARAM_STR);
         $stmt->execute();
 
-        if($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $result = new bid($row['userid'], $row['amount'], $row['code'], $row['section']);
+        $result = array();
+
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $result[] = new bid($row['userid'], $row['amount'], $row['code'], $row['section']);
         }
         
         return $result;
     }
-  
   
     public function add($bid) {
         $sql = 'INSERT IGNORE INTO bid (userid, amount, code, section) VALUES (:userid, :amount, :code, :section)';
@@ -67,17 +68,22 @@ class BidDAO {
     }
     
         
-    public function remove($userid) {
-        $sql = 'DELETE FROM bid WHERE userid = :userid';
+    public function remove($userid, $code ) {
+        $sql = 'DELETE FROM bid WHERE userid = :userid AND code = :code';
         
         $connMgr = new ConnectionManager();
         $conn = $connMgr->getConnection();
         
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':userid', $userid, PDO::PARAM_STR);
+        $stmt->bindParam(':code', $code, PDO::PARAM_STR);
         
-        $stmt->execute();
-        $count = $stmt->rowCount();
+        $isRemoveOk = False;
+        if ($stmt->execute()) {
+            $isRemoveOk = True;
+        }
+
+        return $isRemoveOk;
     }
 
     public function removeAll() {

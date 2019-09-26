@@ -228,10 +228,6 @@ function isPrerequisiteValid($course,$prereq){
     $courseValid = FALSE;
     $prereqValid = FALSE;
     $errors = [];
-
-    $connMgr = new ConnectionManager();
-    $conn = $connMgr->getConnection();
-
     #generating courseDAO
     $courseDAO = new CourseDAO();
     # compare to course for courseValid
@@ -266,9 +262,6 @@ function isStudentValid($userid, $password, $name, $edollar)
     }
 
     #Check for duplicate userid
-    $connMgr = new ConnectionManager();
-    $conn = $connMgr->getConnection();
-
     $studentDAO = new StudentDAO();
     $result = $studentDAO->retrieve($userid);
     if ($result)
@@ -315,9 +308,6 @@ function isStudentValid($userid, $password, $name, $edollar)
 function isCourse_CompletedValid($userid,$code)
 {
     $errors = [];
-
-    $connMgr = new ConnectionManager();
-    $conn = $connMgr->getConnection();
 	#check if userid exist in student
     $studentDAO = new StudentDAO();
     $result = $studentDAO->retrieve($userid);
@@ -371,8 +361,6 @@ function isCourse_CompletedValid($userid,$code)
 
 function checkValidUserID($userID){
     $errors = [];
-    $connMgr = new ConnectionManager();
-    $conn = $connMgr->getConnection();
     $studentDAO = new StudentDAO();
     $result = $studentDAO->retrieve($userID);
     if (!$result)
@@ -385,8 +373,6 @@ function checkValidUserID($userID){
 
 function checkValidCourse($courseCode, $sectionID){
     $errors = [];
-    $connMgr = new ConnectionManager();
-    $conn = $connMgr->getConnection();
     $courseDAO = new CourseDAO();
     $result = $courseDAO->retrieve($courseCode);
     if (!$result)
@@ -401,8 +387,6 @@ function checkValidCourse($courseCode, $sectionID){
 
 function checkValidSection($courseCode, $sectionID) {
 	$errors = [];
-    $connMgr = new ConnectionManager();
-	$conn = $connMgr->getConnection();
 	$sectionDAO = new SectionDAO();
 	$result = $sectionDAO->retrieve($courseCode, $sectionID);
 	if (!$result){
