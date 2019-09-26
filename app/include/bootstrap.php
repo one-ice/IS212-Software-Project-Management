@@ -416,14 +416,60 @@ function doBootstrap() {
                     }
                     #start checking for logic validations
 
+                    if (sizeof($errorInRow) == 0){
+                        if (sizeof(bidOwnSchool($data[0],$data[2])) > 0 ){
+                            $errorDetails = bidOwnSchool($data[0],$data[2]);
+                            array_push($errorInRow, $errorDetails[0]);
+                        }
+
+                        $bidDAO = new BidDAO();
+                        if (sizeof(bidClass($bidDAO->retrieve($data[0]), $data[2], $data[3])) > 0 && !$bidDAO->retrieveBid($data[0], $data[2])){
+                            $errorDetails = bidClass($bidDAO->retrieve($data[0]), $data[2], $data[3]);
+                            array_push($errorInRow, $errorDetails[0]);
+                        }
+                        
+                        if (sizeof(bidExam($bidDAO->retrieve($data[0]), $data[2])) > 0 && !$bidDAO->retrieveBid($data[0], $data[2])){
+                            $errorDetails = bidExam($bidDAO->retrieve($data[0]), $data[2]);
+                            array_push($errorInRow, $errorDetails[0]);
+                        }
+
+                        if (sizeof(bidPrerequisite($data[0],$data[2])) > 0 ){
+                            $errorDetails = bidPrerequisite($data[0],$data[2]);
+                            array_push($errorInRow, $errorDetails[0]);
+                        }
+
+                        if (sizeof(bidCourseCompleted($data[0], $data[2]))> 0){
+                            $errorDetails = bidCourseCompleted($data[0], $data[2]);
+                            array_push($errorInRow, $errorDetails[0]);
+                        }
+
+                        if (sizeof(bidSectionLimit($bidDAO->retrieve($data[0]))) > 0 && !$bidDAO->retrieveBid($data[0], $data[2])){
+                            $errorDetails = bidSectionLimit($bidDAO->retrieve($data[0]));
+                            array_push($errorInRow, $errorDetails[0]);
+                        }
+
+                        if (sizeof(bidEnoughDollar($data[0], $data[2], $data[1])) > 0){
+                            $errorDetails = bidEnoughDollar($data[0], $data[2], $data[1]);
+                            array_push($errorInRow, $errorDetails[0]);
+                        }
+
+
+                        if (sizeof($errorInRow) >0 ){
+                            $errorDetails = [
+                                "file" => "bid.csv",
+                                "line" => $lineCount,
+                                "message" => $errorInRow
+                            ];
+                            array_push($errors, $errorDetails);
+                        }
+                        
+                    }
                   
                 }	 
 
 				fclose($bid);
 				@unlink($bid_path);
-                
-
-                
+            
                 /****************end Bid**************** */
 
                 
