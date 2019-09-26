@@ -458,6 +458,33 @@ function bidSectionLimit($array_of_bid_objs){
     return $errors;
 }
 
+#userID from bid csv $data[0]
+#bid_amount $data[1]
+function bidEnoughDollar($userID, $code, $bid_amount){
+    $errors = [];
+    $bidDAO = new BidDAO();
+    $studentDAO = new StudentDAO();
+    $student_obj = $studentDAO->retrieve($userID);
+    $student_edollar = $student_obj->edollar;
+
+    #if there is a previous bid already stored in the table
+
+    if ($bidDetails = $bidDAO->retrieveBid($userID, $code)){
+        $prevAmount = $bidDetails->amount;
+        #check whether student has enough $ to bid if you were to refund the student
+        $refund = $prevAmount + $student_edollar;
+        if ($refund < $bid_amount){
+            $errors[] = 'not enough e-dollar';
+        }
+    }else{
+        #if no previous bid
+        if ($student_edollar < $bid_amount){
+            $errors[] = 'not enough e-dollar';
+        }
+    }
+    return $errors;
+}
+
 
 
 ?>
