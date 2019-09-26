@@ -449,6 +449,15 @@ function bidCourseCompleted($userID, $mod_code){
     return $errors;
 }
 
+#get an array of bids using bidDAO->retrieve($data[0])
+function bidSectionLimit($array_of_bid_objs){
+    $errors = [];
+    if (sizeof($array_of_bid_objs) >= 5){
+        $errors[] = 'section limit reached';
+    }
+    return $errors;
+}
+
 
 
 ?>
