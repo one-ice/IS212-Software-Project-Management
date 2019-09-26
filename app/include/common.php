@@ -485,6 +485,28 @@ function bidEnoughDollar($userID, $code, $bid_amount){
     return $errors;
 }
 
+#after checking , in the bootstrap.php
+#refund the student with the bid and then deduct $ from student after checking
+
+#get userID from data[0] and code from data[2]
+function bidPrerequisite($userID, $code){
+    $errors = [];
+    $prereqDAO = new PrereqDAO();
+    $prereq_array_of_obj = $prereqDAO->retrieve($code);
+    $course_completedDAO = new Course_CompletedDAO();
+    $course_array_of_obj = $course_completedDAO->retrieve($userID);
+    $c_course_array = [];
+    foreach ($course_array_of_obj as $course){
+        $c_course_array[] = $course->code;
+    }
+    foreach ($prereq_array_of_obj as $prereq){
+       if (!in_array($prereq->prerequisite , $c_course_array)){
+           $errors[] = 'incomplete prerequisites';
+           break;
+       }
+    }
+    return $errors;
+}
 
 
 ?>
