@@ -433,6 +433,22 @@ function bidOwnSchool($userID, $mod_code){
     return $errors;
 }
 
+#check if student has already completed the course which is bidded
+#userID take from bid csv $data[0]
+#mod_code take from bid csv $data[2]
+function bidCourseCompleted($userID, $mod_code){
+    $errors = [];
+    $course_completed = new Course_CompletedDAO();
+    $course_completed_obj = $course_completed->retrieve($userID);
+    
+    foreach ($course_completed_obj as $course_complete){
+        if ($course_complete->code ==  $mod_code){
+                $errors[] = 'course completed';
+            }
+    }
+    return $errors;
+}
+
 
 
 ?>
