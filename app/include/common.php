@@ -60,7 +60,7 @@ function isNonNegativeFloat($var) {
 function isEmpty($var) {
     if (isset($var) && is_array($var))
         foreach ($var as $key => $value) {
-            if (empty($value)) {
+            if ($value == "") {
                unset($var[$key]);
             }
         }
