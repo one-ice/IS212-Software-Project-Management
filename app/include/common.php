@@ -535,6 +535,31 @@ function bidClass($array_of_bid_objs, $code, $section){
     }
     return $errors;
 }
+#get an array of bids using  bidDAO->retrieve($data[0])
+#get code from data[2]
+function bidExam($array_of_bid_objs, $code){
+    $errors = [];
+    $courseDAO = new CourseDAO();
+    $courseDetails = $courseDAO->retrieve($code);
+    $courses = [];
+    foreach ($array_of_bid_objs as $bids){
+        $courses[] = $courseDAO->retrieve($bids->code);
+    }
+
+    foreach ($courses as $course){
+        if ($courseDetails->exam_date == $course->exam_date){
+            $start_now = $courseDetails->exam_start;
+            $start_prev = $course->exam_start;
+            $end_now = $courseDetails->exam_end;
+            $end_prev = $course->exam_end;
+
+            if (!(($start_now >= $end_prev)||($end_now <= $start_prev))){
+                $errors[] = 'exam timetable clash';
+            }
+        }
+    }
+    return $errors;
+}
 
 
 ?>
