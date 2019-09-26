@@ -60,7 +60,7 @@ function isNonNegativeFloat($var) {
 function isEmpty($var) {
     if (isset($var) && is_array($var))
         foreach ($var as $key => $value) {
-            if ($value == "") {
+            if ($value== "") {
                unset($var[$key]);
             }
         }
@@ -68,6 +68,7 @@ function isEmpty($var) {
     if (empty($var))
         return TRUE;
 }
+
 
 #course validation
 function checkCourseVali($title,$description,$examDate,$examStart,$examEnd){
@@ -124,7 +125,7 @@ function checkCourseVali($title,$description,$examDate,$examStart,$examEnd){
     return $errors_in_course;
 }
 
-#section validation
+#function to check if section is valid
 function isSectionValid($course,$section,$day,$start,$end,$instructor,$venue,$size){
     $courseValid = False;
     $sectionValid = False;
@@ -145,7 +146,7 @@ function isSectionValid($course,$section,$day,$start,$end,$instructor,$venue,$si
     # compare to course for courseValid
     $check = $courseDAO -> retrieve($course);
     //check if array is not empty. if array is not empty, course exists
-    if ($check != False){
+    if ($check){
         $courseValid = True;
         #section validity (placed here as it should only be checked if course is valid)
         if ($section[0]=="S"){
@@ -157,7 +158,8 @@ function isSectionValid($course,$section,$day,$start,$end,$instructor,$venue,$si
             }
         }
     }
- 
+
+    
     #day validity
     # check if day is between 1-7
     if($day>=1 && $day<=7)
@@ -169,7 +171,7 @@ function isSectionValid($course,$section,$day,$start,$end,$instructor,$venue,$si
         $startValid = TRUE;
         if($endFormat = DateTime::createFromFormat('H:i',$end)){
             if($endFormat>$startFormat){
-                $endValid = TRUE; 
+                $endValid = TRUE;
             }   
         }
     }
@@ -196,10 +198,8 @@ function isSectionValid($course,$section,$day,$start,$end,$instructor,$venue,$si
     if (!$courseValid){
         $errors[] = "invalid course";
     }
-    else{
-        if (!$sectionValid){
-            $errors[] = "invalid section";
-        }
+    if (!$sectionValid){
+        $errors[] = "invalid section";
     }
     if (!$dayValid){
         $errors[] = "invalid day";
@@ -228,6 +228,10 @@ function isPrerequisiteValid($course,$prereq){
     $courseValid = FALSE;
     $prereqValid = FALSE;
     $errors = [];
+
+    $connMgr = new ConnectionManager();
+    $conn = $connMgr->getConnection();
+
     #generating courseDAO
     $courseDAO = new CourseDAO();
     # compare to course for courseValid
@@ -249,6 +253,7 @@ function isPrerequisiteValid($course,$prereq){
 
     return $errors;
 }
+
 
 #Validations for student
 function isStudentValid($userid, $password, $name, $edollar)
@@ -301,28 +306,26 @@ function isStudentValid($userid, $password, $name, $edollar)
     }
 
     return $errors;
-
 }
-
 #Validations for course_completed
 function isCourse_CompletedValid($userid,$code)
 {
     $errors = [];
-	#check if userid exist in student
+	    #check if userid exist in student
     $studentDAO = new StudentDAO();
     $result = $studentDAO->retrieve($userid);
     if (!$result)
     {
         $errors[] = "invalid userid";
     }
-    
-    #check if code exist in course
-    $courseDAO = new CourseDAO();
+	$courseDAO = new CourseDAO();
     $result = $courseDAO->retrieve($code);
     if (!$result)
     {
         $errors[] = "invalid course";
     }
+
+
     else{
         $course_completedDAO = new Course_CompletedDAO();
         $prereqDAO = new PrereqDAO();
@@ -353,12 +356,12 @@ function isCourse_CompletedValid($userid,$code)
                 $errors[] = 'invalid course completed';
             }   
         }
+    }
     return $errors;
-}
+
 }
 
-#Bid Validations
-
+#bid validation
 function checkValidUserID($userID){
     $errors = [];
     $studentDAO = new StudentDAO();
@@ -368,29 +371,27 @@ function checkValidUserID($userID){
         $errors[] = "invalid userid";
     }
 
-    return $errors;
+	return $errors;
 }
 
 function checkValidCourse($courseCode, $sectionID){
-    $errors = [];
+	$errors = [];
     $courseDAO = new CourseDAO();
     $result = $courseDAO->retrieve($courseCode);
     if (!$result)
     {
-        $errors[] = "invalid course code";
+        $errors[] = "invalid course";
     }
-	else {
-		$errors = checkValidSection($courseCode, $sectionID);
-	}
 	return $errors;
 }
 
+#Bug found
 function checkValidSection($courseCode, $sectionID) {
 	$errors = [];
 	$sectionDAO = new SectionDAO();
 	$result = $sectionDAO->retrieve($courseCode, $sectionID);
 	if (!$result){
-		$errors[] = "invalid section code";
+		$errors[] = "invalid section";
 	}
 	return $errors;
 }
@@ -399,11 +400,11 @@ function checkValidAmt($amt) {
     #Less than $10
     $errors = [];
 	if ($amt < 10) {
-		$errors[] = "invalid Bid Amount" ;
+		$errors[] = "invalid amount" ;
 	}
 	#Not Numeric in Amount
 	elseif (!preg_match('/^-?[0-9]+(?:\.[0-9]{1,2})?$/', $amt)) {
-	    $errors[] =  "invalid Bid Amount";
+	    $errors[] =  "invalid amount";
 	}
 	return $errors;
 
