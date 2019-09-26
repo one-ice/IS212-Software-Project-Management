@@ -410,4 +410,29 @@ function checkValidAmt($amt) {
 
 }
 
+
+#Bid Logic validations
+
+#Only round 1, checking whether student's school == module's school
+#when inputting the parameters, use DAO 
+#userID take from bid csv $data[0]
+#mod_code take from bid csv $data[2]
+function bidOwnSchool($userID, $mod_code){
+    $errors = [];
+    $studentDAO = new StudentDAO();
+    $student_obj = $studentDAO->retrieve($userID);
+    $student_sch = $student_obj->school;
+
+    $courseDAO = new CourseDAO();
+    $course_obj = $courseDAO->retrieve($mod_code);
+    $mod_sch = $course_obj->school;
+
+    if ($student_sch != $mod_sch){
+        $errors[] = 'not own school course';
+    }
+    return $errors;
+}
+
+
+
 ?>
