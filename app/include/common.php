@@ -508,5 +508,33 @@ function bidPrerequisite($userID, $code){
     return $errors;
 }
 
+#get an array of bids using  bidDAO->retrieve($data[0])
+#get current section details $data[2] and $data[3]
+function bidClass($array_of_bid_objs, $code, $section){
+    $errors = [];
+    $sectionDAO = new SectionDAO();
+    $sections = [];
+    $sectionDetails = $sectionDAO->retrieve($code, $section);
+    foreach ($array_of_bid_objs as $bids){
+        $sections[] = $sectionDAO->retrieve($bids->code, $bids->section);
+    }
+    if($sectionDetails){
+        foreach ($sections as $section){
+            if ($sectionDetails->day == $section->day){
+                $start_now = $sectionDetails->start;
+                $start_prev = $section->start;
+                $end_now = $sectionDetails->end;
+                $end_prev = $section->end;
+
+                if (!(($start_now >= $end_prev)||($end_now <= $start_prev))){
+                    $errors[] = 'class timetable clash';
+                    break;
+                }
+            }
+        }
+    }
+    return $errors;
+}
+
 
 ?>
