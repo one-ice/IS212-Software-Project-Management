@@ -25,7 +25,7 @@ class BidDAO {
     
   
     public  function retrieve($userid) {
-        $sql = 'SELECT userid, amount FROM bid WHERE userid=:userid';
+        $sql = 'SELECT * FROM bid WHERE userid=:userid';
         
         
         $connMgr = new ConnectionManager();
