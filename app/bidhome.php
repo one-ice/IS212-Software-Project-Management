@@ -30,7 +30,7 @@ if ($round == 1)
                 <td> {$course->exam_date} </td>
                 <td> {$course->exam_start} </td>
                 <td> {$course->exam_end} </td>
-                <td> <a href = 'bid.php?course={$course->course}'> Select </a> </td> </tr>";
+                <td> <a href = 'bidding.php?course={$course->course}'> Select </a> </td> </tr>";
     }
     echo "</table>";
 }
