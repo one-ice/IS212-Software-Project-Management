@@ -24,9 +24,9 @@ elseif ( isset($_POST['username']) && isset($_POST['password']) ) {
         }
     }
     else{
-        if($password == "password"){
+        if($password == "Passw0rd!"){
             $_SESSION['username'] = $username; 
-            header("Location: bootstrap.php"); #change to bootstrap page!
+            header("Location: admin_homepage.php"); #change to bootstrap page!
         }
         else{
             $error = 'Incorrect username or password!';
