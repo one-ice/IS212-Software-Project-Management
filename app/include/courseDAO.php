@@ -19,6 +19,27 @@ class CourseDAO{
         return $result;
     }
     
+    public function retrieveAllbySchool($school){
+        $sql = 'SELECT * FROM course where school = :school';
+
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->getConnection();
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->bindParam(':school', $school, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $result = array();
+
+        while($row = $stmt->fetch()){
+            $result[] = new course($row['course'],$row['school'],$row['title'],$row['description'],
+            $row['exam_date'],$row['exam_start'],$row['exam_end']);
+        }
+
+        return $result;
+    }
+    
     public  function retrieve($course) {
         $sql = 'SELECT * from course where course = :course';
         
