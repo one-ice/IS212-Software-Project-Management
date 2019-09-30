@@ -1,7 +1,7 @@
 <?php
 
-require_once '../include/common.php';
-require_once '../include/token.php';
+require_once '../app/include/common.php';
+require_once '../app/include/token.php';
 
 
 // isMissingOrEmpty(...) is in common.php
