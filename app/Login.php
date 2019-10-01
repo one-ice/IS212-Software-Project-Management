@@ -1,41 +1,37 @@
 <?php
-// require_once 'include/common.php';
-// require_once 'include/token.php';
+    require_once 'app/include/common.php';
+    $error1 = "";
+    $error2 = "";
+    $details = "";
 
-$error = '';
-
-if ( isset($_GET['error']) ) {
-    $error = $_GET['error'];
-} 
-elseif ( isset($_POST['username']) && isset($_POST['password']) ) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    if ($username != "admin"){
-        $dao = new studentDAO();
-        $student = $dao->retrieve($username);
-    
-        if ( $student != null && $user->authenticate($password) ) {
-            $_SESSION['username'] = $username; 
-            header("Location: bidding.php");# change to boss bidding page!
-            return;
-    
-        } else {
-            $error = 'Incorrect username or password!';
+    if(isset($_POST["username"]) && isset($_POST["password"])){
+        $data = array(
+      'username' => $_POST["username"],
+      'password' => $_POST["password"]
+        );
+        
+        $result = curl_result("authenticate.php", $data);
+        if ($result["status"] == 'success'){
+            session_start();
+            $_SESSION["username"] = $_POST["userid"];
+            $_SESSION["token"] = $result["token"];
+            if($_POST["userid"] == "admin"){
+                header("Location: bootstrap.php");
+            }else{
+                header("Location: bidhome.php");
+            }
+            
+        }else{
+            $messages = $result["messages"];
+            if(sizeof($messages) == 2){
+                $error1 = $messages[0];
+                $error2 = $messages[1];
+            }else{
+            // Else 1 error message
+                $error2 = $messages[0];
+            }
         }
     }
-    else{
-        if($password == "Passw0rd!"){
-            $_SESSION['username'] = $username; 
-            header("Location: admin_homepage.php"); #change to bootstrap page!
-        }
-        else{
-            $error = 'Incorrect username or password!';
-        }
-    }
-}
-
-
-
 ?>
 
 <html>
@@ -46,14 +42,16 @@ elseif ( isset($_POST['username']) && isset($_POST['password']) ) {
     <body>
     <div class="flex-wrap">
  
-        <form action method='POST' action='Loginui.php'>
+        <form action method='POST' action='Login.php'>
         
             <input type="radio" name="rg" id="Login" checked/>   
 
             <label for="Login">Welcome to BIOS!</label>
 
             <input name = 'username' class="Login" placeholder="Username" />
+            <p id = 'error1'> <?= $error1 ?></p>
             <input name = 'password' class="Login" type="password" placeholder ="Password" />
+            <p id = 'error2'> <?= $error2 ?></p>
             <button>Submit</button>        
             
         </form>
