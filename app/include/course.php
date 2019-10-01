@@ -4,19 +4,18 @@ class Course{
     public $school;
     public $title;
     public $description;
-    public $examDate;
-    public $examStart;
-    public $examEnd;
+    public $exam_date;
+    public $exam_start;
+    public $exam_end;
 
-    public function __construct($course ="", $school ="",$title ="",$description = "",$examDate ="",$examStart,$examEnd){
+    public function __construct($course ="", $school ="",$title ="",$description = "",$exam_date ="",$exam_start,$exam_end){
         $this->course = $course;
         $this->school = $school;
         $this->title = $title;
         $this->description = $description;
-        $this->examDate = $examDate;
-        $this->examStart = $examStart;
-        $this->examEnd = $examEnd;
-
+        $this->exam_date = $exam_date;
+        $this->exam_start = $exam_start;
+        $this->exam_end = $exam_end;
     }
 
 }
