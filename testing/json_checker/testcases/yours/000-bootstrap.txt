@@ -1,13 +1,15 @@
 {
     "status": "error",
-    "num-record-loaded": {
-        "student.csv": 26,
-        "prerequisite.csv": 8,
-        "course.csv": 24,
-        "course_completed.csv": 4,
-        "section.csv": 35,
-        "bid.csv": 11
-    },
+    "num-record-loaded": [
+        {
+            "student.csv": 26,
+            "course.csv": 24,
+            "section.csv": 35,
+            "prerequisite.csv": 8,
+            "course_completed.csv": 4,
+            "bid.csv": 11
+        }
+    ],
     "messages": [
         {
             "file": "bid.csv",
