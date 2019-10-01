@@ -13,10 +13,10 @@
         $result = curl_result("authenticate.php", $data);
         if ($result["status"] == 'success'){
             session_start();
-            $_SESSION["username"] = $_POST["userid"];
+            $_SESSION["username"] = $_POST["username"];
             $_SESSION["token"] = $result["token"];
-            if($_POST["userid"] == "admin"){
-                header("Location: bootstrap.php");
+            if($_POST["username"] == "admin"){
+                header("Location: admin_homepage.php");
             }else{
                 header("Location: bidhome.php");
             }

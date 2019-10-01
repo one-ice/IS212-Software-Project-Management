@@ -4,7 +4,6 @@ include_once "include/common.php";
 $username = 'amy.ng.2009';
 $round = 1;
 $studentDAO =  new StudentDAO();
-#retrieve student's edollar
 $studentedollar = ($studentDAO->retrieve($username))->edollar;
 echo "<h1> Welcome to BIOS </h1>";
 echo "<h3> Round $round </h3>";
@@ -27,11 +26,12 @@ if ($round == 1)
                 <td> {$course->school} </td>
                 <td> {$course->title} </td>
                 <td> {$course->description} </td>
-                <td> {$course->exam_date} </td>
-                <td> {$course->exam_start} </td>
-                <td> {$course->exam_end} </td>
+                <td> {$course->examDate} </td>
+                <td> {$course->examStart} </td>
+                <td> {$course->examEnd} </td>
                 <td> <a href = 'bidding.php?course={$course->course}'> Select </a> </td> </tr>";
     }
     echo "</table>";
 }
+
 ?>
