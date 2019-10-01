@@ -26,12 +26,12 @@ if ($round == 1)
                 <td> {$course->school} </td>
                 <td> {$course->title} </td>
                 <td> {$course->description} </td>
-                <td> {$course->examDate} </td>
-                <td> {$course->examStart} </td>
-                <td> {$course->examEnd} </td>
+                <td> {$course->exam_date} </td>
+                <td> {$course->exam_start} </td>
+                <td> {$course->exam_end} </td>
                 <td> <a href = 'bidding.php?course={$course->course}'> Select </a> </td> </tr>";
     }
-    echo "</table>";
+    echo "</table>"; 
 }
 
 ?>
