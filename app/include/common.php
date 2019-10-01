@@ -16,6 +16,21 @@ spl_autoload_register(function($class) {
 session_start();
 
 
+function curl_result($location, $post){
+    $url = $GLOBALS['API_DIRECTORY'] . $location;
+    $ch = curl_init();
+    $curlConfig = array(
+        CURLOPT_URL            => $url,
+        CURLOPT_POST           => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POSTFIELDS     => $post,
+    );
+    curl_setopt_array($ch, $curlConfig);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return json_decode($result, TRUE);
+}
+
 function printErrors() {
     if(isset($_SESSION['errors'])){
         echo "<ul id='errors' style='color:red;'>";
