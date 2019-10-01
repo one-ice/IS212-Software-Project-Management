@@ -1,5 +1,5 @@
 <?php
-    require_once 'app/include/common.php';
+    require_once 'include/common.php';
     $error1 = "";
     $error2 = "";
     $details = "";
