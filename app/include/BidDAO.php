@@ -3,8 +3,7 @@
 class BidDAO {
 
     public  function retrieveAll() {
-        $sql = 'SELECT * FROM bid ORDER BY amount';
-        
+        $sql = 'SELECT * FROM bid ORDER BY code, section, amount DESC';
             
         $connMgr = new ConnectionManager();      
         $conn = $connMgr->getConnection();
@@ -16,7 +15,7 @@ class BidDAO {
         $result = array();
 
         while($row = $stmt->fetch()) {
-            $result[] = new bid($row['userid'], $row['amount'], $row['code'], $row['section']);
+            $result[] = new bid($row['userid'], $row['amount'], $row['code'], $row['section'], $row['status']);
         }
             
                  
@@ -39,12 +38,13 @@ class BidDAO {
         $result = array();
 
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $result[] = new bid($row['userid'], $row['amount'], $row['code'], $row['section']);
+            $result[] = new bid($row['userid'], $row['amount'], $row['code'], $row['section'], $row['status']);
         }
         
         return $result;
     }
-  
+
+
     public  function retrieveBid($userid, $code) {
         $sql = 'SELECT * FROM bid WHERE userid=:userid AND code=:code';
         
@@ -57,12 +57,12 @@ class BidDAO {
         $stmt->execute();
 
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            return new bid($row['userid'], $row['amount'], $row['code'], $row['section']);
+            return new bid($row['userid'], $row['amount'], $row['code'], $row['section'], $row['status']);
         }
     }
   
     public function add($bid) {
-        $sql = 'INSERT IGNORE INTO bid (userid, amount, code, section) VALUES (:userid, :amount, :code, :section)';
+        $sql = 'INSERT IGNORE INTO bid (userid, amount, code, section, status) VALUES (:userid, :amount, :code, :section, :status)';
         
         $connMgr = new ConnectionManager();       
         $conn = $connMgr->getConnection();
@@ -72,7 +72,8 @@ class BidDAO {
         $stmt->bindParam(':userid', $bid->userid, PDO::PARAM_STR);
         $stmt->bindParam(':amount', $bid->amount, PDO::PARAM_INT);
 		$stmt->bindParam(':code', $bid->code, PDO::PARAM_STR);
-		$stmt->bindParam(':section', $bid->section, PDO::PARAM_STR);
+        $stmt->bindParam(':section', $bid->section, PDO::PARAM_STR);
+        $stmt->bindParam(':status', $bid->status, PDO::PARAM_STR);
         
         $isAddOK = False;
 		
@@ -81,8 +82,7 @@ class BidDAO {
         }
 
         return $isAddOK;
-    }
-    
+    }   
         
     public function remove($userid, $code ) {
         $sql = 'DELETE FROM bid WHERE userid = :userid AND code = :code';
