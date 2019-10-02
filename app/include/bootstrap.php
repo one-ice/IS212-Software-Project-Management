@@ -24,8 +24,6 @@ function removeWhiteSpace($data){
     return $arrayToReturn;
 }
 
-
-
 function doBootstrap() {
 
     $errors = array();
@@ -118,8 +116,7 @@ function doBootstrap() {
 
                 $header = fgetcsv($student);
                 $lineCount = 1;
-                $adminObj = new Student("admin","password","admin","NONE","0");
-                $studentDAO->add($adminObj);
+				
 				while (($data = fgetcsv($student))!= false){
                     $data = removeWhiteSpace($data);
                     $lineCount++;
@@ -417,6 +414,7 @@ function doBootstrap() {
                     }
                     #start checking for logic validations
 
+                    #check school
                     if (sizeof($errorInRow) == 0){
                         if (sizeof(bidOwnSchool($data[0],$data[2])) > 0 ){
                             $errorDetails = bidOwnSchool($data[0],$data[2]);
@@ -465,6 +463,7 @@ function doBootstrap() {
                         }
                         
                     }
+
                     if (sizeof($errorInRow) == 0) {
                         $studentDAO = new studentDAO(); 
                         $student_obj = $studentDAO->retrieve($data[0]);
@@ -479,7 +478,7 @@ function doBootstrap() {
                             $bidDAO->remove($data[0], $data[2]);
                         }
 
-                        $bidObj = new Bid($data[0], $data[1], $data[2], $data[3]);
+                        $bidObj = new Bid($data[0], $data[1], $data[2], $data[3], "pending");
                         $bidDAO->add($bidObj);
 
                         $student_obj = $studentDAO->retrieve($data[0]);
@@ -489,12 +488,13 @@ function doBootstrap() {
                         $bid_processed++;
                         
                     }
-                  
                 }	 
 
 				fclose($bid);
 				@unlink($bid_path);
-            
+                
+
+                
                 /****************end Bid**************** */
 
                 
