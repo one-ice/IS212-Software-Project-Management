@@ -123,6 +123,26 @@ class BidDAO {
         return $isAddOK;
     }   
 
+    #New function to update bid on status, during clearing round
+    public function update($userid, $code, $status) {
+        $sql = 'UPDATE bid SET status=:status WHERE userid=:userid and code = :code';      
+        
+        $connMgr = new ConnectionManager();           
+        $conn = $connMgr->getConnection();
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindParam(':userid', $userid, PDO::PARAM_STR);
+        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+        $stmt->bindParam(':code', $code, PDO::PARAM_STR);
+
+        $isUpdateOk = False;
+        if ($stmt->execute()) {
+            $isUpdateOk = True;
+        }
+
+        return $isUpdateOk;
+    }
+        
     public function remove($userid, $code ) {
         $sql = 'DELETE FROM bid WHERE userid = :userid AND code = :code';
         
