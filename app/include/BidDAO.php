@@ -44,7 +44,46 @@ class BidDAO {
         return $result;
     }
 
+    #get a distinct array of [code and section]
+    public  function retrieveCodeSection() {
+        $sql = 'SELECT DISTINCT code, section FROM bid ORDER BY code, section';
+        
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->getConnection();
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+        $result = array();
 
+        while($row = $stmt->fetch()) {
+            $result[] = [$row['code'] , $row['section']] ;
+        }       
+        return $result;
+    }
+
+    #retrieve by code and section
+    public  function retrieveBidForEachSection($code, $section) {
+        $sql = 'SELECT * FROM bid WHERE code=:code and section=:section ORDER BY amount DESC';
+
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->getConnection();
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->bindParam(':code', $code, PDO::PARAM_STR);
+        $stmt->bindParam(':section', $section, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $result = array();
+
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $result[] = new bid($row['userid'], $row['amount'], $row['code'], $row['section'], $row['status']);
+        }
+        
+        return $result;
+    }
+  
     public  function retrieveBid($userid, $code) {
         $sql = 'SELECT * FROM bid WHERE userid=:userid AND code=:code';
         
@@ -83,7 +122,7 @@ class BidDAO {
 
         return $isAddOK;
     }   
-        
+
     public function remove($userid, $code ) {
         $sql = 'DELETE FROM bid WHERE userid = :userid AND code = :code';
         
