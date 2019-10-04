@@ -101,7 +101,7 @@ class CourseDAO{
 
     public function add($course){
         $sql = 'INSERT IGNORE INTO course(course,school,title,description,exam_date,exam_start,exam_end) 
-        VALUES (:course, :school,:title,:description,:examDate,:examStart,:examEnd)';
+        VALUES (:course, :school,:title,:description,:exam_date,:exam_start,:exam_end)';
 
         $connMgr = new ConnectionManager();       
         $conn = $connMgr->getConnection();
@@ -112,9 +112,9 @@ class CourseDAO{
         $stmt->bindParam(':school', $course->school, PDO::PARAM_STR);
         $stmt->bindParam(':title', $course->title, PDO::PARAM_STR);
         $stmt->bindParam(':description', $course->description, PDO::PARAM_STR);
-        $stmt->bindParam(':examDate', $course->examDate, PDO::PARAM_STR);
-        $stmt->bindParam(':examStart', $course->examStart, PDO::PARAM_STR);
-        $stmt->bindParam(':examEnd', $course->examEnd, PDO::PARAM_STR);
+        $stmt->bindParam(':exam_date', $course->exam_date, PDO::PARAM_STR);
+        $stmt->bindParam(':exam_start', $course->exam_start, PDO::PARAM_STR);
+        $stmt->bindParam(':exam_end', $course->exam_end, PDO::PARAM_STR);
 
         $isAddOK = False;
         if ($stmt->execute()) {
