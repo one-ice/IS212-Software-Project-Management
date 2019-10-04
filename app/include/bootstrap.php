@@ -116,7 +116,7 @@ function doBootstrap() {
 
                 $header = fgetcsv($student);
                 $lineCount = 1;
-                $adminObj = new Student("admin","password","admin","NONE","0");
+                $adminObj = new Student("admin","Help@123","admin","NONE","0");
                 $studentDAO->add($adminObj);
 				
 				while (($data = fgetcsv($student))!= false){
