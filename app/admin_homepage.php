@@ -78,10 +78,30 @@ require_once 'include/common.php';
 </div>
 <!-- End of Round 1 -->
 
-<h3>Round 2</h3>
-<form action = "R2.php" method ='post'>
-    <input type="submit" name="Start Round 2" value="Start Round 2"></br>
-</form>
-<form action = "clear_r2.php" method ='post'>
-    <input type="submit" name="Clear Round" value="Clear Round 2"></br>
-</form>
+<!-- Round 2 -->
+
+<div class="row" style="margin-top:30px">
+	<div class="col-sm">
+		<div class="card">
+			<div class="card-header">
+			Round 2: Starting
+		</div>
+		<div class="card-body">
+		<p class="card-text">Upload Bootstrap file here</p>
+			<div class="row">
+				<div class="col-sm">
+					<br/>
+					<form action = "R2.php" method ='post'>
+						<input type="submit" name="Start Round 2" value="Start Round 2" class="btn btn-primary mb-2"></br>
+					</form>
+				</div>
+			</div>
+		
+		
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- End of Round 2 -->
