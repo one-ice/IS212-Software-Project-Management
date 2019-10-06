@@ -101,7 +101,21 @@ require_once 'include/common.php';
 			</div>
 		</div>
 	</div>
+	<div class="col-sm">
+	<div class="card">
+			<div class="card-header">
+			Round 2: Clearing
+			</div>
+			<div class="card-body">
+			<p class="card-text">To clear Round 2: Click the button below</p>
+			<br/>
+			<form action = "clear_r2.php" method ='post'>
+				<input type="submit" name="Clear Round" value="Clear Round 2" class="btn btn-primary mb-2"></br>
+			</form>
+		</div>
+		
+		</div>
+	</div>
 </div>
-
 
 <!-- End of Round 2 -->
