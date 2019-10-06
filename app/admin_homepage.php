@@ -39,16 +39,31 @@ require_once 'include/common.php';
 </nav>
 <!-- Navigation Bar -->
 
-<h3>Round 1</h3>
-<form id='bootstrap-form' action="bootstrap-process.php" method="post" enctype="multipart/form-data">
-	Bootstrap file: </br>
-	<input id='bootstrap-file' type="file" name="bootstrap-file"></br>
-	<input type="submit" name="submit" value="Import"></br>
-</form>
+<!-- Round 1 -->
+<div class="row" style="margin-top:30px">
+	<div class="col-sm">
+		<div class="card">
+			<div class="card-header">
+			Round 1: Bootstrap
+		</div>
+		<div class="card-body">
+		<p class="card-text">Upload Bootstrap file here</p>
+			<div class="row">
+				<div class="col-sm">
+					<form id='bootstrap-form' action="bootstrap-process.php" method="post" enctype="multipart/form-data">
+						<input class="btn btn-outline-secondary" id='bootstrap-file' type="file" name="bootstrap-file">
+						<input class="btn btn-outline-primary" type="submit" name="submit" value="Import">
+					</form>
 
-<form action = "clear_r1.php" method ='post'>
-    <input type="submit" name="Clear Round" value="Clear Round 1"></br>
-</form>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+
+	
+</div>
+<!-- End of Round 1 -->
 
 <h3>Round 2</h3>
 <form action = "R2.php" method ='post'>
