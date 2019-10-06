@@ -34,7 +34,7 @@
 </nav>
 <!-- Navigation Bar -->
 
-<<?php
+<?php
 
 include_once "app/include/common.php";
 $username = 'amy.ng.2009';
@@ -62,25 +62,25 @@ if ($round == 1)
 	echo " </div>";
 
     echo "<table style='margin-bottom:30px;border-style:solid;border-width: 1.5px 1.5px 1.5px 1.5px;' class='table table-striped table-hover table-sm table-responsive'> 
-	<th scope='col'> Course </th> 
-	<th scope='col'> School </th> 
-	<th scope='col'> Title </th> 
-	<th scope='col'> Description </th>
-    <th scope='col'> Exam Date </th> 
-	<th scope='col'> Exam Start </th> 
-	<th scope='col'> Exam End </th> 
-	<td scope='col'> </td>";
+	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Course </th> 
+	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> School </th> 
+	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Title </th> 
+	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Description </th>
+    <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Exam Date </th> 
+	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Exam Start </th> 
+	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Exam End </th> 
+	<td scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> </td>";
     foreach ($courses as $course)
     {
         echo "<tr> 
-				<td class='font-weight-normal'> {$course->course} </td>
-                <td class='font-weight-normal'> {$course->school} </td>
-                <td class='font-weight-normal'> {$course->title} </td>
-                <td class='font-weight-normal'> {$course->description} </td>
-                <td class='font-weight-normal'> {$course->exam_date} </td>
-                <td class='font-weight-normal'> {$course->exam_start} </td>
-                <td class='font-weight-normal'> {$course->exam_end} </td>
-                <td class='font-weight-normal'> <a href = 'bidding.php?course={$course->course}'> Select </a> </td> 
+				<td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->course} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->school} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->title} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->description} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->exam_date} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->exam_start} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->exam_end} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> <a href = 'bidding.php?course={$course->course}'> Select </a> </td> 
 			</tr>";
     }
     echo "</table>";
