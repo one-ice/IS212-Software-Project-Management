@@ -19,8 +19,8 @@ require_once 'include/common.php';
 </head>
 
 <!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e0e0e0">
-  <a class="navbar-brand" href="#">BIOS: Admin</a>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #01579b;">
+  <a class="navbar-brand" href="#" style="color:white;">BIOS: Admin</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -28,16 +28,20 @@ require_once 'include/common.php';
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" style="color:white;" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Logout</a>
+        <a class="nav-link" style="color:white;" href="logout.php">Logout</a>
       </li>
       </li>
     </ul>
   </div>
 </nav>
 <!-- Navigation Bar -->
+
+<body class="d-flex flex-column h-100" style="background-color: #eeeeee;">
+	<main role="main" class="flex-shrink-0">
+<div class="container">
 
 <!-- Round 1 -->
 <div class="row" style="margin-top:30px">
@@ -120,12 +124,12 @@ require_once 'include/common.php';
 
 <!-- End of Round 2 -->
 
-</div>
+	</div>
 	</main>
 </body>
-<footer class="footer mt-auto py-3" style="background-color: #e0e0e0;">
+<footer class="footer mt-auto py-3" style="background-color: #01579b;">
   <div class="container">
-    <span class="text-muted" style="float:left">&copy;2019 echo "T4";</span>
-	<span class="text-muted" style="float:right">All Rights Reserved</span>
+    <span style="float:left;color:white;">&copy;2019 echo "T4";</span>
+	<span style="float:right;color:white;">All Rights Reserved</span>
   </div>
 </footer>
