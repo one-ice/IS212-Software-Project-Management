@@ -119,3 +119,13 @@ require_once 'include/common.php';
 </div>
 
 <!-- End of Round 2 -->
+
+</div>
+	</main>
+</body>
+<footer class="footer mt-auto py-3" style="background-color: #e0e0e0;">
+  <div class="container">
+    <span class="text-muted" style="float:left">&copy;2019 echo "T4";</span>
+	<span class="text-muted" style="float:right">All Rights Reserved</span>
+  </div>
+</footer>
