@@ -34,16 +34,18 @@
 </nav>
 <!-- Navigation Bar -->
 
-<?php
+<<?php
 
-include_once "include/common.php";
+include_once "app/include/common.php";
 $username = 'amy.ng.2009';
 $round = 1;
 $studentDAO =  new StudentDAO();
 $studentedollar = ($studentDAO->retrieve($username))->edollar;
-echo "<h1> Welcome to BIOS </h1>";
-echo "<h3> Round $round </h3>";
-echo "<p> You have $$studentedollar.</p>";
+echo "<h5 class='card-title'>Round $round</h5>";
+echo "<p class='card-text'>You have $$studentedollar</p>";
+echo "</div></div>";
+echo "<div class='row' style='margin-top:30px;'>";
+echo "<div class='col-sm'>";
 
 if ($round == 1)
 {
@@ -54,20 +56,34 @@ if ($round == 1)
     $courseDAO = new CourseDAO();
     $courses = $courseDAO->retrieveAllbySchool($studentschool);
 
-    echo "<table border = '1'> <th> Course </th> <th> School </th> <th> Title </th> <th> Description </th>
-    <th> Exam Date </th> <th> Exam Start </th> <th> Exam End </th> <td> </td>";
+
+	echo "<div class='card bg-light mb-3'>";
+	echo "<div class='card-header'>List of Biddable Modules</div>";
+	echo " </div>";
+
+    echo "<table style='margin-bottom:30px;border-style:solid;border-width: 1.5px 1.5px 1.5px 1.5px;' class='table table-striped table-hover table-sm table-responsive'> 
+	<th scope='col'> Course </th> 
+	<th scope='col'> School </th> 
+	<th scope='col'> Title </th> 
+	<th scope='col'> Description </th>
+    <th scope='col'> Exam Date </th> 
+	<th scope='col'> Exam Start </th> 
+	<th scope='col'> Exam End </th> 
+	<td scope='col'> </td>";
     foreach ($courses as $course)
     {
-        echo "<tr> <td> {$course->course} </td>
-                <td> {$course->school} </td>
-                <td> {$course->title} </td>
-                <td> {$course->description} </td>
-                <td> {$course->exam_date} </td>
-                <td> {$course->exam_start} </td>
-                <td> {$course->exam_end} </td>
-                <td> <a href = 'bidding.php?course={$course->course}'> Select </a> </td> </tr>";
+        echo "<tr> 
+				<td class='font-weight-normal'> {$course->course} </td>
+                <td class='font-weight-normal'> {$course->school} </td>
+                <td class='font-weight-normal'> {$course->title} </td>
+                <td class='font-weight-normal'> {$course->description} </td>
+                <td class='font-weight-normal'> {$course->exam_date} </td>
+                <td class='font-weight-normal'> {$course->exam_start} </td>
+                <td class='font-weight-normal'> {$course->exam_end} </td>
+                <td class='font-weight-normal'> <a href = 'bidding.php?course={$course->course}'> Select </a> </td> 
+			</tr>";
     }
-    echo "</table>"; 
+    echo "</table>";
 }
 
 ?>
