@@ -96,7 +96,10 @@ require_once 'include/common.php';
 				<div class="col-sm">
 					<br/>
 					<form action = "R2.php" method ='post'>
-						<input type="submit" name="Start Round 2" value="Start Round 2" class="btn btn-primary mb-2"></br>
+						<input type="submit" name="Start Round 2" value="Start Round 2" class="btn btn-primary mb-2">
+						<?php
+						$_SESSION['round'] = 2
+						?></br>
 					</form>
 				</div>
 			</div>

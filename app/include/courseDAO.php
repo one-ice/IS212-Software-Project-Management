@@ -13,7 +13,7 @@ class CourseDAO{
         $result = array();
 
         while($row = $stmt->fetch()){
-            $result[] = new course($row['course'],$row['school'],$row['title'],$row['description'],$row['examDate'],$row['examStart'],$row['examEnd']);
+            $result[] = new course($row['course'],$row['school'],$row['title'],$row['description'],$row['exam_date'],$row['exam_start'],$row['exam_end']);
         }
 
         return $result;

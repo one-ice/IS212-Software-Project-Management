@@ -36,9 +36,14 @@
 
 <?php
 
-include_once "app/include/common.php";
-$username = 'amy.ng.2009';
-$round = 1;
+include_once "include/common.php";
+$username = $_SESSION['username'];
+if(isset($_SESSION['round'])){
+  $round = $_SESSION['round'];
+  echo("yeah");
+}else{
+  $round = 1;
+}
 $studentDAO =  new StudentDAO();
 $studentedollar = ($studentDAO->retrieve($username))->edollar;
 echo "<h5 class='card-title'>Round $round</h5>";
@@ -55,7 +60,12 @@ if ($round == 1)
     #Retrieve courses by school
     $courseDAO = new CourseDAO();
     $courses = $courseDAO->retrieveAllbySchool($studentschool);
-
+}
+elseif($round == 2){
+    $courseDAO = new CourseDAO();
+    $courses = $courseDAO->retrieveAll();
+    
+}
 
 	echo "<div class='card bg-light mb-3'>";
 	echo "<div class='card-header'>List of Biddable Modules</div>";
@@ -84,7 +94,6 @@ if ($round == 1)
 			</tr>";
     }
     echo "</table>";
-}
 
 ?>
 
