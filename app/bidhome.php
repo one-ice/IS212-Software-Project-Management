@@ -38,11 +38,10 @@
 
 include_once "include/common.php";
 $username = $_SESSION['username'];
-if(isset($_SESSION['round'])){
+if($_SESSION['round'] == 2){
   $round = $_SESSION['round'];
-  echo("yeah");
 }else{
-  $round = 1;
+  $round = $_SESSION['round'];
 }
 $studentDAO =  new StudentDAO();
 $studentedollar = ($studentDAO->retrieve($username))->edollar;

@@ -101,7 +101,7 @@ class BidDAO {
     }
   
     public function add($bid) {
-        $sql = 'INSERT IGNORE INTO bid (userid, amount, code, section, status) VALUES (:userid, :amount, :code, :section, :status)';
+        $sql = 'INSERT IGNORE INTO bid (userid, amount, code, section,status) VALUES (:userid, :amount, :code, :section,:status)';
         
         $connMgr = new ConnectionManager();       
         $conn = $connMgr->getConnection();
