@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 07, 2019 at 12:45 PM
+-- Generation Time: Oct 07, 2019 at 12:51 PM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -80,6 +80,21 @@ CREATE TABLE IF NOT EXISTS `course_completed` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `fail_bid`
+--
+
+DROP TABLE IF EXISTS `fail_bid`;
+CREATE TABLE IF NOT EXISTS `fail_bid` (
+  `userid` varchar(128) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `code` varchar(10) NOT NULL,
+  `section` varchar(10) NOT NULL,
+  PRIMARY KEY (`userid`,`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `min_bid`
 --
 
@@ -151,7 +166,6 @@ CREATE TABLE IF NOT EXISTS `section-student` (
   `code` varchar(10) NOT NULL,
   `section` varchar(3) NOT NULL,
   `amount` decimal(10,2) NOT NULL,
-  `status` varchar(20) NOT NULL,
   PRIMARY KEY (`userid`,`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
