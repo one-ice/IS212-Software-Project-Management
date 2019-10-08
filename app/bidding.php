@@ -1,5 +1,5 @@
 <?php
-include_once "app/include/common.php"; 
+include_once "include/common.php"; 
 include_once "meetCriteria.php";
 
 $course = $_GET['course'];
