@@ -18,6 +18,27 @@ class sectionDAO{
         }
     }
 
+    public  function retrievebyCourse($course) {
+        #get all the entries in section table
+        $sql = 'SELECT * FROM section where course = :course';
+        $connMgr = new ConnectionManager();      
+        $conn = $connMgr->getConnection();
+    
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':course', $course, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+    
+        $result = array();
+    
+        while($row = $stmt->fetch()) {
+            $result[] = new Section($row['course'], $row['section'],$row['day'],$row['start'],
+            $row['end'], $row['instructor'],$row['venue'],$row['size']);
+        }
+        
+        return $result;
+    }
+    
     public function add($section) {
         #to add a row into the section table where $section is a an object in section
 
