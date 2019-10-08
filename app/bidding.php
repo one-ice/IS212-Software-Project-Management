@@ -71,7 +71,6 @@ if(isset($_POST['submit']))
     $errors = meetCriteria($_SESSION['username'],$_POST['bid_amt'],$course,$_POST['section'],"Round 1");
     $bid_amt = $_POST['bid_amt'];
     $bid_section = $_POST['section'];
-    // $errors = isMeetCriteria();
 
     if ($errors == [])
     {
@@ -80,6 +79,7 @@ if(isset($_POST['submit']))
         $bid->amount = $bid_amt;
         $bid->code = $course;
         $bid->section = $bid_section;
+        $bid->status = "pending";
 
         #Add bid
         $bidDAO = new BidDAO();
@@ -87,21 +87,19 @@ if(isset($_POST['submit']))
         
         if($status == True)
         {
-
             $amount_left = $studentedollar - $bid_amt;
-            echo "<p> Bid placed successfully! 
-                      Amount left: $$amount_left
-                </p>";
             $studentDAO->update($username, $amount_left);
+            echo "<p> Bid placed successfully! 
+                      Amount left: $$amount_left </p>";
         }
     }
     else{
-            echo "<li>";
+            echo "<ul>";
             foreach($errors as $error)
             {   
-                echo "<ul> $error </ul>";
+                echo "<li> $error </li>";
             }
-            echo "</li>";
+            echo "<ul>";
     }
 
 }
