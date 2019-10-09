@@ -20,6 +20,26 @@ class RoundDAO{
     }
 
     
+    public function add($round) {
+        $sql = 'INSERT IGNORE INTO round (round, status) VALUES (:round, :status)';
+        
+        $connMgr = new ConnectionManager();       
+        $conn = $connMgr->getConnection();
+         
+        $stmt = $conn->prepare($sql); 
+
+        $stmt->bindParam(':round', $round->round, PDO::PARAM_INT);
+        $stmt->bindParam(':status', $round->status, PDO::PARAM_STR);
+	
+        $isAddOK = False;
+		
+        if ($stmt->execute()) {
+            $isAddOK = True;
+        }
+
+        return $isAddOK;
+    }   
+
     
   
 }
