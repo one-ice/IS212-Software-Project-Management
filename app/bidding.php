@@ -1,5 +1,5 @@
 <?php
-include_once "include/common.php"; 
+include_once "app/include/common.php"; 
 include_once "meetCriteria.php";
 
 $course = $_GET['course'];
@@ -68,7 +68,10 @@ if (isset($_POST['back']))
 
 if(isset($_POST['submit']))
 {
-    $errors = meetCriteria($_SESSION['username'],$_POST['bid_amt'],$course,$_POST['section'],"Round 1");
+    $roundDAO = new RoundDAO();
+    $round = $roundDAO->retrieveAll();
+    #this part the $round retrieves an OBJECT so that we know the round and the status
+    $errors = meetCriteria($_SESSION['username'],$_POST['bid_amt'],$course,$_POST['section'],$round);
     $bid_amt = $_POST['bid_amt'];
     $bid_section = $_POST['section'];
 
@@ -89,6 +92,7 @@ if(isset($_POST['submit']))
         {
             $amount_left = $studentedollar - $bid_amt;
             $studentDAO->update($username, $amount_left);
+            // header("Location: bidding.php?course=$course");
             echo "<p> Bid placed successfully! 
                       Amount left: $$amount_left </p>";
         }
