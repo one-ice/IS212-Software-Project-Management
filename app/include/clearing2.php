@@ -38,7 +38,7 @@ function second_bid_valid($userid, $code, $section, $amount){
         if($num_of_bids >= $current_vacancy){
             $clearing_bid = $bids_now[$current_vacancy-1];
             $clearing_price = $clearing_bid->amount + 1;
-            echo $clearing_price;
+
             #find the number of people at clearing price
 
             if($clearing_price > $minBidNow){
