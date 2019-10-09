@@ -11,7 +11,7 @@ spl_autoload_register(function($class){
 
 #if no errors, you show them success message, add into
 
-function meetCriteria($stuID,$edollar,$courseCode,$section,$status){
+function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
 
     $connMgr = new ConnectionManager();
     $conn = $connMgr->getConnection();
@@ -46,7 +46,7 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$status){
     $studentClass = $studentDAO->retrieve($stuID);
     if($courseClass = $courseDAO->retrieve($courseCode)){
         $sectionDAO = new SectionDAO();
-        if($status == "round 1"){
+        if($round->round == 1){
             if($courseClass->school == $studentClass->school ){
                 $errors[] = "not own school course";
             }
@@ -109,6 +109,33 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$status){
     else{
         $errors[] = "not school course";
     }
+
+    #added round 2 validation
+
+    $sectionDAO = new SectionDAO();
+    $min_bid = $sectionDAO->retrieveMinBid($courseCode, $section); 
+
+    if ($round->round == 2){
+        
+        if ($edollar < $min_bid){
+            $errors[] = 'bid too low';
+        }
+
+    }
+
+    if ($round->status == 'inactive'){
+        $errors[] = 'round ended';
+    }
+    #add vacancy validation
+    $sectionstuDAO = new SectionStudentDAO();
+    $taken = $sectionstuDAO->retrieveVacancy($courseCode, $section);
+    $sectionObj = $sectionDAO->retrieve($courseCode, $section);
+    $full_size = $sectionObj->size;
+    $vacancy = $full_size - $taken;
+    if ($vacancy <= 0){
+        $errors[] = 'no vacancy';
+    }
+
     return $errors;
 }
 ?>
