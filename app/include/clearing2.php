@@ -26,7 +26,48 @@ function second_bid_valid($userid, $code, $section, $amount){
     #get current min bid in Min Bid table, default should be 10.
     $minBidNow = $sectionDAO->retrieveMinBid($code, $section);
     
-  
+    if ($current_vacancy == 0){ 
+        $state = 'Unsuccessful';
+    }
+    else{
+        #find number of bids placed for THIS section
+        $bids_now = $bidDAO->retrieveBidForEachSection($code, $section);
+        $num_of_bids = sizeof($bids_now);
+
+        #compare with current vacancy, and get the clearing price (need to +1 to the min bid)
+        if($num_of_bids >= $current_vacancy){
+            $clearing_bid = $bids_now[$current_vacancy-1];
+            $clearing_price = $clearing_bid->amount + 1;
+            echo $clearing_price;
+            #find the number of people at clearing price
+
+            if($clearing_price > $minBidNow){
+                #change minbid price
+                $sectionDAO->updateMinBid($clearing_price, $code, $section);
+                $minBidNow = $sectionDAO->retrieveMinBid($code, $section);
+               
+            }
+            
+            if ($amount < $minBidNow){
+                $state = 'Unsuccessful';
+            }
+            else{
+                $state = 'Successful';
+            }
+        }
+        else{
+
+
+            if ($amount < $minBidNow){
+                $state = 'Unsuccessful';
+            }
+            else{
+                $state = 'Successful';
+            }
+
+        }
+        
+    }    
 
     return $state;
 }
