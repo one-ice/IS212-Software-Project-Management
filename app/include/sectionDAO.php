@@ -14,7 +14,7 @@ class sectionDAO{
     
         while($row = $stmt->fetch()) {
             $result[] = new Section($row['course'], $row['section'],$row['day'],$row['start'],
-            $row['end'], $row['instructor'],$row['venue'],$row['size']);
+            $row['end'], $row['instructor'],$row['venue'],$row['size'], $row['min_bid']);
         }
     }
 
@@ -33,7 +33,7 @@ class sectionDAO{
     
         while($row = $stmt->fetch()) {
             $result[] = new Section($row['course'], $row['section'],$row['day'],$row['start'],
-            $row['end'], $row['instructor'],$row['venue'],$row['size']);
+            $row['end'], $row['instructor'],$row['venue'],$row['size'], $row['min_bid']);
         }
         
         return $result;
@@ -42,8 +42,8 @@ class sectionDAO{
     public function add($section) {
         #to add a row into the section table where $section is a an object in section
 
-        $sql = "INSERT INTO section (course, section, day, start, end, instructor, venue, size) 
-        VALUES (:course, :section, :day, :start, :end, :instructor, :venue, :size)";
+        $sql = "INSERT IGNORE INTO section (course, section, day, start, end, instructor, venue, size, min_bid) 
+        VALUES (:course, :section, :day, :start, :end, :instructor, :venue, :size, :min_bid)";
         
         $connMgr = new ConnectionManager();       
         $conn = $connMgr->getConnection();
@@ -58,6 +58,7 @@ class sectionDAO{
         $stmt->bindParam(':instructor', $section->instructor, PDO::PARAM_STR);
         $stmt->bindParam(':venue', $section->venue, PDO::PARAM_STR);
         $stmt->bindParam(':size', $section->size, PDO::PARAM_INT);
+        $stmt->bindParam(':min_bid', $section->min_bid, PDO::PARAM_INT);
         
         $isAddOK = False;
         if ($stmt->execute()) {
@@ -91,7 +92,6 @@ class sectionDAO{
     public  function retrieve($course,$section) {
         #identify unique row using PK of course and section
         $sql = 'SELECT * FROM section WHERE course=:course and section = :section';
-        
         $result = "";
         
         $connMgr = new ConnectionManager();
@@ -105,11 +105,50 @@ class sectionDAO{
 
         if($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $result = new Section($row['course'], $row['section'],$row['day'],$row['start'],
-            $row['end'], $row['instructor'],$row['venue'],$row['size']);
+            $row['end'], $row['instructor'],$row['venue'],$row['size'], $row['min_bid']);
         }
         
         return $result;
     }
+    
+    public  function retrieveMinBid($course, $section) {
+        #get all the entries in section table
+        $sql = 'SELECT min_bid FROM section where course = :course and section = :section';
+        $connMgr = new ConnectionManager();      
+        $conn = $connMgr->getConnection();
+    
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':course', $course, PDO::PARAM_STR);
+        $stmt->bindParam(':section', $section, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+    
+        while($row = $stmt->fetch()) {
+            return $row['min_bid'];
+        }
+    }
+
+    public  function updateMinBid($amount, $course, $section) {
+        #get all the entries in section table
+        $sql = 'UPDATE section SET min_bid =:min_bid WHERE course = :course and section = :section';
+        $connMgr = new ConnectionManager();      
+        $conn = $connMgr->getConnection();
+    
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':min_bid', $amount, PDO::PARAM_STR);
+        $stmt->bindParam(':course', $course, PDO::PARAM_STR);
+        $stmt->bindParam(':section', $section, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    
+        $isUpdateOk = False;
+        if ($stmt->execute()) {
+            $isUpdateOk = True;
+        }
+
+        return $isUpdateOk;
+    }
+
+
 }
 
 ?>
