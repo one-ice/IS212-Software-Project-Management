@@ -116,8 +116,6 @@ function doBootstrap() {
 
                 $header = fgetcsv($student);
                 $lineCount = 1;
-                $adminObj = new Student("admin","Help@123","admin","NONE","0");
-                $studentDAO->add($adminObj);
 				
 				while (($data = fgetcsv($student))!= false){
                     $data = removeWhiteSpace($data);
@@ -245,7 +243,7 @@ function doBootstrap() {
             
                     else{
                         $sectionObj = new section($data[0], $data[1], $data[2], $data[3], 
-                        $data[4], $data[5], $data[6], $data[7]);
+                        $data[4], $data[5], $data[6], $data[7], 10);
 						$courseSection = $data[0] . " " . $data[1];
 						array_push($arraySection, $courseSection);
                         $sectionDAO->add($sectionObj);
@@ -499,7 +497,11 @@ function doBootstrap() {
                 
                 /****************end Bid**************** */
 
-                
+                #add round  
+                $roundDAO = new RoundDAO();
+                $roundDAO->removeAll();
+                $roundDAO->add( new Round(1, 'active') );
+
             }
         }
     }
