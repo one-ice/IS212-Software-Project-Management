@@ -74,6 +74,18 @@ class RoundDAO{
 
         return $isUpdateOk;
     }
+
+    public function removeAll() {
+        $sql = 'TRUNCATE TABLE round';
+        
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->getConnection();
+        
+        $stmt = $conn->prepare($sql);
+        
+        $stmt->execute();
+        $count = $stmt->rowCount();
+    }    
   
 }
 
