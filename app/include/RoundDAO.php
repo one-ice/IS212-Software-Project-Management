@@ -74,6 +74,25 @@ class RoundDAO{
 
         return $isUpdateOk;
     }
+    
+    public function updateRound($round, $status) {
+        $sql = 'UPDATE round SET round=:round, status=:status';      
+        
+        $connMgr = new ConnectionManager();           
+        $conn = $connMgr->getConnection();
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindParam(':round', $round, PDO::PARAM_INT);
+        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+
+        $isUpdateOk = False;
+        if ($stmt->execute()) {
+            $isUpdateOk = True;
+        }
+
+        return $isUpdateOk;
+    }
+
 
     public function removeAll() {
         $sql = 'TRUNCATE TABLE round';
