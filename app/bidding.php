@@ -1,7 +1,7 @@
 <?php
-include_once "app/include/common.php"; 
+include_once "include/common.php"; 
 include_once "meetCriteria.php";
-require_once 'clearing2.php';
+require_once 'include/clearing2.php';
 
 $course = $_GET['course'];
 $username = $_SESSION['username'];
@@ -101,7 +101,7 @@ if(isset($_POST['submit']))
         }
 
         elseif ( ($round->round == 2) && ($round->status == 'active') ){
-            second_bid_valid($_SESSION['username'], $course, $_POST['bid_amt'], $_POST['bid_amt']);
+            second_bid_valid($_SESSION['username'], $course, $_POST['section'], $_POST['bid_amt']);
         }
         
     }
