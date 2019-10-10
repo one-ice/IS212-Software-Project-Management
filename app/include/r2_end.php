@@ -1,5 +1,8 @@
 <?php 
     require_once 'common.php';
+    require_once 'clearing1.php';
+
+    first_clearing();
     $roundDAO = new roundDAO();
 
     $round = 2;
@@ -7,7 +10,7 @@
 
     $update_status = $roundDAO->updateStatus($round,$status);
     if ($update_status){
-        echo "Round 2 has started!";
+        echo "Round 2 has ended!";
     }
     echo "<a href = '../admin_homepage.php'> Back </a>";
 ?>
