@@ -38,7 +38,7 @@
 	<main role="main" class="flex-shrink-0">
 <div class="container">
 <?php
-include_once "app/include/common.php";
+include_once "include/common.php";
 $username = $_SESSION["username"];
 echo "<div class='card bg-light mb-3' style='margin-top:30px;'>";
 echo "<div class='card-header'>Welcome to BIOS, $username.</div>";
