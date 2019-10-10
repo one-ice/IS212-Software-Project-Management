@@ -95,7 +95,7 @@ require_once 'include/common.php';
 			<div class="row">
 				<div class="col-sm">
 					<br/>
-					<form action = "./include/round2start.php" method ='post'>
+					<form action = "./include/r2_start.php" method ='post'>
 						<input type="submit" name="Start Round 2" value="Start Round 2" class="btn btn-primary mb-2"></br>
 					</form>
 				</div>
