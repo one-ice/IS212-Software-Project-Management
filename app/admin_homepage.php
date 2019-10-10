@@ -72,7 +72,7 @@ require_once 'include/common.php';
 			</div>
 			<div class="card-body">
 			<p class="card-text">To clear Round 1: Click the button below</p>
-			<form action="clear_r1.php" method='post'>
+			<form action="./include/r1_end.php" method='post'>
 			<input type="submit" name="Clear Round" value="Clear Round 1" class="btn btn-primary mb-2"></br>
 			</form>
 		</div>
@@ -113,7 +113,7 @@ require_once 'include/common.php';
 			<div class="card-body">
 			<p class="card-text">To clear Round 2: Click the button below</p>
 			<br/>
-			<form action = "clear_r2.php" method ='post'>
+			<form action = "./include/r2_end.php" method ='post'>
 				<input type="submit" name="Clear Round" value="Clear Round 2" class="btn btn-primary mb-2"></br>
 			</form>
 		</div>
