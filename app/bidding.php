@@ -115,21 +115,27 @@ if(isset($_POST['submit']))
 
             #Add bid
             $bidDAO = new BidDAO();
-            $status = $bidDAO->add($bid);
+            $add_status = $bidDAO->add($bid);
 
-
-            if($status == True)
+            if($add_status == True)
             {
-                #if ( ($round->round == 1)  && ($round->status == 'active') ){
+                //if ( ($round->round == 1)  && ($round->status == 'active') ){
                     $amount_left = $studentedollar - $bid_amt;
                     $studentDAO->update($username, $amount_left);
-                    // header("Location: bidding.php?course=$course");
                     echo "<p> Bid placed successfully! 
                                 Amount left: $$amount_left </p>";
-                #}
-
+                //}
                 if ( ($round->round == 2) && ($round->status == 'active') ){
-                    second_bid_valid($_SESSION['username'], $course, $_POST['section'], $_POST['bid_amt']);
+                    $state = second_bid_valid($_SESSION['username'], $course, $_POST['section'], $_POST['bid_amt']);
+                    if ($state == 'Successful')
+                    {
+                        $bid_status = 'successful';
+                    }
+                    else
+                    {
+                        $bid_status = 'unsuccessful';
+                    }
+                    $bidDAO->update($username,$course,$bid_status);
                 }
             }
         }
