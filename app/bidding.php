@@ -78,32 +78,32 @@ if(isset($_POST['submit']))
 
     if ($errors == [])
     {
-        if ( ($round->round == 1)  && ($round->status == 'active') ){
-            $bid = new Bid();
-            $bid->userid = $username;
-            $bid->amount = $bid_amt;
-            $bid->code = $course;
-            $bid->section = $bid_section;
-            $bid->status = "pending";
+        $bid = new Bid();
+        $bid->userid = $username;
+        $bid->amount = $bid_amt;
+        $bid->code = $course;
+        $bid->section = $bid_section;
+        $bid->status = "pending";
 
-            #Add bid
-            $bidDAO = new BidDAO();
-            $status = $bidDAO->add($bid);
+        #Add bid
+        $bidDAO = new BidDAO();
+        $status = $bidDAO->add($bid);
 
-            if($status == True)
-            {
+
+        if($status == True)
+        {
+            #if ( ($round->round == 1)  && ($round->status == 'active') ){
                 $amount_left = $studentedollar - $bid_amt;
                 $studentDAO->update($username, $amount_left);
                 // header("Location: bidding.php?course=$course");
                 echo "<p> Bid placed successfully! 
-                          Amount left: $$amount_left </p>";
+                            Amount left: $$amount_left </p>";
+            #}
+
+            if ( ($round->round == 2) && ($round->status == 'active') ){
+                second_bid_valid($_SESSION['username'], $course, $_POST['section'], $_POST['bid_amt']);
             }
         }
-
-        elseif ( ($round->round == 2) && ($round->status == 'active') ){
-            second_bid_valid($_SESSION['username'], $course, $_POST['section'], $_POST['bid_amt']);
-        }
-        
     }
     else{
             echo "<ul>";
