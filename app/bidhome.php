@@ -34,18 +34,22 @@
 </nav>
 <!-- Navigation Bar -->
 
+<body class="d-flex flex-column h-100" style="background-color: #eeeeee;">
+	<main role="main" class="flex-shrink-0">
+<div class="container">
 <?php
+include_once "app/include/common.php";
+$username = $_SESSION["username"];
+echo "<div class='card bg-light mb-3' style='margin-top:30px;'>";
+echo "<div class='card-header'>Welcome to BIOS, $username.</div>";
+echo "<div class='card-body'>";
 
-include_once "include/common.php";
-$username = $_SESSION['username'];
-if(! isset($_SESSION['round'])){
-  $round = 1;
-}
-elseif($_SESSION['round'] == 2){
-  $round = $_SESSION['round'];
-}elseif($_SESSION['round'] == 1){
-  $round = $_SESSION['round'];
-}
+#Retrieve round
+$roundDAO = new RoundDAO();
+$round = (($roundDAO->retrieveAll())->round);
+$status = (($roundDAO->retrieveAll())->status);
+
+#Retrieve student's edollar
 $studentDAO =  new StudentDAO();
 $studentedollar = ($studentDAO->retrieve($username))->edollar;
 echo "<h5 class='card-title'>Round $round</h5>";
@@ -56,32 +60,31 @@ echo "<div class='col-sm'>";
 
 if ($round == 1)
 {
-    #Retrieve user's school
+    #Retrieve student's school
     $studentschool = ($studentDAO->retrieve($username))->school;
 
     #Retrieve courses by school
     $courseDAO = new CourseDAO();
     $courses = $courseDAO->retrieveAllbySchool($studentschool);
-}
-elseif($round == 2){
-    $courseDAO = new CourseDAO();
-    $courses = $courseDAO->retrieveAll();
-    
-}
+
 
 	echo "<div class='card bg-light mb-3'>";
 	echo "<div class='card-header'>List of Biddable Modules</div>";
 	echo " </div>";
 
-    echo "<table style='margin-bottom:30px;border-style:solid;border-width: 1.5px 1.5px 1.5px 1.5px;' class='table table-striped table-hover table-sm table-responsive'> 
+  echo "<table style='margin-bottom:30px;border-style:solid;border-width: 1.5px 1.5px 1.5px 1.5px;' class='table table-striped table-hover table-sm table-responsive'> 
 	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Course </th> 
 	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> School </th> 
 	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Title </th> 
 	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Description </th>
-    <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Exam Date </th> 
+  <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Exam Date </th> 
 	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Exam Start </th> 
-	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Exam End </th> 
-	<td scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> </td>";
+  <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Exam End </th>";
+  if ($status == 'active')
+  {
+    echo "<td scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> </td>";
+  }
+	
     foreach ($courses as $course)
     {
         echo "<tr> 
@@ -91,15 +94,59 @@ elseif($round == 2){
                 <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->description} </td>
                 <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->exam_date} </td>
                 <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->exam_start} </td>
-                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->exam_end} </td>
-                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> <a href = 'bidding.php?course={$course->course}'> Select </a> </td> 
-			</tr>";
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->exam_end} </td>";
+        if ($status == 'active')
+        {
+              echo "<td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> <a href = 'bidding.php?course={$course->course}'> Select </a> </td> 
+                </tr>";
+        }
     }
     echo "</table>";
+}
 
+if ($round == 2)
+{
+  #retrieve all courses
+  $courseDAO = new CourseDAO();
+  $courses = $courseDAO->retrieveAll();
+
+  echo "<div class='card bg-light mb-3'>";
+	echo "<div class='card-header'>List of Biddable Modules</div>";
+	echo " </div>";
+
+    echo "<table style='margin-bottom:30px;border-style:solid;border-width: 1.5px 1.5px 1.5px 1.5px;' class='table table-striped table-hover table-sm table-responsive'> 
+	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Course </th> 
+	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> School </th> 
+	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Title </th> 
+	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Description </th>
+  <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Exam Date </th> 
+	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Exam Start </th> 
+	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Exam End </th> ";
+	if ($status == 'active')
+  {
+    echo "<td scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> </td>";
+  }
+	
+    foreach ($courses as $course)
+    {
+        echo "<tr> 
+				<td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->course} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->school} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->title} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->description} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->exam_date} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->exam_start} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->exam_end} </td>";
+        if ($status == 'active')
+        {
+              echo "<td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> <a href = 'bidding.php?course={$course->course}'> Select </a> </td> 
+                </tr>";
+        }
+    }
+    echo "</table>";
+}
 ?>
-
-</div>
+			</div>
 		</div>
 	</div>
 	</main>
