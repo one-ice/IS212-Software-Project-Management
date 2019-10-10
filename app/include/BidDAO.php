@@ -142,7 +142,28 @@ class BidDAO {
 
         return $isUpdateOk;
     }
+    
+    public function updateAll($userid, $code, $section, $amount, $status) {
+        $sql = 'UPDATE bid SET amount=:amount, status=:status, section=:section WHERE userid=:userid and code=:code';      
         
+        $connMgr = new ConnectionManager();           
+        $conn = $connMgr->getConnection();
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindParam(':userid', $userid, PDO::PARAM_STR);
+        $stmt->bindParam(':section', $section, PDO::PARAM_STR);
+        $stmt->bindParam(':code', $code, PDO::PARAM_STR);
+        $stmt->bindParam(':amount', $amount, PDO::PARAM_INT);
+        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+
+        $isUpdateOk = False;
+        if ($stmt->execute()) {
+            $isUpdateOk = True;
+        }
+
+        return $isUpdateOk;
+    }
+
     public function remove($userid, $code ) {
         $sql = 'DELETE FROM bid WHERE userid = :userid AND code = :code';
         
