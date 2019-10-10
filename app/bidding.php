@@ -69,6 +69,10 @@ if (isset($_POST['back']))
 
 if(isset($_POST['submit']))
 {
+    $difference = 0;
+    $errors = [];
+    $bid_amt = 0;
+    $bidDAO = new BidDAO();
     $roundDAO = new RoundDAO();
     $round = $roundDAO->retrieveAll();
     #this part the $round retrieves an OBJECT so that we know the round and the status
@@ -78,30 +82,55 @@ if(isset($_POST['submit']))
 
     if ($errors == [])
     {
-        $bid = new Bid();
-        $bid->userid = $username;
-        $bid->amount = $bid_amt;
-        $bid->code = $course;
-        $bid->section = $bid_section;
-        $bid->status = "pending";
-
-        #Add bid
-        $bidDAO = new BidDAO();
-        $status = $bidDAO->add($bid);
-
-
-        if($status == True)
+        $bid_exist = $bidDAO->retrieveBid($username,$course);
+        if (($bid_exist != null) && ($bid_exist->status == 'pending') && ($round->round == 1) && ($round->status == 'active') )
         {
-            #if ( ($round->round == 1)  && ($round->status == 'active') ){
-                $amount_left = $studentedollar - $bid_amt;
-                $studentDAO->update($username, $amount_left);
-                // header("Location: bidding.php?course=$course");
-                echo "<p> Bid placed successfully! 
-                            Amount left: $$amount_left </p>";
-            #}
+            $bid_status = 'pending';
+            $status = $bidDAO->updateAll($username,$course,$bid_section,$bid_amt, $bid_status);
 
-            if ( ($round->round == 2) && ($round->status == 'active') ){
-                second_bid_valid($_SESSION['username'], $course, $_POST['section'], $_POST['bid_amt']);
+            $previous_bid_amt = $bid_exist->amount;
+            if ($previous_bid_amt >= $bid_amt)
+            {
+                $difference = $previous_bid_amt - $bid_amt;
+                $amount_left = $studentedollar + $difference;
+                $studentDAO->update($username, $amount_left);
+            }
+            elseif ($bid_amt >= $previous_bid_amt)
+            {
+                $difference = $bid_amt - $previous_bid_amt;
+                $amount_left = $studentedollar - $difference;
+                $studentDAO->update($username, $amount_left);
+            }   
+            echo "<p> Bid updated successfully! 
+                    Amount left: $$amount_left </p>";
+        }
+        elseif ($bid_exist == null)
+        {
+            $bid = new Bid();
+            $bid->userid = $username;
+            $bid->amount = $bid_amt;
+            $bid->code = $course;
+            $bid->section = $bid_section;
+            $bid->status = "pending";
+
+            #Add bid
+            $bidDAO = new BidDAO();
+            $status = $bidDAO->add($bid);
+
+
+            if($status == True)
+            {
+                #if ( ($round->round == 1)  && ($round->status == 'active') ){
+                    $amount_left = $studentedollar - $bid_amt;
+                    $studentDAO->update($username, $amount_left);
+                    // header("Location: bidding.php?course=$course");
+                    echo "<p> Bid placed successfully! 
+                                Amount left: $$amount_left </p>";
+                #}
+
+                if ( ($round->round == 2) && ($round->status == 'active') ){
+                    second_bid_valid($_SESSION['username'], $course, $_POST['section'], $_POST['bid_amt']);
+                }
             }
         }
     }
