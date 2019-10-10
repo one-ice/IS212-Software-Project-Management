@@ -79,7 +79,7 @@ if(isset($_POST['submit']))
     $errors = meetCriteria($_SESSION['username'],$_POST['bid_amt'],$course,$_POST['section'],$round);
     $bid_amt = $_POST['bid_amt'];
     $bid_section = $_POST['section'];
-
+    
     if ($errors == [])
     {
         $bid_exist = $bidDAO->retrieveBid($username,$course);
@@ -104,6 +104,30 @@ if(isset($_POST['submit']))
             echo "<p> Bid updated successfully! 
                     Amount left: $$amount_left </p>";
         }
+        elseif (($bid_exist != null) && ($bid_exist->status == 'unsuccessful') && ($round->round == 2) && ($round->status == 'active'))
+        {
+            $bid_status = 'pending';
+            $status = $bidDAO->updateAll($username,$course,$bid_section,$bid_amt, $bid_status);
+
+            if ($status == True)
+            {
+                $state = second_bid_valid($_SESSION['username'], $course, $_POST['section'], $_POST['bid_amt']);
+                if ($state == 'Successful')
+                {
+                    $bid_status = 'successful';
+                }
+                else
+                {
+                    $bid_status = 'unsuccessful';
+                }
+                $bidDAO->update($username,$course,$bid_status);
+                $amount_left = $studentedollar - $bid_amt;
+                $studentDAO->update($username, $amount_left);
+                echo "<p> Bid placed successfully! 
+                    Amount left: $$amount_left </p>";
+            }
+        }
+        
         elseif ($bid_exist == null)
         {
             $bid = new Bid();
@@ -146,7 +170,7 @@ if(isset($_POST['submit']))
             {   
                 echo "<li> $error </li>";
             }
-            echo "<ul>";
+            echo "</ul>";
     }
 
 }
