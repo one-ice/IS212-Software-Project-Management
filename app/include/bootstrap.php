@@ -502,6 +502,10 @@ function doBootstrap() {
                 $roundDAO->removeAll();
                 $roundDAO->add( new Round(1, 'active') );
 
+                $admin = new StudentDAO();
+                $admin->add(new Student('admin','Help@123', 'admin', "", ""));
+
+
             }
         }
     }
