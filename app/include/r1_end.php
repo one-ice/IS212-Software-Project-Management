@@ -4,7 +4,8 @@
 
     first_clearing();
     $roundDAO = new roundDAO();
-
+    $bidDAO = new bidDAO;
+    $bidDAO->removeAll();
     $round = 1;
     $status = "Inactive";
 
