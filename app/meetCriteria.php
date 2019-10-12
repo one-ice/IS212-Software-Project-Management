@@ -3,27 +3,25 @@ spl_autoload_register(function($class){
     require_once "app/include/$class.php"; 
 });
 
-// $stuID = $_SESSION['username'];
-// $edollar = $_POST['edollar'];
-// $courseCode = $_POST['coursecode'];
-// $section = $_POST['sectionnum'];
-// $status = 'round 1';
-
 #if no errors, you show them success message, add into
 
-function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
+function meetCriteria($stuID,$edollar,$courseCode,$section,$status){
 
     $connMgr = new ConnectionManager();
     $conn = $connMgr->getConnection();
 
     $errors = [];
 
-    // validate enough edollar
+    
     $stuDAO = new StudentDAO();
     $student = $stuDAO->retrieve($stuID);
 
-    $dollarAmount = $student->edollar;
+    // course_comp
+    $courseCompDAO = new Course_CompletedDAO();
+    $courseComp = $courseCompDAO->retrieve($stuID);
 
+    // validate enough edollar
+    $dollarAmount = $student->edollar;
     if($edollar < 10.00){
         $errors[] = 'invalid amount';
     }
@@ -34,10 +32,18 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
     // validate finishing prereq:
     $prereqDAO = new PrereqDAO();
     if ($prereq = $prereqDAO->retrieve($courseCode)){
-        $courseCompDAO = new Course_CompletedDAO();
-        $courseComp = $courseCompDAO->retrieve($stuID);
-        if(in_array($prereq,$courseComp) == FALSE){
-            $errors[] = "incompleted prerequisite";
+        
+        foreach($prereq as $prereqCourse){            
+            if(in_array($prereqCourse->prerequisite,$courseComp) == FALSE){
+                $errors[] = "incompleted prerequisite";
+            }
+        }  
+    }
+
+    // validate course completed
+    foreach($courseComp as $eachCourseComp){
+        if($eachCourseComp == $courseCode){
+            $errors[] = "course completed";
         }
     }
     // validate course and section
@@ -46,15 +52,14 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
     $studentClass = $studentDAO->retrieve($stuID);
     if($courseClass = $courseDAO->retrieve($courseCode)){
         $sectionDAO = new SectionDAO();
-        if($round->round == 1){
+        if($status == "round 1"){
             if($courseClass->school == $studentClass->school ){
                 $errors[] = "not own school course";
             }
         }
-
         if($sectionDAO->retrieve($courseCode,$section)){
 
-            // validate no clash time and one section percourse
+            // validate no clash time and one section per course
             $bidDAO = new BidDAO();
             $allBidded = $bidDAO->retrieve($stuID);
 
@@ -66,6 +71,7 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
                         // one section per course
                         $bidCourse = $bid->code;
                         $bidSection = $bid->section;
+                        
                         if($bidCourse == $courseCode){
                             $errors[] = "course completed";
                         }
@@ -109,33 +115,6 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
     else{
         $errors[] = "not school course";
     }
-
-    #added round 2 validation
-
-    $sectionDAO = new SectionDAO();
-    $min_bid = $sectionDAO->retrieveMinBid($courseCode, $section); 
-
-    if ($round->round == 2){
-        
-        if ($edollar < $min_bid){
-            $errors[] = 'bid too low';
-        }
-
-    }
-
-    if ($round->status == 'inactive'){
-        $errors[] = 'round ended';
-    }
-    #add vacancy validation
-    $sectionstuDAO = new SectionStudentDAO();
-    $taken = $sectionstuDAO->retrieveVacancy($courseCode, $section);
-    $sectionObj = $sectionDAO->retrieve($courseCode, $section);
-    $full_size = $sectionObj->size;
-    $vacancy = $full_size - $taken;
-    if ($vacancy <= 0){
-        $errors[] = 'no vacancy';
-    }
-
     return $errors;
 }
 ?>
