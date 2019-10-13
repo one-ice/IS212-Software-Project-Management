@@ -90,14 +90,15 @@ if (count($sections) != 0)
     echo "<tr> <td colspan  = '5'> Section: </td> <td> <select name = 'section' style='width: 80px'>";
     foreach ($sections as $section)
     {
-        echo " <option value = '$section->section'> $section->section </option>";
+        echo "<tr>
+				<td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$section->section} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$days[$section->day -1]} </td> 
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$section->start} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$section->end} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$section->instructor} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$section->venue} </td>
+			</tr>";
     }
-    echo "</select></td></tr>";
-    echo "<tr> <td colspan = '5'> Bid Amount: </td> <td> <input type = 'text' name = 'bid_amt' style = 'width: 80px'></input> </td></tr></table>";
-    echo "<tr> <td> <input type = 'submit' name = 'back' value = 'Back' > </input> </td>";
-    echo "<td> <input type = 'submit' name = 'submit' value = 'Submit'></input> </td> </tr>";
-    echo"</table><br>";
-}
 else
 {
     echo "<p> No sections available to bid </p>";
