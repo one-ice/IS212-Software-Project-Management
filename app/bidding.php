@@ -13,7 +13,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 
-
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #01579b">
   <a class="navbar-brand" href="#" style="color:white;">BIOS: Bidding</a>
@@ -35,18 +34,27 @@
 </nav>
 <!-- Navigation Bar -->
 
+<body class="d-flex flex-column h-100" style="background-color: #eeeeee;">
+	<main role="main" class="flex-shrink-0">
+<div class="container">
+
+
 <?php
-include_once "include/common.php"; 
+include_once "app/include/common.php"; 
 include_once "meetCriteria.php";
-require_once 'include/clearing2.php';
+require_once 'app/include/clearing2.php';
 
 $course = $_GET['course'];
 $username = $_SESSION['username'];
+$name = explode(".", $username);
+$firstName = ucfirst($name[0]);
+$lastName = ucfirst($name[1]);
 $studentDAO =  new StudentDAO();
-$studentedollar = ($studentDAO->retrieve($username))->edollar;
+$studentedollar = 200;#($studentDAO->retrieve($username))->edollar;
 if (!isset($_POST['submit']))
 {
-    echo "<p> You have $$studentedollar.</p>";
+#	echo "<div class='card bg-light mb-3' style='margin-top:30px;'>";
+#	echo "<div class='card-header'>$firstName $lastName, you have $$studentedollar in your account.</div></div>";
 }
 
 ?>
@@ -55,7 +63,7 @@ if (!isset($_POST['submit']))
 <?php
 
 $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-echo "Course: <label for = 'course'>$course</label> <br>";
+
 
 #Get section for selected course
 $sectionDAO = new SectionDAO();
@@ -63,12 +71,7 @@ $sectionDAO = new SectionDAO();
 $sections = $sectionDAO->retrievebyCourse($course);
 if (count($sections) != 0)
 {
-    echo "<br><table border = '1'>
-        <tr> <th> Section </th> <th> Day </th> <th> Start </th>
-        <th> End </th> <th> Instructor </th> <th>	Venue </th> </tr>";
-    foreach ($sections as $section)
-    {
-        echo "<br>
+    echo "<br>
 		<div class='container'>
 		<div class='row'>
 		<div class='col-sm'>
@@ -84,10 +87,6 @@ if (count($sections) != 0)
 		<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Instructor </th> 
 		<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Venue </th> 
 		</tr>";
-    }
-
-    echo "</table><table border = '1'>";
-    echo "<tr> <td colspan  = '5'> Section: </td> <td> <select name = 'section' style='width: 80px'>";
     foreach ($sections as $section)
     {
         echo "<tr>
@@ -99,6 +98,48 @@ if (count($sections) != 0)
                 <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$section->venue} </td>
 			</tr>";
     }
+
+    echo "</table></div></div></div>";
+
+	echo "<div class='col-sm'>
+			<div class='card bg-light mb-3' style='margin-top:30px;'>
+			<div class='card-header'>$firstName $lastName, you have $$studentedollar in your account</div>
+			<div class='card-body'>
+			<div class='row'>
+			<div class='col-sm'>
+			Section: 
+			<select name = 'section' style='width: 80px'>";
+			foreach ($sections as $section)
+    {
+        echo " <option value = '$section->section'> $section->section </option>";
+    }
+	echo "</select>
+		<br/>
+		</div>";
+			
+	echo "<div class='col-sm'>
+	Bid Amount: 
+	<input type = 'text' name = 'bid_amt' style = 'width: 80px'></input>
+	</div>
+	</div>
+	<br/>
+
+	<div class='row'>
+	<div class='col-sm align-self-start'>
+	<a href='bidhome.php'><div type = 'submit' name = 'back' value = 'Back' class='btn btn-outline-dark'>Back </div></a>
+	</div>
+	<div class='col-smalign-self-end'>
+	<input type = 'submit' name = 'submit' value = 'Submit' class='btn btn-outline-primary' style='margin-right: 10px;'></input>
+	</div>
+	</div>
+	 
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	<br>";
+}
 else
 {
     echo "<p> No sections available to bid </p>";
@@ -109,11 +150,7 @@ else
 
 <?php
 
-if (isset($_POST['back']))
-{
-    header("Location: bidhome.php");
-    return;
-}
+
 
 if(isset($_POST['submit']))
 {
@@ -223,6 +260,12 @@ if(isset($_POST['submit']))
 
 }
 ?>
+
+</div>
+		</div>
+	</div>
+	</main>
+	</body>
 
 <footer class="footer mt-auto py-3" style="background-color: #01579b;">
   <div class="container">
