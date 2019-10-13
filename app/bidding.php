@@ -191,3 +191,9 @@ if(isset($_POST['submit']))
 }
 ?>
 
+<footer class="footer mt-auto py-3" style="background-color: #01579b;">
+  <div class="container">
+    <span style="float:left;color:white">&copy;2019 echo "T4";</span>
+	<span style="float:right;color:white;">All Rights Reserved</span>
+  </div>
+</footer>
