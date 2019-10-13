@@ -68,12 +68,22 @@ if (count($sections) != 0)
         <th> End </th> <th> Instructor </th> <th>	Venue </th> </tr>";
     foreach ($sections as $section)
     {
-        echo "<tr> <td> {$section->section} </td>
-                    <td> {$days[$section->day -1]} </td> 
-                    <td> {$section->start} </td>
-                    <td> {$section->end} </td>
-                    <td> {$section->instructor} </td>
-                    <td> {$section->venue} </td></tr>";
+        echo "<br>
+		<div class='container'>
+		<div class='row'>
+		<div class='col-sm'>
+		<div class='card bg-light mb-3' style='margin-top:30px;'>
+		<div class='card-header'>Course selected: <label for = 'course'>$course</label></div>
+		<div class='card-body'>
+		<table style='margin-bottom:30px;border-style:solid;border-width: 1.5px 1.5px 1.5px 1.5px;' class='table table-striped table-hover table-sm table-responsive'>
+        <tr> 
+		<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Section </th> 
+		<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Day </th> 
+		<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Start </th>
+        <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> End </th> 
+		<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Instructor </th> 
+		<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Venue </th> 
+		</tr>";
     }
 
     echo "</table><table border = '1'>";
