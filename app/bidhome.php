@@ -25,6 +25,9 @@
       <li class="nav-item active">
         <a class="nav-link" style="color:white;" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
+      <li class="nav-item active">
+        <a class="nav-link" style="color:white;" href="drop-bid-form.php">Drop Bid <span class="sr-only">(current)</span></a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" style="color:white;" href="logout.php">Logout</a>
       </li>
