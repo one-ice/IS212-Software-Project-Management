@@ -51,7 +51,6 @@ echo "<div class='card-body'>";
 $roundDAO = new RoundDAO();
 $round = (($roundDAO->retrieveAll())->round);
 $status = (($roundDAO->retrieveAll())->status);
-echo $status;
 
 #Retrieve student's edollar
 $studentDAO =  new StudentDAO();
