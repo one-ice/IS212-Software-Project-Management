@@ -1,5 +1,6 @@
 <?php
 include_once "../include/common.php"; 
+require_once "../include/clearing1.php";
 
 $roundDAO = new RoundDAO();
 $roundObj = $roundDAO->retrieveAll();
@@ -15,12 +16,16 @@ if ($statusNow == 'active'){
         $result = [ 
             "status" => "success",
         ];
+
+        first_clearing();
     }
     elseif ($roundNow == 2){
         $roundDAO->updateRound(2, "inactive");
         $result = [ 
             "status" => "success",
         ];
+
+        first_clearing();
     }
 
 }
