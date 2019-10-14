@@ -19,6 +19,25 @@ class SectionStudentDAO {
         return $result;
     }
 
+    # for each stu, retrieve info
+    public  function retrieveByUserID($userid){
+        $sql = 'SELECT * FROM `section-student` WHERE userid = :userid ORDER BY code, section DESC';
+            
+        $connMgr = new ConnectionManager();      
+        $conn = $connMgr->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':userid', $userid, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+        $result = array();
+
+        while($row = $stmt->fetch()) { 
+            $result[] = new SectionStudent($row['userid'], $row['code'], $row['section'], $row['amount']);
+        }
+            
+        return $result;
+    }    
+
     #get a distinct array of [code and section]
     public  function retrieveCodeSection() {
         $sql = 'SELECT DISTINCT code, section FROM `section-student` ORDER BY code, section';

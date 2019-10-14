@@ -55,6 +55,11 @@ $studentedollar = ($studentDAO->retrieve($username))->edollar;
 echo "<h5 class='card-title'>Round $round</h5>";
 echo "<p class='card-text'>You have $$studentedollar</p>";
 echo "</div></div>";
+# view bidding status button
+echo "<form action = 'bidding_status.php' >";
+echo "<input type = 'submit' name = 'view bidding status' value ='view bidding status'>";
+echo "</form>";
+
 echo "<div class='row' style='margin-top:30px;'>";
 echo "<div class='col-sm'>";
 
