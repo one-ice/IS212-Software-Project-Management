@@ -62,42 +62,41 @@ echo "</div></div>";
 echo "<div class='row' style='margin-top:30px;'>";
 echo "<div class='col-sm'>";
 
-if ($round == 1)
+
+#Retrieve modules
+$BidDAO = new BidDAO();
+$mods = [];
+$mods = $BidDAO->retrieve($username);
+echo "<div class='card bg-light mb-3'>";
+echo "<div class='card-header'>List of Modules Bidded</div>";
+echo " </div>";
+
+if ($status == 'active' && $mods != [])
 {
-  #Retrieve modules
-  $BidDAO = new BidDAO();
-  $mods = [];
-	$mods = $BidDAO->retrieve($username);
-	echo "<div class='card bg-light mb-3'>";
-	echo "<div class='card-header'>List of Modules Bidded</div>";
-	echo " </div>";
+  echo "<table style='margin-bottom:30px;border-style:solid;border-width: 1.5px 1.5px 1.5px 1.5px;' class='table table-striped table-hover table-sm table-responsive'> 
+  <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Module Code </th> 
+  <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Section </th> 
+  <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Amount </th>";
 
-  if ($status == 'active' && $mods != [])
-  {
-    echo "<table style='margin-bottom:30px;border-style:solid;border-width: 1.5px 1.5px 1.5px 1.5px;' class='table table-striped table-hover table-sm table-responsive'> 
-    <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Module Code </th> 
-    <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Section </th> 
-    <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Amount </th>";
+  echo "<td scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> </td>";
 
-    echo "<td scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> </td>";
-	
-    foreach ($mods as $mods)
-    {
-	
-        echo "<tr> 
-				<td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$mods->code} </td>
-                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$mods->section} </td>
-                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$mods->amount} </td>
-                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> <a href = 'drop-bid.php?code={$mods->code}'> Select </a> </td> 
-                </tr>";
-    }
-    echo "</table>";
-  }
-  else
+  foreach ($mods as $mods)
   {
-    echo "No bids available to drop";
+
+      echo "<tr> 
+      <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$mods->code} </td>
+              <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$mods->section} </td>
+              <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$mods->amount} </td>
+              <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> <a href = 'drop-bid.php?code={$mods->code}'> Select </a> </td> 
+              </tr>";
   }
+  echo "</table>";
 }
+else
+{
+  echo "No bids available to drop";
+}
+
 
 ?>
 			</div>
