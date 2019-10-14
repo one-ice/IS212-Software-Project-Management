@@ -40,9 +40,9 @@
 
 
 <?php
-include_once "app/include/common.php"; 
+include_once "include/common.php"; 
 include_once "meetCriteria.php";
-require_once 'app/include/clearing2.php';
+require_once 'include/clearing2.php';
 
 $course = $_GET['course'];
 $username = $_SESSION['username'];
