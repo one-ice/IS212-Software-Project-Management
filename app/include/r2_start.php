@@ -5,7 +5,7 @@
     $roundDAO = new RoundDAO();
 
     $round = 2;
-    $status = "Active";
+    $status = "active";
 
     $update_status = $roundDAO->updateRound($round,$status);
     if ($update_status){
