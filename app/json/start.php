@@ -11,6 +11,7 @@ $statusNow = $roundObj->status;
 $round = 0;
 $status = "";
 
+
 if ($statusNow == 'active'){
     if ($roundNow == 1){
         $round = 1;
@@ -27,19 +28,33 @@ if ($statusNow == 'active'){
 
 }
 else{
-    if ($roundNow == 1){
-        $round = 1;
+    if ($roundNow == 0){
+
+        $roundDAO->updateRound(1, "active");
+        $status = "success";
+        $result = [ 
+            "status" => $status,
+            "round" => $round
+        ];
+    }
+    elseif ($roundNow == 1){
+        $roundDAO->updateRound(2, "active");
+        $status = "success";
+        $result = [ 
+            "status" => $status,
+            "round" => $round
+        ];
+
     }
     elseif ($roundNow == 2){
-        $round = 2;
+        $round = 2;   
+        $status = "error";
+        $result = [ 
+            "status" => $status,
+            "message" => "round $round ended"
+        ];
     }
     
-    $status = "error";
-    
-    $result = [ 
-        "status" => $status,
-        "message" => "round $round ended"
-    ];
 
 }
 
