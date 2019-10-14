@@ -8,7 +8,6 @@ $roundObj = $roundDAO->retrieveAll();
 $roundNow = $roundObj->round;
 $statusNow = $roundObj->status;
 
-$round = 0;
 $status = "";
 
 
@@ -31,30 +30,28 @@ else{
     if ($roundNow == 0){
 
         $roundDAO->updateRound(1, "active");
-        $status = "success";
+   
         $result = [ 
-            "status" => $status,
-            "round" => $round
+            "status" => "success",
+            "round" => 1
         ];
     }
     elseif ($roundNow == 1){
         $roundDAO->updateRound(2, "active");
-        $status = "success";
+ 
         $result = [ 
-            "status" => $status,
-            "round" => $round
+            "status" => "success",
+            "round" => 2
         ];
 
     }
     elseif ($roundNow == 2){
-        $round = 2;   
-        $status = "error";
+
         $result = [ 
-            "status" => $status,
-            "message" => "round $round ended"
+            "status" => "error",
+            "message" => [ "round 2 ended" ]
         ];
     }
-    
 
 }
 
