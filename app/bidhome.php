@@ -51,6 +51,7 @@ echo "<div class='card-body'>";
 $roundDAO = new RoundDAO();
 $round = (($roundDAO->retrieveAll())->round);
 $status = (($roundDAO->retrieveAll())->status);
+echo $status;
 
 #Retrieve student's edollar
 $studentDAO =  new StudentDAO();
@@ -130,7 +131,7 @@ if ($round == 2)
   <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Exam Date </th> 
 	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Exam Start </th> 
 	<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Exam End </th> ";
-	if ($status == 'active')
+	if ($status == 'Active')
   {
     echo "<td scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> </td>";
   }
@@ -145,7 +146,7 @@ if ($round == 2)
                 <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->exam_date} </td>
                 <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->exam_start} </td>
                 <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->exam_end} </td>";
-        if ($status == 'active')
+        if ($status == 'Active')
         {
               echo "<td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> <a href = 'bidding.php?course={$course->course}'> Select </a> </td> 
                 </tr>";
