@@ -1,6 +1,6 @@
 <?php
 spl_autoload_register(function($class){
-    require_once "app/include/$class.php"; 
+    require_once "include/$class.php"; 
 });
 
 #if no errors, you show them success message, add into
@@ -20,15 +20,26 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
     $courseCompDAO = new Course_CompletedDAO();
     $courseComp = $courseCompDAO->retrieve($stuID);
 
-        // validate courseComp
-        $courseC = [];
-        foreach($courseComp as $cp){   
-            if($cp->code == $courseCode){
-                $errors[] = "Course Completed";
-            }
-            $courseC[] = $cp->code;
+    // validate courseComp
+    $courseC = [];
+    foreach($courseComp as $cp){   
+        if($cp->code == $courseCode){
+            $errors[] = "course completed";
         }
+        $courseC[] = $cp->code;
+    }
 
+        
+    // validate the course in SectionStudent
+    if($round->round == 2){
+        $sectionStuDAO = new SectionStudentDAO();
+        $sectionStu = $sectionStuDAO->retrieveByUserID($stuID);
+        foreach($sectionStu as $sectStu){
+            if($courseCode == $sectStu->code){
+                $errors[] = "course completed";
+            }
+        }
+    }
     // validate enough edollar
     $dollarAmount = $student->edollar;
     if($edollar < 10.00){
@@ -49,12 +60,6 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
         }  
     }
 
-    // // validate course completed
-    // foreach($courseComp as $eachCourseComp){
-    //     if($eachCourseComp == $courseCode){
-    //         $errors[] = "course completed";
-    //     }
-    // }
 
     // validate course and section
     $courseDAO = new CourseDAO();
@@ -62,17 +67,12 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
     $studentClass = $studentDAO->retrieve($stuID);
     if($courseClass = $courseDAO->retrieve($courseCode)){
         $sectionDAO = new SectionDAO();
-        if($round->round == 1){
-            if($courseClass->school == $studentClass->school ){
-                $errors[] = "not own school course";
-            }
-        }
         if($sectionDAO->retrieve($courseCode,$section)){
 
             // validate no clash time and one section per course
             $bidDAO = new BidDAO();
             $allBidded = $bidDAO->retrieve($stuID);
-
+            
             if(count($allBidded) < 5){
 
                 if(count($allBidded) > 0){
@@ -81,7 +81,7 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
                         // one section per course
                         $bidCourse = $bid->code;
                         $bidSection = $bid->section;
-                        
+                        // var_dump($bidCourse);
                         if($bidCourse == $courseCode){
                             $errors[] = "course completed";
                         }

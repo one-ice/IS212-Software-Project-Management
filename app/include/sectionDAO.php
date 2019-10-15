@@ -16,6 +16,31 @@ class sectionDAO{
             $result[] = new Section($row['course'], $row['section'],$row['day'],$row['start'],
             $row['end'], $row['instructor'],$row['venue'],$row['size'], $row['min_bid']);
         }
+
+        var_dump($result);
+        echo"yes";
+        return $result;
+    }
+
+    public function retrieveByCourseAndSection($course,$section){
+        $sql = 'SELECT * FROM section where course = :course and section = :section';
+        $connMgr = new ConnectionManager();      
+        $conn = $connMgr->getConnection();
+    
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':course', $course, PDO::PARAM_STR);
+        $stmt->bindParam(':section', $section, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+    
+        $result = array();
+    
+        while($row = $stmt->fetch()) {
+            $result[] = new Section($row['course'], $row['section'],$row['day'],$row['start'],
+            $row['end'], $row['instructor'],$row['venue'],$row['size'], $row['min_bid']);
+        }
+
+        return $result;
     }
 
     public  function retrievebyCourse($course) {

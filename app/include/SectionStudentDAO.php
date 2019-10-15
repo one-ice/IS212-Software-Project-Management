@@ -20,7 +20,7 @@ class SectionStudentDAO {
     }
 
     # for each stu, retrieve info
-    public  function retrieveByUserID($userid){
+    public function retrieveByUserID($userid){
         $sql = 'SELECT * FROM `section-student` WHERE userid = :userid ORDER BY code, section DESC';
             
         $connMgr = new ConnectionManager();      

@@ -2,17 +2,20 @@
 spl_autoload_register(function($class){
     require_once "include/$class.php"; 
 });
-session_start();
+include_once "meetCriteria.php";
+require_once 'include/clearing2.php';
+// session_start();
 # round 0, round 1 active, round 1 inactive, round 2 active, round 2 inactive
 # in round 0, students can only see "not avalible"
 # in round 1 active, all the status of courses should be "pending" (retrieve from "bidDAO")
 # in round 1 inactive and round 2 inactive, stu can see "successful" and "unsuccessful" (retrieve from sectionStudent and fail_bid)
 # in round 2 active, student can see "successful" "unsuccessful"
-$round = 1;
-// $round = 2;
-// $round = 0;
-$status = "active";
-// $status = "inactive";
+$roundDAO = new RoundDAO();
+$roundR= $roundDAO->retrieveAll();
+$round = $roundR->round;
+$status = $roundR->status;
+// echo $round;
+// echo $status;
 
     # retrieve the courses the user successfully bid
     $sectionStuDAO = new SectionStudentDAO();
@@ -27,12 +30,17 @@ $status = "active";
     $pendingInfo = $BidDAO->retrieve($_SESSION["username"]);
     
     echo $_SESSION['username'];
+    echo "</br></br>";
 
 # showing the status in each round and status
 if($round == 0){
     echo "not avalible";
-}elseif(($round == 1  && empty($pendingInfo)) || 
-    ($round == 2 && $status == "active" && empty($pendingInfo) && empty($failBidInfo) && empty($successIno))){
+}elseif($round == 1 && $status == "active" && empty($pendingInfo)){
+    echo "<br/>you haven't bidded a course";
+}elseif($round == 1 && $status == "inactive" && empty($successInfo)){
+    echo "<br/>you haven't bidded a course";
+}elseif($round == 2 && $status == "active" && empty($pendingInfo) && empty($failBidInfo) && empty($successIno)){
+    // var_dump($successInfo);
     echo "<br/>you haven't bidded a course";
 }
 elseif($round == 1 && $status == "active"){
@@ -60,7 +68,7 @@ elseif($round == 1 && $status == "active"){
         <td>Bid Amount</td>
         <td>Status</td></tr>";
         if($successInfo){
-            foreach ($successInfo as $sucsess){
+            foreach ($successInfo as $success){
                 echo"<tr><td>{$success->code}</td>
                     <td>{$success->section}</td>
                     <td>{$success->amount}</td>
@@ -88,7 +96,7 @@ elseif($round == 1 && $status == "active"){
         <td>Bid Amount</td>
         <td>Status</td></tr>";
     if($successInfo){
-        foreach ($successInfo as $sucsess){
+        foreach ($successInfo as $success){
             echo"<tr><td>{$success->code}</td>
                 <td>{$success->section}</td>
                 <td>{$success->amount}</td>
@@ -119,17 +127,17 @@ if($round == 2 && $status == "active"){
     <td>minimum bid</td></tr>";
 
     # retrieve from minbid table
-    $SectionDAO = new Section();
+    $SectionDAO = new SectionDAO();
     
     if($pendingInfo){
         foreach ($pendingInfo as $pending){
-            $minBidInfo = $Section->retrieveByCourseAndSection($pending->code,$pending->section);
-            $R2status = second_bid_valid($SESSION['username'],$pending->code, $pending->section, $pending->amount);
+            $minBidInfo = $SectionDAO->retrieveByCourseAndSection($pending->code,$pending->section);
+            $R2status = second_bid_valid($_SESSION['username'],$pending->code, $pending->section, $pending->amount);
             echo"<tr><td>{$pending->code}</td>
                 <td>{$pending->section}</td>
                 <td>{$pending->amount}</td>
                 <td>{$R2status}</td>
-                <td>{$minBidInfo->minBid}</td>
+                <td>{$minBidInfo[0]->min_bid}</td>
                 </tr>";
         }
     }

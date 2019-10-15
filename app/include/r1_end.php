@@ -7,7 +7,7 @@
     $bidDAO = new bidDAO;
     $bidDAO->removeAll();
     $round = 1;
-    $status = "Inactive";
+    $status = "inactive";
 
     $update_status = $roundDAO->updateStatus($round,$status);
     if ($update_status){
