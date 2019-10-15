@@ -67,6 +67,7 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
     $studentClass = $studentDAO->retrieve($stuID);
     if($courseClass = $courseDAO->retrieve($courseCode)){
         $sectionDAO = new SectionDAO();
+   
         if($sectionDAO->retrieve($courseCode,$section)){
 
             // validate no clash time and one section per course
