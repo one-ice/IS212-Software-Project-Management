@@ -50,12 +50,7 @@ $name = explode(".", $username);
 $firstName = ucfirst($name[0]);
 $lastName = ucfirst($name[1]);
 $studentDAO =  new StudentDAO();
-$studentedollar = 200;#($studentDAO->retrieve($username))->edollar;
-if (!isset($_POST['submit']))
-{
-#	echo "<div class='card bg-light mb-3' style='margin-top:30px;'>";
-#	echo "<div class='card-header'>$firstName $lastName, you have $$studentedollar in your account.</div></div>";
-}
+$studentedollar = ($studentDAO->retrieve($username))->edollar;
 
 ?>
 <html>
@@ -168,7 +163,7 @@ if(isset($_POST['submit']))
     if ($errors == [])
     {
         $bid_exist = $bidDAO->retrieveBid($username,$course);
-        if (($bid_exist != null) && ($bid_exist->status == 'pending') && ($round->round == 1) && ($round->status == 'active') )
+        if (($bid_exist != null) && ($bid_exist->status == 'pending') && ($round->round == 1) && ($round->status == 'active') && ($bid_exist->code == $course))
         {
             $bid_status = 'pending';
             $status = $bidDAO->updateAll($username,$course,$bid_section,$bid_amt, $bid_status);
@@ -189,7 +184,7 @@ if(isset($_POST['submit']))
             echo "<p> Bid updated successfully! 
                     Amount left: $$amount_left </p>";
         }
-        elseif (($bid_exist != null) && ($bid_exist->status == 'unsuccessful') && ($round->round == 2) && ($round->status == 'active'))
+        elseif (($bid_exist != null) && ($bid_exist->status == 'unsuccessful') && ($round->round == 2) && ($round->status == 'active') && ($bid_exist->code == $course))
         {
             $bid_status = 'pending';
             $status = $bidDAO->updateAll($username,$course,$bid_section,$bid_amt, $bid_status);
