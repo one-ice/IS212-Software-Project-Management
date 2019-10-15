@@ -62,7 +62,7 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
     $studentClass = $studentDAO->retrieve($stuID);
     if($courseClass = $courseDAO->retrieve($courseCode)){
         $sectionDAO = new SectionDAO();
-        if($round == "round 1"){
+        if($round->round == 1){
             if($courseClass->school == $studentClass->school ){
                 $errors[] = "not own school course";
             }
@@ -103,9 +103,7 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
                                         if (($bidSectionClass->end < $addCourseClass->start || $addCourseClass->end < $bidCourseClass->start) == FALSE){
                                             $errors[] = "exam timetable clash";
                                         }
-                                        else{
-                                            $bid = new Bid($stuID,$edollar,$courseCode,$section,);
-                                        }
+                                       
                                     }
                                 }
                             }
