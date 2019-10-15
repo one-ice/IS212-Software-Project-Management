@@ -160,7 +160,7 @@ function doBootstrap() {
 
                
                 /****************start Course*****************/
-                $courseDAO =  new courseDAO();
+                $courseDAO =  new CourseDAO();
                 
                 # truncate current SQL tables
                 $courseDAO-> removeAll();
@@ -192,7 +192,7 @@ function doBootstrap() {
                         array_push($errors , $errorDetails);
                     }
                     else{
-                        $courseObj = new course($data[0], $data[1], $data[2], $data[3], 
+                        $courseObj = new Course($data[0], $data[1], $data[2], $data[3], 
                         $data[4], $data[5], $data[6]);
                         $courseDAO->add($courseObj);
                         $course_processed++;
@@ -208,7 +208,7 @@ function doBootstrap() {
                 /****************start Section*****************/
 
                 # start processing
-                $sectionDAO =  new sectionDAO();
+                $sectionDAO =  new SectionDAO();
                 
                 # truncate current SQL tables
                 $sectionDAO-> removeAll();
@@ -242,7 +242,7 @@ function doBootstrap() {
                     }
             
                     else{
-                        $sectionObj = new section($data[0], $data[1], $data[2], $data[3], 
+                        $sectionObj = new Section($data[0], $data[1], $data[2], $data[3], 
                         $data[4], $data[5], $data[6], $data[7], 10);
 						$courseSection = $data[0] . " " . $data[1];
 						array_push($arraySection, $courseSection);
@@ -354,7 +354,7 @@ function doBootstrap() {
 
                 /****************start Bid**************** */
             
-				$bidDAO = new bidDAO();
+				$bidDAO = new BidDAO();
                 $bidDAO->removeAll();
 
 				#processing
@@ -465,7 +465,7 @@ function doBootstrap() {
                     }
 
                     if (sizeof($errorInRow) == 0) {
-                        $studentDAO = new studentDAO(); 
+                        $studentDAO = new StudentDAO(); 
                         $student_obj = $studentDAO->retrieve($data[0]);
                         $existing_edollar = $student_obj->edollar;
 
