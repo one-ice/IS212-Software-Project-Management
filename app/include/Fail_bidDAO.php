@@ -18,6 +18,23 @@ public  function retrieveAll() {
     return $result;
 }
 
+public  function retrieveByUserID($userid) {
+    $sql = 'SELECT * FROM `fail_bid` WHERE userid = :userid ORDER BY code, section DESC';
+        
+    $connMgr = new ConnectionManager();      
+    $conn = $connMgr->getConnection();
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':userid', $userid, PDO::PARAM_STR);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $stmt->execute();
+    $result = array();
+
+    while($row = $stmt->fetch()) { 
+        $result[] = new Fail_bid($row['userid'] , $row['amount'] , $row['code'], $row['section']);
+    }
+        
+    return $result;
+}
 #get a distinct array of [code and section]
 public  function retrieveCodeSection() {
     $sql = 'SELECT DISTINCT code, section FROM `fail_bid` ORDER BY code, section';
