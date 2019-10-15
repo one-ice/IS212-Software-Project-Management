@@ -1,5 +1,5 @@
 <?php
-class sectionDAO{
+class SectionDAO{
     public  function retrieveAll() {
         #get all the entries in section table
         $sql = 'SELECT * FROM section ORDER BY "course","section" ';

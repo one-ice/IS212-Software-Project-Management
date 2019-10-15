@@ -3,8 +3,8 @@
     require_once 'clearing1.php';
 
     first_clearing();
-    $roundDAO = new roundDAO();
-    $bidDAO = new bidDAO;
+    $roundDAO = new RoundDAO();
+    $bidDAO = new BidDAO;
     $bidDAO->removeAll();
     $round = 2;
     $status = "inactive";

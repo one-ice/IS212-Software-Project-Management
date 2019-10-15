@@ -1,5 +1,5 @@
 <?php
-class section{
+class Section{
     public $course;
     public $section;
     public $day;
