@@ -57,7 +57,7 @@ class PrereqDAO{
         $cout = $stmt->rowCount();
     }
 
-    public function update($prereq){
+    public function update($prerequisite){
         $sql = "UPDATE prerequisite SET course = :course,prerequisite = :prerequisite";
 
         $connMgr = new ConnectionManager();           
