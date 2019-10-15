@@ -12,7 +12,7 @@ public  function retrieveAll() {
     $result = array();
 
     while($row = $stmt->fetch()) { 
-        $result[] = new Fail_bid($row['userid'] , $row['amount'] , $row['code'], $row['section']);
+        $result[] = new Fail_bid($row['userid'] , $row['code'] , $row['section'], $row['amount']);
     }
         
     return $result;
@@ -30,7 +30,7 @@ public  function retrieveByUserID($userid) {
     $result = array();
 
     while($row = $stmt->fetch()) { 
-        $result[] = new Fail_bid($row['userid'] , $row['amount'] , $row['code'], $row['section']);
+        $result[] = new Fail_bid($row['userid'] , $row['code'] , $row['section'], $row['amount']);
     }
         
     return $result;
@@ -55,7 +55,7 @@ public  function retrieveCodeSection() {
 
 # $student is an object
 public function add($fail_bidObj) {
-    $sql = 'INSERT IGNORE INTO `fail_bid` (userid, amount, code, section) VALUES (:userid, :amount,:code, :section)';
+    $sql = 'INSERT IGNORE INTO `fail_bid` (userid, code, section, amount) VALUES (:userid, :code,:section, :amount)';
     
     $connMgr = new ConnectionManager();       
     $conn = $connMgr->getConnection();

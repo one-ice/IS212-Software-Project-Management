@@ -1,15 +1,15 @@
 <?php
 class Fail_bid {
 	public $userid;
-	public $amount;
 	public $code;
 	public $section;
+	public $amount;
 	
-    public function __construct($userid = '', $amount = '', $code = '', $section = '', $status = '') {
+    public function __construct($userid = '', $code = '', $section = '' , $amount = '' ) {
 		$this->userid = $userid;
-		$this->amount = $amount;
 		$this->code = $code;
 		$this->section = $section;
+		$this->amount = $amount;
 	}
 
 }
