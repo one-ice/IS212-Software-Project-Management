@@ -36,7 +36,7 @@ function first_clearing(){
             if ($count > 1){
                 foreach ($section_bid as $bid_obj){ 
                     #to allow clearing only if status is pending
-                    if ( $bid_obj->status == 'pending'){ 
+                    // if ( $bid_obj->status == 'pending'){ 
                         if ( ($bid_obj->amount <= $clearing_price) ){
                             $bidDAO->update($bid_obj->userid, $array[0], 'unsuccessful');
                             $student_obj = $studentDAO->retrieve($bid_obj->userid);
@@ -55,11 +55,11 @@ function first_clearing(){
                             $sectionstudentObj = new SectionStudent($bid_obj->userid, $bid_obj->code, $bid_obj->section, $bid_obj->amount);
                             $sectionstudentDAO->add($sectionstudentObj);
                         }
-                    }
+                    // }
                 }
             }else{
                 foreach ($section_bid as $bid_obj){ 
-                    if ($bid_obj->status == 'pending') { 
+                    // if ($bid_obj->status == 'pending') { 
                         if ( ($bid_obj->amount < $clearing_price) ){
                             $bidDAO->update($bid_obj->userid, $array[0], 'unsuccessful');
                             $student_obj = $studentDAO->retrieve($bid_obj->userid);
@@ -77,18 +77,18 @@ function first_clearing(){
                             $sectionstudentObj = new SectionStudent($bid_obj->userid, $bid_obj->code, $bid_obj->section, $bid_obj->amount);
                             $sectionstudentDAO->add($sectionstudentObj);
                         }
-                    }
+                    // }
                 }
             }
 
         }else{
             foreach ($section_bid as $bid_obj){ 
-                if  ($bid_obj->status == 'pending') { 
+                // if  ($bid_obj->status == 'pending') { 
                     $bidDAO->update($bid_obj->userid, $array[0], 'successful');
                     $sectionstudentDAO = new SectionStudentDAO();
                     $sectionstudentObj = new SectionStudent($bid_obj->userid, $bid_obj->code, $bid_obj->section, $bid_obj->amount);
                     $sectionstudentDAO->add($sectionstudentObj);
-                }
+                // }
             }
         }
     }    
