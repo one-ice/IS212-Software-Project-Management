@@ -20,6 +20,15 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
     $courseCompDAO = new Course_CompletedDAO();
     $courseComp = $courseCompDAO->retrieve($stuID);
 
+        // validate courseComp
+        $courseC = [];
+        foreach($courseComp as $cp){   
+            if($cp->code == $courseCode){
+                $errors[] = "Course Completed";
+            }
+            $courseC[] = $cp->code;
+        }
+
     // validate enough edollar
     $dollarAmount = $student->edollar;
     if($edollar < 10.00){
@@ -34,18 +43,18 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
     if ($prereq = $prereqDAO->retrieve($courseCode)){
         
         foreach($prereq as $prereqCourse){            
-            if(in_array($prereqCourse->prerequisite,$courseComp) == FALSE){
+            if(in_array($prereqCourse->prerequisite,$courseC) == FALSE){
                 $errors[] = "incompleted prerequisite";
             }
         }  
     }
 
-    // validate course completed
-    foreach($courseComp as $eachCourseComp){
-        if($eachCourseComp == $courseCode){
-            $errors[] = "course completed";
-        }
-    }
+    // // validate course completed
+    // foreach($courseComp as $eachCourseComp){
+    //     if($eachCourseComp == $courseCode){
+    //         $errors[] = "course completed";
+    //     }
+    // }
 
     // validate course and section
     $courseDAO = new CourseDAO();
