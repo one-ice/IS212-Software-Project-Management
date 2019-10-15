@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 13, 2019 at 10:40 AM
+-- Generation Time: Oct 15, 2019 at 11:59 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `bid` (
   `amount` decimal(10,2) NOT NULL,
   `code` varchar(10) NOT NULL,
   `section` varchar(3) NOT NULL,
+  `status` varchar(20) NOT NULL,
   PRIMARY KEY (`userid`,`code`),
   KEY `code` (`code`,`section`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -79,6 +80,21 @@ CREATE TABLE IF NOT EXISTS `course_completed` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `fail_bid`
+--
+
+DROP TABLE IF EXISTS `fail_bid`;
+CREATE TABLE IF NOT EXISTS `fail_bid` (
+  `userid` varchar(128) NOT NULL,
+  `code` varchar(10) NOT NULL,
+  `section` varchar(10) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`userid`,`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `prerequisite`
 --
 
@@ -90,6 +106,19 @@ CREATE TABLE IF NOT EXISTS `prerequisite` (
   PRIMARY KEY (`course`,`prerequisite`),
   KEY `id` (`id`),
   KEY `prerequisite` (`prerequisite`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `round`
+--
+
+DROP TABLE IF EXISTS `round`;
+CREATE TABLE IF NOT EXISTS `round` (
+  `round` int(11) NOT NULL,
+  `status` varchar(20) NOT NULL,
+  PRIMARY KEY (`round`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -109,8 +138,24 @@ CREATE TABLE IF NOT EXISTS `section` (
   `instructor` varchar(100) NOT NULL,
   `venue` varchar(100) NOT NULL,
   `size` int(11) NOT NULL,
+  `min_bid` decimal(10,2) NOT NULL,
   PRIMARY KEY (`course`,`section`),
   KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `section-student`
+--
+
+DROP TABLE IF EXISTS `section-student`;
+CREATE TABLE IF NOT EXISTS `section-student` (
+  `userid` varchar(128) NOT NULL,
+  `code` varchar(10) NOT NULL,
+  `section` varchar(3) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`userid`,`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
