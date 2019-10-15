@@ -46,7 +46,7 @@ function first_clearing(){
                             #update status, then refund them bid amount
                             
                             $fail_bidDAO = new Fail_BidDAO();
-                            $fail_bidDAO->add($student_obj);
+                            $fail_bidDAO->add($bid_obj);
 
                         }
                         else{
@@ -68,7 +68,7 @@ function first_clearing(){
                             $studentDAO->update($bid_obj->userid, $existing_edollar + $bid_obj->amount);
                             #update status, then refund them the bid amount
                             $fail_bidDAO = new Fail_BidDAO();
-                            $fail_bidDAO->add($student_obj);
+                            $fail_bidDAO->add($bid_obj);
                         }
                         else{
                             #bid pass for all here, update status with success, add into section-student table
