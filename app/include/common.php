@@ -1,5 +1,6 @@
 <?php
 $API_DIRECTORY = "http://localhost/project-g5t4/app/json/";
+// $API_DIRECTORY = "http://18.221.10.143/app/json/";
 // this will autoload the class that we need in our code
 spl_autoload_register(function($class) {
  
