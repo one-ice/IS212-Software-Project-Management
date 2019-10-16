@@ -5,5 +5,5 @@ setcookie( session_name(), "", time()-3600, "/" );
 $_SESSION = array();
 //clear session from disk
 session_destroy();
-header("Location: login.php");
+header("Location: Login.php");
 ?>
