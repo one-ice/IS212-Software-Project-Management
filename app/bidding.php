@@ -215,7 +215,7 @@ if(isset($_POST['submit']))
             $bid->amount = $bid_amt;
             $bid->code = $course;
             $bid->section = $bid_section;
-            $bid->status = "";
+            $bid->status = "pending";
 
             #Add bid
             $bidDAO = new BidDAO();
