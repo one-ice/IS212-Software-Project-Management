@@ -20,8 +20,17 @@ function first_clearing(){
         #get vacancy for this section
         $sectionDAO = new SectionDAO();
         $find_vacancy = $sectionDAO->retrieve($array[0],$array[1]);
+
         $vacancy = $find_vacancy->size;
         #derive min. clearing price based on vacancies
+        $sectionstudentDAO = new SectionStudentDAO();
+        $enrollment = $sectionstudentDAO->retrieveVacancy($array[0],$array[1]);
+
+        $roundDAO = new RoundDAO();
+        $round = $roundDAO->retrieveAll();
+        if ($round->round == 2){
+            $vacancy = $vacancy - $enrollment;
+        }
 
         if (sizeof($section_bid) > $vacancy){
             $clearing_price = $section_bid[$vacancy-1]->amount;
