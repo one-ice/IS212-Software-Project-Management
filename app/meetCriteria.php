@@ -124,16 +124,16 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
     else{
         $errors[] = "not school course";
     }
-    return $errors;
+
 
       #added round 2 validation
 
     $sectionDAO = new SectionDAO();
-    $min_bid = $sectionDAO->retrieveMinBid($courseCode, $section); 
+    $sectionDetails = $sectionDAO->retrieve($courseCode, $section); 
 
     if ($round->round == 2){
         
-        if ($edollar < $min_bid){
+        if ($edollar <= $sectionDetails->min_bid){
             $errors[] = 'bid too low';
         }
 
