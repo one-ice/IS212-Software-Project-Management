@@ -15,7 +15,7 @@ class BidDAO {
         $result = array();
 
         while($row = $stmt->fetch()) {
-            $result[] = new bid($row['userid'], $row['amount'], $row['code'], $row['section'], $row['status']);
+            $result[] = new Bid($row['userid'], $row['amount'], $row['code'], $row['section'], $row['status']);
         }
             
                  
@@ -38,7 +38,7 @@ class BidDAO {
         $result = array();
 
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $result[] = new bid($row['userid'], $row['amount'], $row['code'], $row['section'], $row['status']);
+            $result[] = new Bid($row['userid'], $row['amount'], $row['code'], $row['section'], $row['status']);
         }
         
         return $result;
@@ -78,7 +78,7 @@ class BidDAO {
         $result = array();
 
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $result[] = new bid($row['userid'], $row['amount'], $row['code'], $row['section'], $row['status']);
+            $result[] = new Bid($row['userid'], $row['amount'], $row['code'], $row['section'], $row['status']);
         }
         
         return $result;
@@ -96,7 +96,7 @@ class BidDAO {
         $stmt->execute();
 
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            return new bid($row['userid'], $row['amount'], $row['code'], $row['section'], $row['status']);
+            return new Bid($row['userid'], $row['amount'], $row['code'], $row['section'], $row['status']);
         }
     }
   

@@ -22,7 +22,7 @@ $status = $roundR->status;
     $successInfo = $sectionStuDAO->retrieveByUserID($_SESSION['username']);
 
     # retrieve the courses the user fail to bid
-    $failBidDAO = new Fail_bidDAO();
+    $failBidDAO = new Fail_BidDAO();
     $failBidInfo = $failBidDAO->retrieveByUserID($_SESSION['username']);
 
     # retrieve from bid table -- pending

@@ -1,5 +1,5 @@
 <?php
-class Fail_bid {
+class Fail_Bid {
 	public $userid;
 	public $code;
 	public $section;
