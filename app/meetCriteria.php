@@ -131,9 +131,23 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
     $sectionDAO = new SectionDAO();
     $sectionDetails = $sectionDAO->retrieve($courseCode, $section); 
 
-    if ($round->round == 2){
+    
+    $sectionStudentDAO = new SectionStudentDAO();
+    $sectionDAO = new SectionDAO();
+    $bidDAO = new BidDAO();
+    $studentDAO = new StudentDAO();
+    $find_vacancy = $sectionDAO->retrieve($courseCode,$section);
+    $full_vacancy = $find_vacancy->size;
+    $section_enrollment =  $sectionStudentDAO->retrieveVacancy($courseCode, $section);
+    $current_vacancy = $full_vacancy - $section_enrollment;
+
+    $bids_now = $bidDAO->retrieveBidForEachSection($courseCode, $section);
+    $num_of_bids = sizeof($bids_now);
+    $slots = $current_vacancy - $num_of_bids;
+
+    if ($round->round == 2 && $slots <= 0){
         
-        if ($edollar <= $sectionDetails->min_bid){
+        if ( $edollar <= $sectionDetails->min_bid ){
             $errors[] = 'bid too low';
         }
 

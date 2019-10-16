@@ -37,7 +37,7 @@ if($round == 0){
     echo "not avalible";
 }elseif($round == 1 && $status == "active" && empty($pendingInfo)){
     echo "<br/>you haven't bidded a course";
-}elseif($round == 1 && $status == "inactive" && empty($successInfo)){
+}elseif($round == 1 && $status == "inactive" && empty($successInfo) && empty($failBidInfo)){
     echo "<br/>you haven't bidded a course";
 }elseif($round == 2 && $status == "active" && empty($pendingInfo) && empty($failBidInfo) && empty($successIno)){
     // var_dump($successInfo);
