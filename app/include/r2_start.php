@@ -3,7 +3,8 @@
     require_once 'common.php';
 
     $roundDAO = new RoundDAO();
-
+    $round = $roundDAO->retrieveAll();
+    
     $round = 2;
     $status = "active";
 
