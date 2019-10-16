@@ -99,6 +99,19 @@ class SectionStudentDAO {
 
         return $isAddOK;
     }   
+
+    public function removeAll() {
+        $sql = 'TRUNCATE TABLE `section-student`';
+        
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->getConnection();
+        
+        $stmt = $conn->prepare($sql);
+        
+        $stmt->execute();
+        $count = $stmt->rowCount();
+    }    
+
     
 
 }

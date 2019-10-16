@@ -12,7 +12,7 @@ public  function retrieveAll() {
     $result = array();
 
     while($row = $stmt->fetch()) { 
-        $result[] = new Fail_bid($row['userid'] , $row['code'] , $row['section'], $row['amount']);
+        $result[] = new Fail_Bid($row['userid'] , $row['code'] , $row['section'], $row['amount']);
     }
         
     return $result;
@@ -30,7 +30,7 @@ public  function retrieveByUserID($userid) {
     $result = array();
 
     while($row = $stmt->fetch()) { 
-        $result[] = new Fail_bid($row['userid'] , $row['code'] , $row['section'], $row['amount']);
+        $result[] = new Fail_Bid($row['userid'] , $row['code'] , $row['section'], $row['amount']);
     }
         
     return $result;
@@ -76,6 +76,17 @@ public function add($fail_bidObj) {
     return $isAddOK;
 }   
 
+    public function removeAll() {
+        $sql = 'TRUNCATE TABLE `fail_bid`';
+        
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->getConnection();
+        
+        $stmt = $conn->prepare($sql);
+        
+        $stmt->execute();
+        $count = $stmt->rowCount();
+    }    
 
 }
 
