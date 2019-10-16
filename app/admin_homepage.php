@@ -91,7 +91,7 @@ require_once 'include/common.php';
 			Round 2: Starting
 		</div>
 		<div class="card-body">
-		<p class="card-text">Upload Bootstrap file here</p>
+		<p class="card-text">To Start Round 2: Click the button below</p>
 			<div class="row">
 				<div class="col-sm">
 					<br/>
