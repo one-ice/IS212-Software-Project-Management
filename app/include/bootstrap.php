@@ -505,6 +505,13 @@ function doBootstrap() {
                 $admin = new StudentDAO();
                 $admin->add(new Student('admin','Help@123', 'admin', "", ""));
 
+                #remove all fail bid and section students
+                $Fail_BidDAO = new Fail_BidDAO();
+                $Fail_BidDAO->removeAll();
+
+                $sectionStudentDAO = new SectionStudentDAO();
+                $sectionStudentDAO->removeAll();
+
 
             }
         }
