@@ -215,7 +215,7 @@ if(isset($_POST['submit']))
             $bid->amount = $bid_amt;
             $bid->code = $course;
             $bid->section = $bid_section;
-            $bid->status = "pending";
+            $bid->status = "";
 
             #Add bid
             $bidDAO = new BidDAO();
@@ -239,7 +239,7 @@ if(isset($_POST['submit']))
                     {
                         $bid_status = 'unsuccessful';
                     }
-                    $bidDAO->update($username,$course,$bid_status);
+                    // $bidDAO->update($username,$course,$bid_status);
                 }
             }
         }

@@ -128,11 +128,13 @@ if($round == 2 && $status == "active"){
 
     # retrieve from minbid table
     $SectionDAO = new SectionDAO();
-    
+    $bidDAO = new BidDAO();
+
     if($pendingInfo){
         foreach ($pendingInfo as $pending){
             $minBidInfo = $SectionDAO->retrieveByCourseAndSection($pending->code,$pending->section);
             $R2status = second_bid_valid($_SESSION['username'],$pending->code, $pending->section, $pending->amount);
+
             echo"<tr><td>{$pending->code}</td>
                 <td>{$pending->section}</td>
                 <td>{$pending->amount}</td>
