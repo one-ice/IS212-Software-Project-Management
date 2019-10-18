@@ -28,6 +28,9 @@
       <li class="nav-item active">
         <a class="nav-link" style="color:white;" href="drop-bid-form.php">Drop Bid <span class="sr-only">(current)</span></a>
       </li>
+      <li class="nav-item active">
+        <a class="nav-link" style="color:white;" href="drop_section.php">Drop Section <span class="sr-only">(current)</span></a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" style="color:white;" href="logout.php">Logout</a>
       </li>
@@ -136,7 +139,7 @@ if ($round == 2)
   }
 	
     foreach ($courses as $course)
-    {
+    { 
         echo "<tr> 
 				<td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->course} </td>
                 <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$course->school} </td>

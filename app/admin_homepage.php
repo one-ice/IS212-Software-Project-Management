@@ -98,6 +98,7 @@ require_once 'include/common.php';
 					<form action = "./include/r2_start.php" method ='post'>
 						<input type="submit" name="Start Round 2" value="Start Round 2" class="btn btn-primary mb-2"></br>
 					</form>
+
 				</div>
 			</div>
 		

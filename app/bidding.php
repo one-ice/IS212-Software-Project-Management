@@ -59,7 +59,7 @@ $studentedollar = ($studentDAO->retrieve($username))->edollar;
 
 $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
-
+ 
 #Get section for selected course
 $sectionDAO = new SectionDAO();
 
