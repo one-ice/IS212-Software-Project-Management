@@ -36,13 +36,13 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
         $sectionStu = $sectionStuDAO->retrieveByUserID($stuID);
         foreach($sectionStu as $sectStu){
             if($courseCode == $sectStu->code){
-                $errors[] = "course completed";
+                $errors[] = "course enrolled";
             }
         }
     }
     // validate enough edollar
     $dollarAmount = $student->edollar;
-    if($edollar < 10.00){
+    if( ($edollar < 10.00) || (!preg_match('/^-?[0-9]+(?:\.[0-9]{1,2})?$/', $edollar)) ){
         $errors[] = 'invalid amount';
     }
     elseif($dollarAmount < $edollar){
