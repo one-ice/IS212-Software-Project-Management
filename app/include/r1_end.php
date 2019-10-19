@@ -10,6 +10,7 @@ $bidDAO->removeAll();
 
 $roundNow = $roundObj->round;
 $statusNow = $roundObj->status;
+$status = "";
 
 if ($statusNow == 'inactive'){
     if ($roundNow == 1){
@@ -21,35 +22,25 @@ if ($statusNow == 'inactive'){
         $status = 'round 2 is already inactive';
     }
 
-    $result = [ 
-        "error" => $status,
-        "current round" => $round
-    ];
-
-    echo $result;
-    echo "<a href = '../admin_homepage.php'> Back </a>"
+    
+    echo $status;
+    echo "<a href = '../admin_homepage.php'> Back </a>";
 
 }
 else{
+
     first_clearing();
     if ($roundNow == 1){
         $roundDAO->updateRound(1, "inactive");
  
-        $result = [ 
-            "status" => "success! round 1 ended ",
-            "current round" => 1
-        ];
-
+        $status =  "status: success! round 1 ended " ;
     }
     elseif ($roundNow == 2){
 
-        $result = [ 
-            "status" => "error",
-            "message" => [ "round 2 not started" ]
-        ];
+        $status = "round 2 not started" ;
     }
 
-    echo $result;
+    echo $status;
     echo "<a href = '../admin_homepage.php'> Back </a>";
 
 }
