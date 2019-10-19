@@ -1,6 +1,6 @@
 <?php
-require_once 'token.php';
-require_once 'common.php';
+require_once '../include/token.php';
+require_once '../include/common.php';
 
 $token = '';
 if  (isset($_REQUEST['token'])) {
