@@ -3,7 +3,7 @@
 class SectionStudentDAO {
 
     public function retrieveAll() {
-        $sql = 'SELECT * FROM `section-student` ORDER BY code, section DESC';
+        $sql = 'SELECT * FROM `section-student` ORDER BY code, userid';
             
         $connMgr = new ConnectionManager();      
         $conn = $connMgr->getConnection();

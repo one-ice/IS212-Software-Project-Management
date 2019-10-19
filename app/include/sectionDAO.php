@@ -17,8 +17,7 @@ class SectionDAO{
             $row['end'], $row['instructor'],$row['venue'],$row['size'], $row['min_bid']);
         }
 
-        var_dump($result);
-        echo"yes";
+
         return $result;
     }
 
