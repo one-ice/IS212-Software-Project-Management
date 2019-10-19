@@ -18,10 +18,7 @@ $sections = $sectionDAO->retrieveAll();
 $students = $studentDAO->retrieveAll();
 $prereqs = $prereqDAO->retrieveAll();
 $course_completed = $course_completedDAO->retrieveAll();
-$bids = $bidDAO->retrieveCodeSection();
-foreach ($bids as $codeAndSection){
-
-}
+$bids = $bidDAO->retrieveAll();
 $sectionStudents = $sectionStudentDAO->retrieveAll();
 $round = $roundDAO->retrieveAll();
 
@@ -72,8 +69,13 @@ foreach ($prereqs as $prereqObj){
 }
 
 $bid_results = [];
-if ($round->round == 2){
-    
+foreach ($bids as $bidObj){
+    $bid_results[] = [
+        "userid" => $bidObj->userid,
+        "amount" => $bidObj->amount,
+        "course" => $bidObj->code,
+        "section" => $bidObj->section
+    ];
 }
 
 
@@ -106,6 +108,7 @@ $result = [
     "section-student" => $section_student_results
 ];
 
+var_dump($result);
 header('Content-Type: application/json');
 echo json_encode($result, JSON_PRETTY_PRINT);
 
