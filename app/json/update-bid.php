@@ -1,9 +1,9 @@
 <?php
 require_once "../include/common.php";
 require_once "../meetCriteria.php";
-$check = [];
-$errors = [];
 require_once "protect_json.php";
+$check = [];
+
 $user_bid = $_GET['r'];
 $json_decoded = json_decode($user_bid, true);
 $fields = ['userid', 'amount', 'course', 'section'];
