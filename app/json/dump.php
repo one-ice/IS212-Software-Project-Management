@@ -6,11 +6,24 @@ require_once "protect_json.php";
 $courseDAO = new CourseDAO();
 $sectionDAO = new SectionDAO();
 $studentDAO = new StudentDAO();
+$prereqDAO = new PrereqDAO();
+$course_completedDAO = new Course_CompletedDAO();
+$bidDAO = new BidDAO();
+$sectionStudentDAO = new SectionStudentDAO();
+$roundDAO = new RoundDAO();
 
 #get all
 $courses = $courseDAO->retrieveAll();
 $sections = $sectionDAO->retrieveAll();
 $students = $studentDAO->retrieveAll();
+$prereqs = $prereqDAO->retrieveAll();
+$course_completed = $course_completedDAO->retrieveAll();
+$bids = $bidDAO->retrieveCodeSection();
+foreach ($bids as $codeAndSection){
+
+}
+$sectionStudents = $sectionStudentDAO->retrieveAll();
+$round = $roundDAO->retrieveAll();
 
 $course_results  = [];
 foreach ($courses as $courseObj){
@@ -50,11 +63,47 @@ foreach ($students as $studentObj){
     ] ;
 }
 
+$prereqs_results = [];
+foreach ($prereqs as $prereqObj){
+    $prereqs_results[] = [
+        "course" => $prereqObj->course,
+        "prerequisite" => $prereqObj->prerequisite
+    ];
+}
+
+$bid_results = [];
+if ($round->round == 2){
+    
+}
+
+
+$course_completed_results = [];
+foreach ($course_completed as $coursec_Obj){
+    $course_completed_results[] = [
+        "userid" => $coursec_Obj->userid,
+        "course" => $coursec_Obj->code
+    ];
+}
+
+$section_student_results = [];
+foreach ($sectionStudents as $secstu_Obj){
+    $section_student_results[] = [
+        "userid" => $secstu_Obj->userid,
+        "course" => $secstu_Obj->code,
+        "section" => $secstu_Obj->section,
+        "amount" => $secstu_Obj->amount
+    ];
+}
+
 $result = [
     "status" => "success",
     "course" => $course_results,
     "section" => $section_results,
-    "student" => $student_results
+    "student" => $student_results,
+    "prerequisite" => $prereqs_results,
+    "bid" => $bid_results,
+    "completed-course" => $course_completed_results,
+    "section-student" => $section_student_results
 ];
 
 header('Content-Type: application/json');
