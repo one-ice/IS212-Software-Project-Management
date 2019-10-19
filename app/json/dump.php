@@ -108,7 +108,7 @@ $result = [
     "section-student" => $section_student_results
 ];
 
-var_dump($result);
+
 header('Content-Type: application/json');
 echo json_encode($result, JSON_PRETTY_PRINT);
 
