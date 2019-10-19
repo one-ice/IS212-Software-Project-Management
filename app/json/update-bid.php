@@ -11,16 +11,20 @@ foreach ($json_decoded as $key => $value){
     $check[] = $key;
         
     if ($value == ""){
-        $errors[] = 'blank'. $key;
+        $errors[] = 'blank '. $key;
     }
 }
 foreach ($fields as $things){
     if (!in_array($things, $check)){
-        $errors[] = 'missing' . $things;
+        $errors[] = 'missing ' . $things;
     }
 }
 
-if (isset($errors)){    
+if (isset($errors)){ 
+    $result = [ 
+        "status" => "error",
+        "message" => $errors
+    ];
     header('Content-Type: application/json');
     echo json_encode($result, JSON_PRETTY_PRINT);
 }

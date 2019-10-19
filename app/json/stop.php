@@ -5,6 +5,10 @@ require_once "protect_json.php";
 
 
 if (isset($errors)){    
+    $result = [ 
+        "status" => "error",
+        "message" => $errors
+    ];
     header('Content-Type: application/json');
     echo json_encode($result, JSON_PRETTY_PRINT);
 }
