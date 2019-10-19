@@ -1,28 +1,58 @@
 <?php 
-    require_once 'common.php';
-    require_once 'clearing1.php';
-    $roundDAO = new RoundDAO();
-    $round = $roundDAO->retrieveAll();
+require_once 'common.php';
+require_once 'clearing1.php';
 
-    if ( ($round->round == 1) && ($round->status == 'active') ){
-        first_clearing();
-        $roundDAO = new RoundDAO();
-        $bidDAO = new BidDAO();
-        $bidDAO->removeAll();
+$roundDAO = new RoundDAO();
+$roundObj = $roundDAO->retrieveAll();
+
+$bidDAO = new BidDAO();
+$bidDAO->removeAll();
+
+$roundNow = $roundObj->round;
+$statusNow = $roundObj->status;
+
+if ($statusNow == 'inactive'){
+    if ($roundNow == 1){
         $round = 1;
-        $status = "inactive";
-
-        
-        $update_status = $roundDAO->updateStatus($round,$status);
-        if ($update_status){
-            echo "Round 1 has ended!";
-        }
-        echo "<a href = '../admin_homepage.php'> Back </a>";
+        $status = 'round 1 is already inactive';
     }
-    else{
-        echo "round already ended";
-        echo "<a href = '../admin_homepage.php'> Back </a>";
+    elseif ($roundNow == 2){
+        $round = 2;
+        $status = 'round 2 is already inactive';
     }
 
-    
+    $result = [ 
+        "error" => $status,
+        "current round" => $round
+    ];
+
+    echo $result;
+    echo "<a href = '../admin_homepage.php'> Back </a>"
+
+}
+else{
+    first_clearing();
+    if ($roundNow == 1){
+        $roundDAO->updateRound(1, "inactive");
+ 
+        $result = [ 
+            "status" => "success! round 1 ended ",
+            "current round" => 1
+        ];
+
+    }
+    elseif ($roundNow == 2){
+
+        $result = [ 
+            "status" => "error",
+            "message" => [ "round 2 not started" ]
+        ];
+    }
+
+    echo $result;
+    echo "<a href = '../admin_homepage.php'> Back </a>";
+
+}
+
+
 ?>
