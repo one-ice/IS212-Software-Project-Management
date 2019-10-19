@@ -83,11 +83,8 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
                         $bidCourse = $bid->code;
                         $bidSection = $bid->section;
                         // var_dump($bidCourse);
-                        if($bidCourse == $courseCode){
-                            $errors[] = "course completed";
-                        }
-                        else{
-                            // exam time not clashed
+                        if($bidCourse != $courseCode){
+                             // exam time not clashed
                             // $courseDAO = new CourseDAO();
                             $bidCourseClass = $courseDAO->retrieve($bidCourse);
                             $addCourseClass = $courseDAO->retrieve($courseCode);
@@ -108,6 +105,7 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
                                     }
                                 }
                             }
+                            
                         }
                     }
                 }
