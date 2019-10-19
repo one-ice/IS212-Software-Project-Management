@@ -1,6 +1,13 @@
 <?php
 include_once "../include/common.php"; 
 require_once "../include/clearing1.php";
+require_once "protect_json.php";
+
+
+if (isset($errors)){    
+    header('Content-Type: application/json');
+    echo json_encode($result, JSON_PRETTY_PRINT);
+}
 
 $roundDAO = new RoundDAO();
 $roundObj = $roundDAO->retrieveAll();
