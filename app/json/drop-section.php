@@ -19,22 +19,37 @@ $courseDAO = new CourseDAO();
 $course = "";
 $course = $courseDAO->retrieve($code);
 $sectionDAO = new SectionDAO();
-$section = $sectionDAO->retrieve($code,$section);
+$sectionValid = $sectionDAO->retrieve($code,$section);
 if ($round == 2 && $status == 'active') {		#round 2 & active
 	
 	if (count((array)$student) > 0) {			#Valid user id
 	
 		if (is_Object($course) > 0) {			#Valid course
 			
-			if (is_Object($section) > 0) {
+			if (is_Object($sectionValid) > 0) {		#Valid course & section
+				$sectionStudentDAO = new SectionStudentDAO();
+				$sectionStudent = $sectionStudentDAO->retrieveByUserIDCourseSection($userid,$code,$section);
+				if (sizeof($sectionStudent) > 0)	#valid enrollment record
+				{
+				#remove record
+				$sectionStudentDAO2 = new SectionStudentDAO();
+				$sectionStudentDAO2->removeByStuAndSection($userid,$code,$section);
 				$result = [ 
-					"status" => "success",
-					"message" => "valid section"
+					"status" => "success"
 					];
 					header('Content-Type: application/json');
 					echo json_encode($result, JSON_PRETTY_PRINT);
+				}
+				else {								#invalid enrollment record
+					$result = [ 
+					"status" => "error",
+					"message" => "no such enrollment record"
+					];
+					header('Content-Type: application/json');
+					echo json_encode($result, JSON_PRETTY_PRINT);
+				}
 			}
-			else {
+			else {								#Valid Course + Invalid section
 				$result = [ 
 					"status" => "error",
 					"message" => "invalid section"
