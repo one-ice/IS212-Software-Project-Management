@@ -23,7 +23,7 @@ else{
     $studentDao = new StudentDAO();
     $student = $studentDao->retrieve($userid);
     
-    if($student != null && $student->authenticate($password)){
+    if( ($student != null) && ($student->password == $password) ){
         $generatedToken = generate_token($userid);
         $result = [
             "status" => "success",
