@@ -1,16 +1,37 @@
 <?php
 require_once "../include/common.php";
 require_once "../meetCriteria.php";
-
+require_once "protect_json.php";
+$check = [];
 $user_bid = $_GET['r'];
 $json_decoded = json_decode($user_bid, true);
+$fields = ['userid', 'amount', 'course', 'section'];
 
-$userid = $json_decoded['userid'];
-$amount = $json_decoded['amount'];
-$course = $json_decoded['course'];
-$section = $json_decoded['section'];
+foreach ($json_decoded as $key => $value){
+    $check[] = $key;
+        
+    if ($value == ""){
+        $errors[] = 'blank'. $key;
+    }
+}
+foreach ($fields as $things){
+    if (!in_array($things, $check)){
+        $errors[] = 'missing' . $things;
+    }
+}
 
-$errors = [];
+if (isset($errors)){    
+    header('Content-Type: application/json');
+    echo json_encode($result, JSON_PRETTY_PRINT);
+}
+else{
+    $userid = trim($json_decoded['userid']);
+    $amount = trim($json_decoded['amount']);
+    $course = trim($json_decoded['course']);
+    $section = trim($json_decoded['section']);
+    $errors = [];
+}
+
 
 if ( sizeof(checkValidUserID($userid)) > 0 ){
     $errors[] = 'invalid userid';
