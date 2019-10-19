@@ -58,6 +58,27 @@ class SectionStudentDAO {
         return $result;
     }    
 
+	# fo drop-section web service
+    public function retrieveByUserIDCourseSection($userid, $code, $section){
+        $sql = 'SELECT * FROM `section-student` WHERE userid = :userid  and code = :code and section = :section';
+            
+        $connMgr = new ConnectionManager();      
+        $conn = $connMgr->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':userid', $userid, PDO::PARAM_STR);
+		$stmt->bindParam(':code', $code, PDO::PARAM_STR);
+		 $stmt->bindParam(':section', $section, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+        $result = array();
+
+        while($row = $stmt->fetch()) { 
+            $result[] = new SectionStudent($row['userid'], $row['code'], $row['section'], $row['amount']);
+        }
+            
+        return $result;
+    }   
+
     #get vacancy of section
     public  function retrieveVacancy($code, $section) {
         $sql = 'SELECT * FROM `section-student` WHERE code = :code and section = :section';
