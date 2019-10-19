@@ -5,9 +5,6 @@ require_once 'clearing1.php';
 $roundDAO = new RoundDAO();
 $roundObj = $roundDAO->retrieveAll();
 
-$bidDAO = new BidDAO();
-$bidDAO->removeAll();
-
 $roundNow = $roundObj->round;
 $statusNow = $roundObj->status;
 $status = "";
@@ -29,8 +26,9 @@ if ($statusNow == 'inactive'){
 }
 else{
 
-    first_clearing();
+
     if ($roundNow == 1){
+        first_clearing();
         $roundDAO->updateRound(1, "inactive");
  
         $status =  "status: success! round 1 ended " ;
