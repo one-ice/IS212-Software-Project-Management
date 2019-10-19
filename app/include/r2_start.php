@@ -19,7 +19,7 @@ if ($statusNow == 'active'){
         $status = 'round 2 is already active';
     }
     echo $status;
-    echo "<a href = '../admin_homepage.php'> Back </a>"
+    echo "<a href = '../admin_homepage.php'> Back </a>";
 
 }
 else{
@@ -32,7 +32,7 @@ else{
 
     }
     elseif ($roundNow == 2){
-        $status = "round 2 ended";
+        $status = "round 2 already ended";
     }
 
     echo $status;

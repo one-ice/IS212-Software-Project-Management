@@ -23,7 +23,7 @@ if ($statusNow == 'inactive'){
 
 
     echo $status;
-    echo "<a href = '../admin_homepage.php'> Back </a>"
+    echo "<a href = '../admin_homepage.php'> Back </a>";
 
 }
 else{
