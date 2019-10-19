@@ -18,20 +18,33 @@ $student = $studentDAO->retrieve($userid);
 $courseDAO = new CourseDAO();
 $course = "";
 $course = $courseDAO->retrieve($code);
-#$sectionStudentDAO = new SectionStudentDAO();
+$sectionDAO = new SectionDAO();
+$section = $sectionDAO->retrieve($code,$section);
 if ($round == 2 && $status == 'active') {		#round 2 & active
 	
-	if (count((array)$student) > 0) {			#user id valid
+	if (count((array)$student) > 0) {			#Valid user id
 	
-		if (is_Object($course) > 0) {
-			$result = [ 
+		if (is_Object($course) > 0) {			#Valid course
+			
+			if (is_Object($section) > 0) {
+				$result = [ 
 					"status" => "success",
-					"message" => "valid course"
+					"message" => "valid section"
 					];
 					header('Content-Type: application/json');
 					echo json_encode($result, JSON_PRETTY_PRINT);
+			}
+			else {
+				$result = [ 
+					"status" => "error",
+					"message" => "invalid section"
+					];
+					header('Content-Type: application/json');
+					echo json_encode($result, JSON_PRETTY_PRINT);
+			}
+
 		}
-		else {
+		else {									#Invalid Course
 
 			$result = [ 
 					"status" => "error",
@@ -44,7 +57,7 @@ if ($round == 2 && $status == 'active') {		#round 2 & active
 
 	}
 	 else 
-	 {										#userid invalid
+	 {										#Invalid userid
 		$result = [ 
         "status" => "error",
 		"message" => "invalid userid"
