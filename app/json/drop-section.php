@@ -1,5 +1,12 @@
 <?php
 include_once "../include/common.php"; 
+require_once "protect_json.php";
+
+if (isset($errors)){    
+    header('Content-Type: application/json');
+    echo json_encode($result, JSON_PRETTY_PRINT);
+}
+
 
 $r = $_GET["r"];
 $obj = json_decode($r);
