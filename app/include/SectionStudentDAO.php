@@ -2,7 +2,7 @@
 
 class SectionStudentDAO {
 
-    public  function retrieveAll() {
+    public function retrieveAll() {
         $sql = 'SELECT * FROM `section-student` ORDER BY code, section DESC';
             
         $connMgr = new ConnectionManager();      
@@ -16,6 +16,26 @@ class SectionStudentDAO {
             $result[] = new SectionStudent($row['userid'], $row['code'], $row['section'], $row['amount']);
         }
             
+        return $result;
+    }
+
+	public function retrieveAllCourseAndSection($code,$section){
+        $sql = 'SELECT * FROM `section-student` where code = :code and section = :section';
+        $connMgr = new ConnectionManager();      
+        $conn = $connMgr->getConnection();
+    
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':code', $code, PDO::PARAM_STR);
+        $stmt->bindParam(':section', $section, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+    
+        $result = array();
+    
+        while($row = $stmt->fetch()) {
+            $result[] = new SectionStudent($row['userid'], $row['code'], $row['section'], $row['amount']);
+        }
+
         return $result;
     }
 
