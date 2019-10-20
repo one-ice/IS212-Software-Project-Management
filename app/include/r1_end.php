@@ -35,7 +35,7 @@ else{
     }
     elseif ($roundNow == 2){
 
-        $status = "round 2 not started" ;
+        $status = "round 2 has already started" ;
     }
 
     echo $status;

@@ -15,7 +15,7 @@ $status = "";
 
 if ($statusNow == 'inactive'){
     if ($roundNow == 1){
-        $status = 'round 1 is already inactive';
+        $status = 'round 2 has not started';
     }
     elseif ($roundNow == 2){
         $status = 'round 2 is already inactive';
