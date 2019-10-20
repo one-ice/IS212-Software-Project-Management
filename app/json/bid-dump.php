@@ -55,6 +55,71 @@ else
         }
     }
 }
+if($message == [])
+{
+    #Get current round
+    $roundDAO = new RoundDAO();
+    $current_round = $roundDAO->retrieveAll();
+    $round = $current_round->round;
+    $status = $current_round->status;
+
+    if ($status == 'active')
+    {
+        $bidDAO = new BidDAO();
+        $bids = $bidDAO->retrieveBidForEachSection($course, $section);
+
+        $totalbids = 0;
+        $totalbids = count($bids);
+        $result = [];
+        $values = [];
+        if($totalbids > 0)
+        {
+            $bidcount = 0;
+
+            foreach($bids as $bid)
+            {
+                $bidcount++;
+                if($bid->status == 'successful')
+                {
+                    $values[] = [
+                                    'row' => $bidcount,
+                                    'userid' => $bid->userid,
+                                    'amount' => $bid->amount,
+                                    'result' => 'in'
+                                ];
+                }
+                elseif($bid->status == 'unsuccessful')
+                {
+                    $values[] = [
+                                    'row' => $bidcount,
+                                    'userid' => $bid->userid,
+                                    'amount' => $bid->amount,
+                                    'result' => 'out'
+                                ];
+                }
+                else
+                {
+                    $values[] = [
+                                    'row' => $bidcount,
+                                    'userid' => $bid->userid,
+                                    'amount' => $bid->amount,
+                                    'result' => '-'
+                                ];
+                }
+            }
+
+        }
+        $result = ["status" => 'success',
+                "bids" => $values];
+            
+    }
+    
+}
+else
+{       sort($message);
+        $result = ["status" => 'error', 
+                    "message" => $message];
+}
 
 header('Content-Type: application/json');
 echo json_encode($result, JSON_PRETTY_PRINT);
