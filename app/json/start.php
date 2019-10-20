@@ -2,7 +2,7 @@
 include_once "../include/common.php"; 
 require_once "protect_json.php";
 
-if (isset($errors)){    
+if (sizeof($errors) > 0){    
     $result = [ 
         "status" => "error",
         "message" => $errors
@@ -47,7 +47,9 @@ else{
     }
     elseif ($roundNow == 1){
         $roundDAO->updateRound(2, "active");
- 
+        $bidDAO = new BidDAO();
+        $bidDAO->removeAll();
+        
         $result = [ 
             "status" => "success",
             "round" => 2
