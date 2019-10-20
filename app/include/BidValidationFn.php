@@ -117,13 +117,38 @@ function bidValidation($data){
             $errors[] = 'section limit reached';
         }
     }
-    
+    if (sizeof($errors) == 0) {
+        $studentDAO = new StudentDAO(); 
+        $student_obj = $studentDAO->retrieve($data[0]);
+        $existing_edollar = $student_obj->edollar;
+
+        if ($bidDAO->retrieveBid($data[0], $data[2])){
+            $bidDetails = $bidDAO->retrieveBid($data[0], $data[2]);
+            $prevAmount = $bidDetails->amount;
+            $studentDAO->update($data[0], $prevAmount + $existing_edollar);   
+
+            $bidDAO = new BidDAO();
+            $bidDAO->remove($data[0], $data[2]);
+        }
+
+        $bidObj = new Bid($data[0], $data[1], $data[2], $data[3], "pending");
+        $bidDAO->add($bidObj);
+
+        $student_obj = $studentDAO->retrieve($data[0]);
+        $existing_edollar = $student_obj->edollar;
+
+        $studentDAO->update($data[0], $existing_edollar - $data[1]);
+
+        if($data[4]->round == 2){
+            second_bid_valid($data[0],$data[2],$data[3],$data[1]);
+        }
+
+        
+    }
     sort($errors);
 
     return $errors;
 
 }
-
-
 
 ?>
