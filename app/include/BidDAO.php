@@ -3,7 +3,7 @@
 class BidDAO {
 
     public  function retrieveAll() {
-        $sql = 'SELECT * FROM bid ORDER BY code, section, amount DESC';
+        $sql = 'SELECT * FROM bid ORDER BY code, section, amount DESC, userid';
             
         $connMgr = new ConnectionManager();      
         $conn = $connMgr->getConnection();
