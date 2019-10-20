@@ -47,7 +47,7 @@ else
         {
             #Check if section exist
             $sectionDAO = new SectionDAO();
-            $section_exist = $sectionDAO->retrievebyCourseSection($course, $section);
+            $section_exist = $sectionDAO->retrievebyCourseAndSection($course, $section);
             if($section_exist == null)
             {
                 $message[] = 'invalid section';
