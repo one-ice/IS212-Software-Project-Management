@@ -1,7 +1,7 @@
 <?php
 class PrereqDAO{
     public function retrieveAll(){
-        $sql = 'SELECT * FROM prerequisite ORDER BY course';
+        $sql = 'SELECT * FROM prerequisite ORDER BY course, prerequisite';
 
         $connMgr = new ConnectionManager();
         $conn = $connMgr->getConnection();

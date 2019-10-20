@@ -2,8 +2,8 @@
 
 class SectionStudentDAO {
 
-    public  function retrieveAll() {
-        $sql = 'SELECT * FROM `section-student` ORDER BY code, section DESC';
+    public function retrieveAll() {
+        $sql = 'SELECT * FROM `section-student` ORDER BY code, userid';
             
         $connMgr = new ConnectionManager();      
         $conn = $connMgr->getConnection();
@@ -16,6 +16,26 @@ class SectionStudentDAO {
             $result[] = new SectionStudent($row['userid'], $row['code'], $row['section'], $row['amount']);
         }
             
+        return $result;
+    }
+
+	public function retrieveAllCourseAndSection($code,$section){
+        $sql = 'SELECT * FROM `section-student` where code = :code and section = :section';
+        $connMgr = new ConnectionManager();      
+        $conn = $connMgr->getConnection();
+    
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':code', $code, PDO::PARAM_STR);
+        $stmt->bindParam(':section', $section, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+    
+        $result = array();
+    
+        while($row = $stmt->fetch()) {
+            $result[] = new SectionStudent($row['userid'], $row['code'], $row['section'], $row['amount']);
+        }
+
         return $result;
     }
 
@@ -37,6 +57,27 @@ class SectionStudentDAO {
             
         return $result;
     }    
+
+	# fo drop-section web service
+    public function retrieveByUserIDCourseSection($userid, $code, $section){
+        $sql = 'SELECT * FROM `section-student` WHERE userid = :userid  and code = :code and section = :section';
+            
+        $connMgr = new ConnectionManager();      
+        $conn = $connMgr->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':userid', $userid, PDO::PARAM_STR);
+		$stmt->bindParam(':code', $code, PDO::PARAM_STR);
+		 $stmt->bindParam(':section', $section, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+        $result = array();
+
+        while($row = $stmt->fetch()) { 
+            $result[] = new SectionStudent($row['userid'], $row['code'], $row['section'], $row['amount']);
+        }
+            
+        return $result;
+    }   
 
     #get vacancy of section
     public  function retrieveVacancy($code, $section) {

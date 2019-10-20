@@ -13,6 +13,8 @@ class SectionStudent {
         $this->amount = $amount;
 	}
 
+
+
 }
 
 ?>

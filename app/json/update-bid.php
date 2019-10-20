@@ -3,6 +3,7 @@ require_once "../include/common.php";
 require_once "../meetCriteria.php";
 require_once "protect_json.php";
 $check = [];
+
 $user_bid = $_GET['r'];
 $json_decoded = json_decode($user_bid, true);
 $fields = ['userid', 'amount', 'course', 'section'];
@@ -11,16 +12,20 @@ foreach ($json_decoded as $key => $value){
     $check[] = $key;
         
     if ($value == ""){
-        $errors[] = 'blank'. $key;
+        $errors[] = 'blank '. $key;
     }
 }
 foreach ($fields as $things){
     if (!in_array($things, $check)){
-        $errors[] = 'missing' . $things;
+        $errors[] = 'missing ' . $things;
     }
 }
 
-if (isset($errors)){    
+if (isset($errors)){ 
+    $result = [ 
+        "status" => "error",
+        "message" => $errors
+    ];
     header('Content-Type: application/json');
     echo json_encode($result, JSON_PRETTY_PRINT);
 }
@@ -29,10 +34,9 @@ else{
     $amount = trim($json_decoded['amount']);
     $course = trim($json_decoded['course']);
     $section = trim($json_decoded['section']);
-    $errors = [];
 }
 
-
+$errors = [];
 if ( sizeof(checkValidUserID($userid)) > 0 ){
     $errors[] = 'invalid userid';
 }   

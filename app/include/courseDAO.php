@@ -40,7 +40,7 @@ class CourseDAO{
         return $result;
     }
     
-    public  function retrieve($course) {
+    public function retrieve($course) {
         $sql = 'SELECT * from course where course = :course';
         
         $connMgr = new ConnectionManager();

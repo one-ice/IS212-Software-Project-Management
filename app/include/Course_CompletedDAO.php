@@ -8,7 +8,7 @@ class Course_CompletedDAO {
      * @return array of String
      */
     public function retrieveAll() {
-        $sql = 'SELECT * FROM course_completed';
+        $sql = 'SELECT * FROM course_completed ORDER BY code, userid';
         
         $connMgr = new ConnectionManager();
         $conn = $connMgr->getConnection();

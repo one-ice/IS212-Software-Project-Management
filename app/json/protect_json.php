@@ -1,8 +1,9 @@
 <?php
-require_once 'token.php';
-require_once 'common.php';
+require_once '../include/token.php';
+require_once '../include/common.php';
 
 $token = '';
+$errors = [];
 if  (isset($_REQUEST['token'])) {
 	$token = $_REQUEST['token'];
 }
@@ -10,10 +11,7 @@ if  (isset($_REQUEST['token'])) {
 # check if token is not valid
 # reply with appropriate JSON error message
 if (verify_token($token) == False){
-	$errors =[
-		"status" => "unsuccessful",
-		"message" => 'token not verified'
-	];
+	$errors[] = 'invalid token';
 }
 
 # add your code here
