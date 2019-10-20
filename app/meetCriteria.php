@@ -92,19 +92,19 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
                                 if (($bidCourseClass->exam_end < $addCourseClass->exam_start || $addCourseClass->exam_end < $bidCourseClass->exam_start) == FALSE){
                                     $errors[] = "exam timetable clash";
                                 }
-                                else{
+                            }
 
                                     // course time not clashed
-                                    $bidSectionClass = $sectionDAO->retrieve($bidCourse,$bidSection);
-                                    $addSectionClass = $sectionDAO->retrieve($courseCode,$section);
-                                    if($bidSectionClass->day == $addSectionClass->day){
-                                        if (($bidSectionClass->end < $addCourseClass->start || $addCourseClass->end < $bidCourseClass->start) == FALSE){
-                                            $errors[] = "exam timetable clash";
-                                        }
-                                       
-                                    }
+                            $bidSectionClass = $sectionDAO->retrieve($bidCourse,$bidSection);
+                            $addSectionClass = $sectionDAO->retrieve($courseCode,$section);
+                            if($bidSectionClass->day == $addSectionClass->day){
+                                if (($bidSectionClass->end < $addCourseClass->start || $addCourseClass->end < $bidCourseClass->start) == FALSE){
+                                    $errors[] = "class timetable clash";
                                 }
+                                
                             }
+                                
+                            
                             
                         }
                     }
