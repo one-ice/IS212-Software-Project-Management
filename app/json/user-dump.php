@@ -31,7 +31,24 @@ else
         $message[] = 'invalid userid';
     }
 }
-
+if ($message == [])
+{
+    $result = ["status" => 'success',
+                "userid" => $student->userid,
+                "password" => $student->password,
+                "name" => $student->name,
+                "school" => $student->school,
+                "edollar" => $student->edollar
+            ];
+}
+else
+{
+    sort($message);
+    $result = [
+                "status" => 'error',
+                "message" => $message
+            ];
+}
 header('Content-Type: application/json');
 echo json_encode($result, JSON_PRETTY_PRINT);
 ?>
