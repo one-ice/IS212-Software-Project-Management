@@ -113,7 +113,51 @@ if($message == [])
                 "bids" => $values];
             
     }
-    
+    elseif($status == 'inactive')
+    {
+        $sectionstudentDAO = new SectionStudentDAO();
+        $successbids = $sectionstudentDAO->retrieveAllCourseAndSection($course,$section);
+
+        $totalsuccessbids = 0;
+        $totalsuccessbids = count($successbids);
+
+        $failbidDAO = new Fail_BidDAO();
+        $failbids =  $failbidDAO->retrieveBidsbyCodeSection($course,$section);
+
+        $totalfailbids = 0;
+        $totalbids = count($failbids);
+
+        $result = [];
+        $values = [];
+        if($totalsuccessbids > 0 || $totalfailbids > 0)
+        {
+            $bidcount = 0;
+
+            foreach($successbids as $successbid)
+            {
+                $bidcount++;
+                $values[] = [
+                                'row' => $bidcount,
+                                'userid' => $successbid->userid,
+                                'amount' => $successbid->amount,
+                                'result' => 'in'
+                            ];
+            }
+            foreach($failbids as $failbid)
+            {
+                $bidcount++;
+                $values[] = [
+                                'row' => $bidcount,
+                                'userid' => $failbid->userid,
+                                'amount' => $failbid->amount,
+                                'result' => 'out'
+                            ];
+            
+            }
+        }
+        $result = ["status" => 'success',
+                        "bids" => $values];
+    }
 }
 else
 {       sort($message);
