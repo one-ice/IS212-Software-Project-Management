@@ -4,13 +4,13 @@ require_once '../include/common.php';
 
 $token = '';
 $errors = [];
-if  (isset($_REQUEST['token'])) {
-	$token = $_REQUEST['token'];
+if  (isset($_SESSION['token'])) {
+	$token = $_SESSION['token'];
 }
 
 # check if token is not valid
 # reply with appropriate JSON error message
-if (verify_token($token) == False){
+if (verify_token($token) != 'admin'){
 	$errors[] = 'invalid token';
 }
 
