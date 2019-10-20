@@ -64,7 +64,7 @@ class BidDAO {
 
     #retrieve by code and section
     public  function retrieveBidForEachSection($code, $section) {
-        $sql = 'SELECT * FROM bid WHERE code=:code and section=:section ORDER BY amount DESC';
+        $sql = 'SELECT * FROM bid WHERE code=:code and section=:section ORDER BY amount DESC, userid ASC';
 
         $connMgr = new ConnectionManager();
         $conn = $connMgr->getConnection();
