@@ -53,6 +53,26 @@ public  function retrieveCodeSection() {
     return $result;
 }
 
+
+public  function retrieveBidsbyCodeSection($code,$section) {
+    $sql = 'SELECT * FROM `fail_bid` where code = :code and section = :section';
+    
+    $connMgr = new ConnectionManager();
+    $conn = $connMgr->getConnection();
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':code', $code, PDO::PARAM_STR);
+    $stmt->bindParam(':section', $section, PDO::PARAM_STR);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $stmt->execute();
+    $result = array();
+
+    while($row = $stmt->fetch()) {
+        $result[] = new Fail_Bid($row['userid'] , $row['code'] , $row['section'], $row['amount']);
+    }       
+    return $result;
+}
+
 # $student is an object
 public function add($fail_bidObj) {
     $sql = 'INSERT IGNORE INTO `fail_bid` (userid, code, section, amount) VALUES (:userid, :code,:section, :amount)';
