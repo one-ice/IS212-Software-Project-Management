@@ -2,7 +2,6 @@
 
 require_once "../include/common.php";
 require_once "protect_json.php";
-require_once "../include/token.php";
 
 $r = $_REQUEST['r'];
 $json_decoded = json_decode($r, true);
