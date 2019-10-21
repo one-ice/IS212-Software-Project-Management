@@ -98,7 +98,7 @@ function meetCriteria($stuID,$edollar,$courseCode,$section,$round){
                             $bidSectionClass = $sectionDAO->retrieve($bidCourse,$bidSection);
                             $addSectionClass = $sectionDAO->retrieve($courseCode,$section);
                             if($bidSectionClass->day == $addSectionClass->day){
-                                if (($bidSectionClass->end < $addCourseClass->start || $addCourseClass->end < $bidCourseClass->start) == FALSE){
+                                if (($bidSectionClass->end < $addSectionClass->start || $addSectionClass->end < $bidSectionClass->start) == FALSE){
                                     $errors[] = "class timetable clash";
                                 }
                                 
