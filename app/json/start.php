@@ -10,7 +10,8 @@ if (sizeof($errors) > 0){
     header('Content-Type: application/json');
     echo json_encode($result, JSON_PRETTY_PRINT);
 }
-
+else{
+    
 $roundDAO = new RoundDAO();
 $roundObj = $roundDAO->retrieveAll();
 
@@ -64,13 +65,11 @@ else{
         ];
     }
 
+    header('Content-Type: application/json');
+    echo json_encode($result, JSON_PRETTY_PRINT);
+
+    }
 }
-
-
-
-header('Content-Type: application/json');
-echo json_encode($result, JSON_PRETTY_PRINT);
-
 
 
 ?>
