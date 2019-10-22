@@ -32,7 +32,7 @@ function first_clearing(){
             $vacancy = $vacancy - $enrollment;
         }
 
-        if (sizeof($section_bid) > $vacancy){
+        if (sizeof($section_bid) >= $vacancy){
             $clearing_price = $section_bid[$vacancy-1]->amount;
  
             $count = 0;
@@ -43,6 +43,7 @@ function first_clearing(){
             }
 
             if ($count > 1){
+
                 foreach ($section_bid as $bid_obj){ 
                     #to allow clearing only if status is pending
                     // if ( $bid_obj->status == 'pending'){ 
@@ -91,6 +92,8 @@ function first_clearing(){
             }
 
         }else{
+
+            
             foreach ($section_bid as $bid_obj){ 
                 // if  ($bid_obj->status == 'pending') { 
                     $bidDAO->update($bid_obj->userid, $array[0], 'successful');
