@@ -5,9 +5,6 @@ require_once 'clearing1.php';
 $roundDAO = new RoundDAO();
 $roundObj = $roundDAO->retrieveAll();
 
-$bidDAO = new BidDAO();
-$bidDAO->removeAll();
-
 $roundNow = $roundObj->round;
 $statusNow = $roundObj->status;
 
