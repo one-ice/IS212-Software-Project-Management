@@ -14,6 +14,7 @@ $course = "";
 $course = $courseDAO->retrieve($code);
 $sectionDAO = new SectionDAO();
 $sectionValid = $sectionDAO->retrieve($code,$section);
+$message = ["invalid section"];
 if (is_Object($course) > 0) {
 	if (is_Object($sectionValid) > 0) {
 		
@@ -46,7 +47,7 @@ else {
 	} else {
 			$result = [ 
 			"status" => "error",
-			"message" => "invalid section"
+			"message" => $message
 			];
 			header('Content-Type: application/json');
 			echo json_encode($result, JSON_PRETTY_PRINT);
@@ -55,7 +56,7 @@ else {
 else {
 	$result = [ 
 			"status" => "error",
-			"message" => "invalid course"
+			"message" => $message
 			];
 			header('Content-Type: application/json');
 			echo json_encode($result, JSON_PRETTY_PRINT);
