@@ -4,12 +4,19 @@ require_once '../include/common.php';
 
 $token = '';
 $errors = [];
+
+#for json_testing
+if  (isset($_REQUEST['token'])) {
+	$token = $_REQUEST['token'];
+}
+
+#for web
 if  (isset($_SESSION['token'])) {
 	$token = $_SESSION['token'];
 }
 
 # check if token is not valid
-# reply with appropriate JSON error message
+# reply with appropriate JSON erro	r message
 if (verify_token($token) != 'admin'){
 	$errors[] = 'invalid token';
 }

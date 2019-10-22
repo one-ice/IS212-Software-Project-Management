@@ -116,6 +116,14 @@ function bidValidation($data){
         if($totalNumberOfCourses >= 5 && !$bidDAO->retrieveBid($data[0],$data[2])){
             $errors[] = 'section limit reached';
         }
+
+        foreach ($courseStuEnrolled as $course_stu){
+            if ($course_stu->code == $data[2]){
+                $errors[] = 'course enrolled';
+            }
+        }
+        
+
     }
     if (sizeof($errors) == 0) {
         $studentDAO = new StudentDAO(); 
