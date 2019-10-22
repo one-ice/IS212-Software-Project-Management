@@ -21,6 +21,7 @@ $course = "";
 $course = $courseDAO->retrieve($code);
 $sectionDAO = new SectionDAO();
 $sectionValid = $sectionDAO->retrieve($code,$section);
+$message = ["no such enrollment record"];
 if ($round == 2 && $status == 'active') {		#round 2 & active
 	
 	if (count((array)$student) > 0) {			#Valid user id
@@ -44,7 +45,7 @@ if ($round == 2 && $status == 'active') {		#round 2 & active
 				else {								#invalid enrollment record
 					$result = [ 
 					"status" => "error",
-					"message" => "no such enrollment record"
+					"message" => $message
 					];
 					header('Content-Type: application/json');
 					echo json_encode($result, JSON_PRETTY_PRINT);
@@ -53,7 +54,8 @@ if ($round == 2 && $status == 'active') {		#round 2 & active
 			else {								#Valid Course + Invalid section
 				$result = [ 
 					"status" => "error",
-					"message" => "invalid section"
+
+					"message" => $message
 					];
 					header('Content-Type: application/json');
 					echo json_encode($result, JSON_PRETTY_PRINT);
@@ -64,7 +66,7 @@ if ($round == 2 && $status == 'active') {		#round 2 & active
 
 			$result = [ 
 					"status" => "error",
-					"message" => "invalid course"
+					"message" => $message
 					];
 					header('Content-Type: application/json');
 					echo json_encode($result, JSON_PRETTY_PRINT);
@@ -76,7 +78,7 @@ if ($round == 2 && $status == 'active') {		#round 2 & active
 	 {										#Invalid userid
 		$result = [ 
         "status" => "error",
-		"message" => "invalid userid"
+		"message" => $message
     ];
 	header('Content-Type: application/json');
 	echo json_encode($result, JSON_PRETTY_PRINT);
@@ -87,7 +89,7 @@ else
 {											#Not Round 2 or not active or both
 	$result = [ 
         "status" => "error",
-		"message" => "round not active"
+		"message" => $message 
     ];
 	header('Content-Type: application/json');
 	echo json_encode($result, JSON_PRETTY_PRINT);
