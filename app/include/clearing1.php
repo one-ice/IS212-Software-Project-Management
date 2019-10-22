@@ -41,13 +41,66 @@ function first_clearing(){
                     $count +=1;
                 }
             }
+            # find first index of person with clearing price
+            $c = 0;
+            foreach ($section_bid as $bid_obj){
+                $c += 1;
+                if ($bid_obj->amount == $clearing_price){
+                    break;
+                }
+            }
 
             if ($count > 1){
 
-                foreach ($section_bid as $bid_obj){ 
-                    #to allow clearing only if status is pending
-                    // if ( $bid_obj->status == 'pending'){ 
-                        if ( ($bid_obj->amount <= $clearing_price) ){
+                if ($round->round == 1){
+                    foreach ($section_bid as $bid_obj){ 
+                        #to allow clearing only if status is pending
+                        // if ( $bid_obj->status == 'pending'){ 
+                            if ( ($bid_obj->amount <= $clearing_price) ){
+                                $bidDAO->update($bid_obj->userid, $array[0], 'unsuccessful');
+                                $student_obj = $studentDAO->retrieve($bid_obj->userid);
+                                $existing_edollar = $student_obj->edollar;
+    
+                                $studentDAO->update($bid_obj->userid, $existing_edollar + $bid_obj->amount);
+                                #update status, then refund them bid amount
+                                
+                                $fail_bidDAO = new Fail_BidDAO();
+                                $fail_bidDAO->add($bid_obj);
+    
+                            }
+                            else{
+                                $bidDAO->update($bid_obj->userid, $array[0], 'successful');
+                                $sectionstudentDAO = new SectionStudentDAO();
+                                $sectionstudentObj = new SectionStudent($bid_obj->userid, $bid_obj->code, $bid_obj->section, $bid_obj->amount);
+                                $sectionstudentDAO->add($sectionstudentObj);
+                            }
+                        // }
+                    }
+                }
+               
+                if($round->round == 2){
+                    foreach ($section_bid as $bid_obj){ 
+                        if ( ($bid_obj->amount == $clearing_price) ){
+                            $left = $vacancy - $c + 1;
+                            if ($count == $left){
+                                $bidDAO->update($bid_obj->userid, $array[0], 'successful');
+                                $sectionstudentDAO = new SectionStudentDAO();
+                                $sectionstudentObj = new SectionStudent($bid_obj->userid, $bid_obj->code, $bid_obj->section, $bid_obj->amount);
+                                $sectionstudentDAO->add($sectionstudentObj);
+                            }
+                            else{
+                                $bidDAO->update($bid_obj->userid, $array[0], 'unsuccessful');
+                                $student_obj = $studentDAO->retrieve($bid_obj->userid);
+                                $existing_edollar = $student_obj->edollar;
+    
+                                $studentDAO->update($bid_obj->userid, $existing_edollar + $bid_obj->amount);
+                                #update status, then refund them bid amount
+                                
+                                $fail_bidDAO = new Fail_BidDAO();
+                                $fail_bidDAO->add($bid_obj);
+                            }
+                        }
+                        elseif ( $bid_obj->amount < $clearing_price) {
                             $bidDAO->update($bid_obj->userid, $array[0], 'unsuccessful');
                             $student_obj = $studentDAO->retrieve($bid_obj->userid);
                             $existing_edollar = $student_obj->edollar;
@@ -57,7 +110,7 @@ function first_clearing(){
                             
                             $fail_bidDAO = new Fail_BidDAO();
                             $fail_bidDAO->add($bid_obj);
-
+                          
                         }
                         else{
                             $bidDAO->update($bid_obj->userid, $array[0], 'successful');
@@ -65,8 +118,10 @@ function first_clearing(){
                             $sectionstudentObj = new SectionStudent($bid_obj->userid, $bid_obj->code, $bid_obj->section, $bid_obj->amount);
                             $sectionstudentDAO->add($sectionstudentObj);
                         }
-                    // }
+
+                    }
                 }
+
             }else{
                 foreach ($section_bid as $bid_obj){ 
                     // if ($bid_obj->status == 'pending') { 
