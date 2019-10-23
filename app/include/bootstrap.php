@@ -527,14 +527,12 @@ function doBootstrap() {
             "num-record-loaded" =>  [
                 #Add processed count for your csv files, IN THIS FORMAT
                 #["Name.csv" => $name_processed] ,
-                [ 
-                "bid.csv" => $bid_processed,
-                "course.csv" => $course_processed, 
-                "course_completed.csv" => $course_completed_processed,  
-                "prerequisite.csv" => $prereq_processed,
-                "section.csv" => $section_processed,
-                "student.csv" => $student_processed                
-                ],
+                [ "bid.csv" => $bid_processed ],
+                [ "course.csv" => $course_processed ], 
+                ["course_completed.csv" => $course_completed_processed],  
+                ["prerequisite.csv" => $prereq_processed],
+                ["section.csv" => $section_processed],
+                ["student.csv" => $student_processed]                
             ],
 			"messages" => $errors
 		];
@@ -547,12 +545,12 @@ function doBootstrap() {
             "num-record-loaded" => [
                 #Add processed count for your csv files, IN THIS FORMAT
                 #["Name.csv" => $name_processed] ,
-                "bid.csv" => $bid_processed,
-                "course.csv" => $course_processed, 
-                "course_completed.csv" => $course_completed_processed,  
-                "prerequisite.csv" => $prereq_processed,
-                "section.csv" => $section_processed,
-                "student.csv" => $student_processed       
+                ["bid.csv" => $bid_processed ],
+                ["course.csv" => $course_processed ], 
+                ["course_completed.csv" => $course_completed_processed],  
+                ["prerequisite.csv" => $prereq_processed],
+                ["section.csv" => $section_processed],
+                ["student.csv" => $student_processed]              
 			]
 		];
     }
