@@ -2,12 +2,12 @@
     "status": "error",
     "num-record-loaded": [
         {
-            "student.csv": 26,
+            "bid.csv": 18,
             "course.csv": 24,
-            "section.csv": 35,
-            "prerequisite.csv": 8,
             "course_completed.csv": 4,
-            "bid.csv": 18
+            "prerequisite.csv": 8,
+            "section.csv": 35,
+            "student.csv": 26
         }
     ],
     "messages": [

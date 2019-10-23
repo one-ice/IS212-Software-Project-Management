@@ -516,7 +516,7 @@ function doBootstrap() {
             }
         }
     }
-    
+    sort($errors);
 	if (!isEmpty($errors))
 	{	
         //ignore these 2 lines below, next time then need to sort
@@ -527,13 +527,13 @@ function doBootstrap() {
             "num-record-loaded" =>  [
                 #Add processed count for your csv files, IN THIS FORMAT
                 #["Name.csv" => $name_processed] ,
-                [
-                "student.csv" => $student_processed,
-                "course.csv" => $course_processed,
-                "section.csv" => $section_processed,
+                [ 
+                "bid.csv" => $bid_processed,
+                "course.csv" => $course_processed, 
+                "course_completed.csv" => $course_completed_processed,  
                 "prerequisite.csv" => $prereq_processed,
-                "course_completed.csv" => $course_completed_processed,
-                "bid.csv" => $bid_processed
+                "section.csv" => $section_processed,
+                "student.csv" => $student_processed                
                 ],
             ],
 			"messages" => $errors
@@ -547,15 +547,17 @@ function doBootstrap() {
             "num-record-loaded" => [
                 #Add processed count for your csv files, IN THIS FORMAT
                 #["Name.csv" => $name_processed] ,
-                "student.csv" => $student_processed,
-                "course.csv" => $course_processed,
-                "section.csv" => $section_processed,
+                "bid.csv" => $bid_processed,
+                "course.csv" => $course_processed, 
+                "course_completed.csv" => $course_completed_processed,  
                 "prerequisite.csv" => $prereq_processed,
-                "course_completed.csv" => $course_completed_processed,
-                "bid.csv" => $bid_processed
+                "section.csv" => $section_processed,
+                "student.csv" => $student_processed       
 			]
 		];
     }
+
+    
     header('Content-Type: application/json');
 	echo json_encode($result, JSON_PRETTY_PRINT)."\n";
 }

@@ -2,23 +2,15 @@
     "status": "error",
     "num-record-loaded": [
         {
-            "student.csv": 26,
+            "bid.csv": 11,
             "course.csv": 24,
-            "section.csv": 35,
-            "prerequisite.csv": 8,
             "course_completed.csv": 4,
-            "bid.csv": 11
+            "prerequisite.csv": 8,
+            "section.csv": 35,
+            "student.csv": 26
         }
     ],
     "messages": [
-        {
-            "file": "section.csv",
-            "line": 37,
-            "message": [
-                "invalid course",
-                "invalid section"
-            ]
-        },
         {
             "file": "bid.csv",
             "line": 7,
@@ -101,6 +93,14 @@
             "line": 24,
             "message": [
                 "not own school course"
+            ]
+        },
+        {
+            "file": "section.csv",
+            "line": 37,
+            "message": [
+                "invalid course",
+                "invalid section"
             ]
         }
     ]
