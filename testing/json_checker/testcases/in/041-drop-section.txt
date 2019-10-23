@@ -1,1 +1,5 @@
-r = {"userid"="winston.ng.2009","course"="IS100","section"="S1"}
+r={
+   "userid": "ada.goh.2012",
+   "course": "IS100",
+   "section": "S1"
+}
