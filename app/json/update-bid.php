@@ -53,6 +53,14 @@ else{
         header('Content-Type: application/json');
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
+    else{
+        $result = [
+            'status' => "success"
+        ];
+        
+        header('Content-Type: application/json');
+        echo json_encode($result, JSON_PRETTY_PRINT);
+    }
 
 }
 

@@ -35,6 +35,9 @@ if ($statusNow == 'active'){
         "round" => $round
     ];
 
+    header('Content-Type: application/json');
+    echo json_encode($result, JSON_PRETTY_PRINT);
+
 }
 else{
     if ($roundNow == 0){
