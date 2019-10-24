@@ -5,7 +5,7 @@ require_once "protect_json.php";
 
 $r = $_REQUEST['r'];
 $json_decoded = json_decode($r, true);
-$userid = $json_decoded['userid'];
+$userid = trim($json_decoded['userid']);
 
 $result = [];
 $message = [];

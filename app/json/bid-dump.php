@@ -5,8 +5,8 @@ require_once "protect_json.php";
 
 $r = $_REQUEST['r'];
 $json_decoded = json_decode($r, true);
-$course = $json_decoded['course'];
-$section = $json_decoded['section'];
+$course = trim($json_decoded['course']);
+$section = trim($json_decoded['section']);
 
 $result = [];
 $message = [];
