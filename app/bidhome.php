@@ -45,6 +45,7 @@
 <div class="container">
 <?php
 include_once "include/common.php";
+require_once "include/protect.php";
 $username = $_SESSION["username"];
 echo "<div class='card bg-light mb-3' style='margin-top:30px;'>";
 echo "<div class='card-header'>Welcome to BIOS, $username.</div>";
