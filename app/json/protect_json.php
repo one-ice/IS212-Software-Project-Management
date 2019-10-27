@@ -7,18 +7,22 @@ $errors = [];
 
 #for json_testing
 if  (isset($_REQUEST['token'])) {
-	$token = $_REQUEST['token'];
-}
+  $token = $_REQUEST['token'];
+}else{
+  $errors[] = 'missing token';
+  }
 
 // #for web
 // if  (isset($_SESSION['token'])) {
-// 	$token = $_SESSION['token'];
+//   $token = $_SESSION['token'];
 // }
-
+if($token==""){
+  $errors[] = 'blank token';
+  }
 # check if token is not valid
-# reply with appropriate JSON erro	r message
+# reply with appropriate JSON erro  r message
 if (verify_token($token) != 'admin'){
-	$errors[] = 'invalid token';
+  $errors[] = 'invalid token';
 }
 
 # add your code here
@@ -36,5 +40,7 @@ if (verify_token($token) != 'admin'){
 
 # you can do things like If ($page == "bootstrap-view.php) {   or 
 # if ($currentfolder == "json") {  
+
+
 
 ?>
