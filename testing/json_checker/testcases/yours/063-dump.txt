@@ -602,7 +602,7 @@
             "password": "qwerty129",
             "name": "Ben NG",
             "school": "SIS",
-            "edollar": "200.00"
+            "edollar": "189.00"
         },
         {
             "userid": "calvin.ng.2009",
@@ -672,7 +672,7 @@
             "password": "qwerty139",
             "name": "Larry NG",
             "school": "SIS",
-            "edollar": "121.00"
+            "edollar": "140.00"
         },
         {
             "userid": "maggie.ng.2009",
@@ -847,6 +847,12 @@
             "amount": "14.00"
         },
         {
+            "userid": "ben.ng.2009",
+            "course": "IS100",
+            "section": "S1",
+            "amount": "11.00"
+        },
+        {
             "userid": "calvin.ng.2009",
             "course": "IS100",
             "section": "S1",
@@ -881,12 +887,6 @@
             "course": "IS100",
             "section": "S1",
             "amount": "18.00"
-        },
-        {
-            "userid": "larry.ng.2009",
-            "course": "IS100",
-            "section": "S1",
-            "amount": "19.00"
         },
         {
             "userid": "maggie.ng.2009",
