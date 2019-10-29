@@ -21,6 +21,33 @@ $course = "";
 $course = $courseDAO->retrieve($code);
 $sectionDAO = new SectionDAO();
 $sectionValid = $sectionDAO->retrieve($code,$section);
+
+$fields = ['course','section','userid' ];
+$json_decoded = json_decode($r, true);
+foreach ($json_decoded as $key => $value){
+    $check[] = $key;
+        
+    if ($value == ""){
+        $errors[] = 'blank '. $key;
+    }
+}
+foreach ($fields as $things){
+    if (!in_array($things, $check)){
+        $errors[] = 'missing ' . $things;
+    }
+}
+
+if (sizeof($errors) > 0){ 
+
+    $result = [ 
+        "status" => "error",
+        "message" => $errors
+    ];
+    header('Content-Type: application/json');
+    echo json_encode($result, JSON_PRETTY_PRINT);
+}
+else{
+
 if ($round == 2 && $status == 'active') {		#round 2 & active
 	
 	if (count((array)$student) > 0) {			#Valid user id
@@ -83,5 +110,9 @@ else
 	header('Content-Type: application/json');
 	echo json_encode($result, JSON_PRETTY_PRINT);
 }
+
+}
+
+
 
 ?>
