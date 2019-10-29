@@ -50,7 +50,7 @@ class StudentDAO {
         $stmt->bindParam(':password', $student->password, PDO::PARAM_STR);
         $stmt->bindParam(':name', $student->name, PDO::PARAM_STR);
         $stmt->bindParam(':school', $student->school, PDO::PARAM_STR);
-        $stmt->bindParam(':edollar', $student->edollar, PDO::PARAM_INT);
+        $stmt->bindParam(':edollar', $student->edollar, PDO::PARAM_STR);
 
         $isAddOK = False;
         if ($stmt->execute()) {

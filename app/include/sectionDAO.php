@@ -82,7 +82,7 @@ class SectionDAO{
         $stmt->bindParam(':instructor', $section->instructor, PDO::PARAM_STR);
         $stmt->bindParam(':venue', $section->venue, PDO::PARAM_STR);
         $stmt->bindParam(':size', $section->size, PDO::PARAM_INT);
-        $stmt->bindParam(':min_bid', $section->min_bid, PDO::PARAM_INT);
+        $stmt->bindParam(':min_bid', $section->min_bid, PDO::PARAM_STR);
         
         $isAddOK = False;
         if ($stmt->execute()) {

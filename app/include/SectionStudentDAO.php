@@ -112,7 +112,7 @@ class SectionStudentDAO {
         $stmt->bindParam(':userid', $sectionstudentObj->userid, PDO::PARAM_STR);
 		$stmt->bindParam(':code', $sectionstudentObj->code, PDO::PARAM_STR);
         $stmt->bindParam(':section', $sectionstudentObj->section, PDO::PARAM_STR);
-        $stmt->bindParam(':amount', $sectionstudentObj->amount, PDO::PARAM_INT);
+        $stmt->bindParam(':amount', $sectionstudentObj->amount, PDO::PARAM_STR);
         
         $isAddOK = False;
 		
