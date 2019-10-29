@@ -48,7 +48,7 @@ $course = $_GET['course'];
 $username = $_SESSION['username'];
 $name = explode(".", $username);
 $firstName = ucfirst($name[0]);
-$lastName = ucfirst($name[1]);
+// $lastName = ucfirst($name[1]);
 $studentDAO =  new StudentDAO();
 $studentedollar = ($studentDAO->retrieve($username))->edollar;
 
@@ -98,7 +98,7 @@ if (count($sections) != 0)
 
 	echo "<div class='col-sm'>
 			<div class='card bg-light mb-3' style='margin-top:30px;'>
-			<div class='card-header'>$firstName $lastName, you have $$studentedollar in your account</div>
+			<div class='card-header'>$firstName , you have $$studentedollar in your account</div>
 			<div class='card-body'>
 			<div class='row'>
 			<div class='col-sm'>

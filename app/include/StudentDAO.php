@@ -68,7 +68,7 @@ class StudentDAO {
         $stmt = $conn->prepare($sql);
 
         $stmt->bindParam(':userid', $userid, PDO::PARAM_STR);
-        $stmt->bindParam(':edollar', $edollar, PDO::PARAM_INT);
+        $stmt->bindParam(':edollar', $edollar, PDO::PARAM_STR);
 
         $isUpdateOk = False;
         if ($stmt->execute()) {
@@ -77,8 +77,8 @@ class StudentDAO {
 
         return $isUpdateOk;
     }
-	
-	 public function removeAll() {
+  
+   public function removeAll() {
         $sql = 'SET FOREIGN_KEY_CHECKS = 0;
         TRUNCATE TABLE student; 
         SET FOREIGN_KEY_CHECKS = 1';
@@ -91,7 +91,6 @@ class StudentDAO {
         $stmt->execute();
         $count = $stmt->rowCount();
     }    
-	
+  
 }
-
 

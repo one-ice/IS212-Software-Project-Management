@@ -24,7 +24,7 @@ function removeWhiteSpace($data){
     return $arrayToReturn;
 }
 
-function doBootstrap() {
+function doBootstrap($viaWeb = false) {
 
     $errors = array();
 	# need tmp_name -a temporary name create for the file and stored inside apache temporary folder- for proper read address
@@ -555,8 +555,12 @@ function doBootstrap() {
 		];
     }
 
-    
-    header('Content-Type: application/json');
-	echo json_encode($result, JSON_PRETTY_PRINT)."\n";
+    if($viaWeb){
+        return json_encode($result, JSON_PRETTY_PRINT);
+    }
+    else{
+        header('Content-Type: application/json');
+        echo json_encode($result, JSON_PRETTY_PRINT)."\n";
+    }
 }
 ?>
