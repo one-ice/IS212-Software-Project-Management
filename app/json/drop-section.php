@@ -21,7 +21,6 @@ $course = "";
 $course = $courseDAO->retrieve($code);
 $sectionDAO = new SectionDAO();
 $sectionValid = $sectionDAO->retrieve($code,$section);
-$message = ["no such enrollment record"];
 if ($round == 2 && $status == 'active') {		#round 2 & active
 	
 	if (count((array)$student) > 0) {			#Valid user id
@@ -42,8 +41,6 @@ if ($round == 2 && $status == 'active') {		#round 2 & active
 					echo json_encode($result, JSON_PRETTY_PRINT);
 				}
 				
-				
-			}
 			else {								#Valid Course + Invalid section
 				$result = [ 
 					"status" => "error",
