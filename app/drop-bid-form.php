@@ -39,6 +39,7 @@
 <div class="container">
 <?php
 include_once "include/common.php";
+require_once "include/protect.php";
 $username = $_SESSION["username"];
 $name =[];
 $name = explode(".", $username);

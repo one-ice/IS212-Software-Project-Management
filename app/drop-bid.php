@@ -1,6 +1,6 @@
 <?php
 include_once "include/common.php";
-
+require_once "include/protect.php";
 $course = $_GET['code'];
 $userid = $_SESSION['username'];
 

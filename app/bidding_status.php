@@ -2,7 +2,7 @@
 spl_autoload_register(function($class){
     require_once "include/$class.php"; 
 });
-include_once "meetCriteria.php";
+require_once "include/protect.php";
 require_once 'include/clearing2.php';
 // session_start();
 # round 0, round 1 active, round 1 inactive, round 2 active, round 2 inactive

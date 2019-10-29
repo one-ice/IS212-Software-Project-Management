@@ -41,7 +41,7 @@
 
 <?php
 include_once "include/common.php"; 
-include_once "meetCriteria.php";
+require_once "include/protect.php";
 require_once 'include/clearing2.php';
 
 $course = $_GET['course'];
