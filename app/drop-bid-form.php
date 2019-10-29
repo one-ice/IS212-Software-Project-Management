@@ -43,9 +43,9 @@ $username = $_SESSION["username"];
 $name =[];
 $name = explode(".", $username);
 $firstName = ucfirst($name[0]);
-$lastName = ucfirst($name[1]);
+// $lastName = ucfirst($name[1]);
 echo "<div class='card bg-light mb-3' style='margin-top:30px;'>";
-echo "<div class='card-header'>Welcome to BIOS, $firstName $lastName</div>";
+echo "<div class='card-header'>Welcome to BIOS, $firstName </div>";
 echo "<div class='card-body'>";
 
 #Retrieve round
