@@ -69,8 +69,8 @@ function bidValidation($data){
 
 
         if (sizeof(bidEnoughDollar($data[0], $data[2], $data[1])) > 0){
-            $errorDetails = bidEnoughDollar($data[0], $data[2], $data[1]);
-            array_push($errors, $errorDetails[0]);
+            $bidamounterror = 'insufficient e$';
+            array_push($errors, $bidamounterror); 
         }
         $sectionDAO = new SectionDAO();
         $sectionDetails = $sectionDAO->retrieve($data[2], $data[3]); 
