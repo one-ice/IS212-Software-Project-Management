@@ -21,6 +21,16 @@ elseif ($course == '')
 {
     $message[] = 'blank course';
 }
+#Check if section is missing
+if(!array_key_exists('section', $json_decoded))
+{
+    $message[] = 'missing section';
+}
+#Check if section is empty
+elseif($section == '')
+{
+    $message[] = 'empty section';
+}
 else
 {
     #Check if course exist
@@ -32,25 +42,12 @@ else
     }
     else
     {   
-        #Check if section is missing
-        if(!array_key_exists('section', $json_decoded))
+        #Check if section exist
+        $sectionDAO = new SectionDAO();
+        $section_exist = $sectionDAO->retrievebyCourseAndSection($course, $section);
+        if($section_exist == null)
         {
-            $message[] = 'missing section';
-        }
-        #Check if section is empty
-        elseif($section == '')
-        {
-            $message[] = 'empty section';
-        }
-        else
-        {
-            #Check if section exist
-            $sectionDAO = new SectionDAO();
-            $section_exist = $sectionDAO->retrievebyCourseAndSection($course, $section);
-            if($section_exist == null)
-            {
-                $message[] = 'invalid section';
-            }
+            $message[] = 'invalid section';
         }
     }
 }
