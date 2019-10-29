@@ -51,6 +51,9 @@ $firstName = ucfirst($name[0]);
 // $lastName = ucfirst($name[1]);
 $studentDAO =  new StudentDAO();
 $studentedollar = ($studentDAO->retrieve($username))->edollar;
+$roundDAO = new RoundDAO();
+$currentround = $roundDAO->retrieveAll();
+$round = $currentround->round;
 
 ?>
 <html>
@@ -66,6 +69,8 @@ $sectionDAO = new SectionDAO();
 $sections = $sectionDAO->retrievebyCourse($course);
 if (count($sections) != 0)
 {
+  if ($round == 1)
+  {
     echo "<br>
 		<div class='container'>
 		<div class='row'>
@@ -81,9 +86,43 @@ if (count($sections) != 0)
         <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> End </th> 
 		<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Instructor </th> 
 		<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Venue </th> 
-		</tr>";
-    foreach ($sections as $section)
+    </tr>";
+  }
+  elseif($round == 2)
+  {
+    echo "<br>
+		<div class='container'>
+		<div class='row'>
+		<div class='col-sm'>
+		<div class='card bg-light mb-3' style='margin-top:30px;'>
+		<div class='card-header'>Course selected: <label for = 'course'>$course</label></div>
+		<div class='card-body'>
+		<table style='margin-bottom:30px;border-style:solid;border-width: 1.5px 1.5px 1.5px 1.5px;' class='table table-striped table-hover table-sm table-responsive'>
+        <tr> 
+		<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Section </th> 
+		<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Day </th> 
+		<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Start </th>
+        <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> End </th> 
+		<th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Instructor </th> 
+    <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Venue </th> 
+    <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Vacancy </th>
+    <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Min Bid </th> 
+    </tr>";
+  }
+  foreach ($sections as $section)
     {
+      if ($round == 2)
+      {
+        #retrieve vacancy
+        $totalvacancy =  $section->size;
+        $sectionstudentDAO = new SectionStudentDAO();
+        $enrolled = $sectionstudentDAO->retrieveVacancy($course, $section->section);
+        $vacancy = $totalvacancy - $enrolled;
+        #retrieve min bid
+        $sectionDAO = new SectionDAO();
+        $minBidInfo = $sectionDAO->retrieveByCourseAndSection($course,$section->section);
+        $minBid = $minBidInfo[0]->min_bid;
+
         echo "<tr>
 				<td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$section->section} </td>
                 <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$days[$section->day -1]} </td> 
@@ -91,10 +130,24 @@ if (count($sections) != 0)
                 <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$section->end} </td>
                 <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$section->instructor} </td>
                 <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$section->venue} </td>
-			</tr>";
-    }
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$vacancy} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$minBid} </td>
+			  </tr>";
+      }
+      elseif($round == 1)
+      {
+        echo "<tr>
+				<td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$section->section} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$days[$section->day -1]} </td> 
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$section->start} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$section->end} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$section->instructor} </td>
+                <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'> {$section->venue} </td>
+			  </tr>";
+      }
+  }
 
-    echo "</table></div></div></div>";
+  echo "</table></div></div></div>";
 
 	echo "<div class='col-sm'>
 			<div class='card bg-light mb-3' style='margin-top:30px;'>
