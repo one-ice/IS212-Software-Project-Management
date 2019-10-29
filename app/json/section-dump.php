@@ -15,10 +15,35 @@ $course = $courseDAO->retrieve($code);
 $sectionDAO = new SectionDAO();
 $sectionValid = $sectionDAO->retrieve($code,$section);
 $message = ["invalid section"];
-if (is_Object($course) > 0) {
+
+$fields = ['course','section' ];
+$json_decoded = json_decode($r, true);
+foreach ($json_decoded as $key => $value){
+    $check[] = $key;
+        
+    if ($value == ""){
+        $errors[] = 'blank '. $key;
+    }
+}
+foreach ($fields as $things){
+    if (!in_array($things, $check)){
+        $errors[] = 'missing ' . $things;
+    }
+}
+
+if (sizeof($errors) > 0){ 
+
+    $result = [ 
+        "status" => "error",
+        "message" => $errors
+    ];
+    header('Content-Type: application/json');
+    echo json_encode($result, JSON_PRETTY_PRINT);
+}
+else {
+	if (is_Object($course) > 0) {
 	if (is_Object($sectionValid) > 0) {
-		
-	if (sizeof($sectionStudentObj)>0) {
+		if (sizeof($sectionStudentObj)>0) {
 		$values = array();
 		for($row = 0; $row < sizeof($sectionStudentObj); $row++)
 		{
@@ -33,34 +58,28 @@ if (is_Object($course) > 0) {
     ];
 	header('Content-Type: application/json');
 	echo json_encode($result, JSON_PRETTY_PRINT);
-} 
-else {
+		} 
+	}
+	else {
 	$result = [ 
             "status" => "error",
             "message" => [ "invalid section" ]
         ];
 	header('Content-Type: application/json');
 	echo json_encode($result, JSON_PRETTY_PRINT);
-}
-
-
-	} else {
-			$result = [ 
-			"status" => "error",
-			"message" => $message
-			];
-			header('Content-Type: application/json');
-			echo json_encode($result, JSON_PRETTY_PRINT);
-	}
+		}
 }
 else {
 	$result = [ 
 			"status" => "error",
-			"message" => $message
+			"message" => [ "invalid course" ]
 			];
 			header('Content-Type: application/json');
 			echo json_encode($result, JSON_PRETTY_PRINT);
 }
+
+}
+
 
 
 ?>
