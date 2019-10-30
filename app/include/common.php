@@ -303,6 +303,9 @@ function isStudentValid($userid, $password, $name, $edollar)
                 $errors[] = "invalid e-dollar";
             }
         }  
+        elseif (count($explodestringedollar) > 2){
+            $errors[] = "invalid e-dollar";
+        }
     } 
     else
     {
