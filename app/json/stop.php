@@ -50,7 +50,7 @@ else{
         }
         $result = [ 
             "status" => "error",
-            "message" => "round already ended"
+            "message" => ["round already ended"]
         ];
     
     }
