@@ -115,14 +115,16 @@ function checkCourseVali($title,$description,$examDate,$examStart,$examEnd){
 
     if($startFormat = DateTime::createFromFormat('H:i',$examStart)){
         $examStartVali = TRUE;
-        if($endFormat = DateTime::createFromFormat('H:i',$examEnd)){
-            if($endFormat>$startFormat){
-                $examEndVali = TRUE;
-            }   
-
-        }
+       
     }
         
+    if($endFormat = DateTime::createFromFormat('H:i',$examEnd)){
+        $examEndVali = TRUE;
+        if($endFormat<$startFormat && $startFormat){
+            $examEndVali = FALSE;
+        }   
+
+    }
     if(!$descriptionVali){
         $errors_in_course[] = "invalid description";
     }
