@@ -185,11 +185,13 @@ function isSectionValid($course,$section,$day,$start,$end,$instructor,$venue,$si
     #check start and end validity
     if($startFormat = DateTime::createFromFormat('H:i',$start)){
         $startValid = TRUE;
-        if($endFormat = DateTime::createFromFormat('H:i',$end)){
-            if($endFormat>$startFormat){
-                $endValid = TRUE;
-            }   
-        }
+    }
+
+    if($endFormat = DateTime::createFromFormat('H:i',$end)){
+        $endValid = TRUE;
+        if($endFormat<$startFormat && $startValid){
+            $endValid = FALSE;
+        }   
     }
 
     #check instructor length
@@ -214,7 +216,7 @@ function isSectionValid($course,$section,$day,$start,$end,$instructor,$venue,$si
     if (!$courseValid){
         $errors[] = "invalid course";
     }
-    if (!$sectionValid){
+    elseif (!$sectionValid){
         $errors[] = "invalid section";
     }
     if (!$dayValid){
