@@ -55,6 +55,7 @@ foreach ($courses as $courseObj){
 }
 
 $section_results = [];
+$days = [0,'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 foreach ($sections as $sectionObj){
 
     $start = explode(":", $sectionObj->start);
@@ -71,10 +72,11 @@ foreach ($sections as $sectionObj){
         $end = ltrim($end, '0');
     }
 
+    
     $section_results[] = [
         "course" => $sectionObj->course ,
         "section" => $sectionObj->section ,
-        "day" => $sectionObj->day ,
+        "day" => $days[$sectionObj->day],
         // "start" => $sectionObj->start , 
         // "end" => $sectionObj->end ,
         "start" => $start,
