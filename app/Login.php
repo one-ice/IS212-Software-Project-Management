@@ -49,9 +49,9 @@
             <label for="Login">Welcome to BIOS!</label>
 
             <input name = 'username' class="Login" placeholder="Username" />
-            <p id = 'error1'> <?= $error1 ?></p>
+            <p id = 'error1' style="color:red;font-weight:bold;"> <?= $error1 ?></p>
             <input name = 'password' class="Login" type="password" placeholder ="Password" />
-            <p id = 'error2'> <?= $error2 ?></p>
+            <p id = 'error2' style="color:red;font-weight:bold;"> <?= $error2 ?></p>
             <button>Submit</button>        
             
         </form>
