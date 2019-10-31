@@ -3,7 +3,7 @@ spl_autoload_register(function($class){
     require_once "include/$class.php"; 
 });
 require_once "include/protect.php";
-session_start();
+// session_start();
 $roundDAO = new RoundDAO();
 $roundInfo = $roundDAO->retrieveAll();
 $round = $roundInfo->round;

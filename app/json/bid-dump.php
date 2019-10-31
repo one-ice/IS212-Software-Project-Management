@@ -80,7 +80,7 @@ if($message == [])
                     $values[] = [
                                     'row' => $bidcount,
                                     'userid' => $bid->userid,
-                                    'amount' => $bid->amount,
+                                    'amount' => (float)$bid->amount,
                                     'result' => 'in'
                                 ];
                 }
@@ -89,7 +89,7 @@ if($message == [])
                     $values[] = [
                                     'row' => $bidcount,
                                     'userid' => $bid->userid,
-                                    'amount' => $bid->amount,
+                                    'amount' => (float)$bid->amount,
                                     'result' => 'out'
                                 ];
                 }
@@ -98,7 +98,7 @@ if($message == [])
                     $values[] = [
                                     'row' => $bidcount,
                                     'userid' => $bid->userid,
-                                    'amount' => $bid->amount,
+                                    'amount' => (float)$bid->amount,
                                     'result' => '-'
                                 ];
                 }
@@ -135,7 +135,7 @@ if($message == [])
                 $values[] = [
                                 'row' => $bidcount,
                                 'userid' => $successbid->userid,
-                                'amount' => $successbid->amount,
+                                'amount' => (float)$successbid->amount,
                                 'result' => 'in'
                             ];
             }
@@ -145,7 +145,7 @@ if($message == [])
                 $values[] = [
                                 'row' => $bidcount,
                                 'userid' => $failbid->userid,
-                                'amount' => $failbid->amount,
+                                'amount' => (float)$failbid->amount,
                                 'result' => 'out'
                             ];
             
@@ -162,5 +162,5 @@ else
 }
 
 header('Content-Type: application/json');
-echo json_encode($result, JSON_PRETTY_PRINT);
+echo json_encode($result, JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION);
 ?>

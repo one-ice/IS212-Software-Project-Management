@@ -115,14 +115,16 @@ function checkCourseVali($title,$description,$examDate,$examStart,$examEnd){
 
     if($startFormat = DateTime::createFromFormat('H:i',$examStart)){
         $examStartVali = TRUE;
-        if($endFormat = DateTime::createFromFormat('H:i',$examEnd)){
-            if($endFormat>$startFormat){
-                $examEndVali = TRUE;
-            }   
-
-        }
+       
     }
         
+    if($endFormat = DateTime::createFromFormat('H:i',$examEnd)){
+        $examEndVali = TRUE;
+        if($endFormat<$startFormat && $startFormat){
+            $examEndVali = FALSE;
+        }   
+
+    }
     if(!$descriptionVali){
         $errors_in_course[] = "invalid description";
     }
@@ -185,11 +187,13 @@ function isSectionValid($course,$section,$day,$start,$end,$instructor,$venue,$si
     #check start and end validity
     if($startFormat = DateTime::createFromFormat('H:i',$start)){
         $startValid = TRUE;
-        if($endFormat = DateTime::createFromFormat('H:i',$end)){
-            if($endFormat>$startFormat){
-                $endValid = TRUE;
-            }   
-        }
+    }
+
+    if($endFormat = DateTime::createFromFormat('H:i',$end)){
+        $endValid = TRUE;
+        if($endFormat<$startFormat && $startValid){
+            $endValid = FALSE;
+        }   
     }
 
     #check instructor length
@@ -214,7 +218,7 @@ function isSectionValid($course,$section,$day,$start,$end,$instructor,$venue,$si
     if (!$courseValid){
         $errors[] = "invalid course";
     }
-    if (!$sectionValid){
+    elseif (!$sectionValid){
         $errors[] = "invalid section";
     }
     if (!$dayValid){
@@ -303,6 +307,9 @@ function isStudentValid($userid, $password, $name, $edollar)
                 $errors[] = "invalid e-dollar";
             }
         }  
+        elseif (count($explodestringedollar) > 2){
+            $errors[] = "invalid e-dollar";
+        }
     } 
     else
     {

@@ -24,28 +24,66 @@ $round = $roundDAO->retrieveAll();
 
 $course_results  = [];
 foreach ($courses as $courseObj){
+       
+
+    $start = explode(":", $courseObj->exam_start);
+    $start = $start[0] . $start[1];
+
+    if ($start[0] == '0'){
+        $start = ltrim($start, '0');
+    }
+
+    $end = explode(":", $courseObj->exam_end);
+    $end = $end[0] . $end[1];
+
+    if ($end[0] == '0'){
+        $end = ltrim($end, '0');
+    }
+
+    $e_date = explode("-", $courseObj->exam_date);
+    $e_date = $e_date[0] . $e_date[1] .$e_date[2];
+
     $course_results[] = [
         "course" => $courseObj->course, 
         "school" => $courseObj->school,
         "title" => $courseObj->title,
         "description" => $courseObj->description,
-        "exam date" => $courseObj->exam_date,
-        "exam start" => $courseObj->exam_start,
-        "exam end" => $courseObj->exam_end
+        "exam date" => $e_date,
+        "exam start" => $start,
+        "exam end" => $end
     ];
 }
 
 $section_results = [];
+$days = [0,'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 foreach ($sections as $sectionObj){
+
+    $start = explode(":", $sectionObj->start);
+    $start = $start[0] . $start[1];
+    
+    if ($start[0] == '0'){
+        $start = ltrim($start, '0');
+    }
+
+    $end = explode(":", $sectionObj->end);
+    $end = $end[0] . $end[1];
+
+    if ($end[0] == '0'){
+        $end = ltrim($end, '0');
+    }
+
+    
     $section_results[] = [
         "course" => $sectionObj->course ,
         "section" => $sectionObj->section ,
-        "day" => $sectionObj->day ,
-        "start" => $sectionObj->start , 
-        "end" => $sectionObj->end ,
+        "day" => $days[$sectionObj->day],
+        // "start" => $sectionObj->start , 
+        // "end" => $sectionObj->end ,
+        "start" => $start,
+        "end" => $end,
         "instructor" => $sectionObj->instructor ,
         "venue" => $sectionObj->venue ,
-        "size" => $sectionObj->size
+        "size" => intval($sectionObj->size)
     ];
 }
 
@@ -56,7 +94,7 @@ foreach ($students as $studentObj){
         "password" =>  $studentObj->password ,
         "name" =>  $studentObj->name ,
         "school" =>  $studentObj->school ,
-        "edollar" =>  $studentObj->edollar
+        "edollar" =>  (float)$studentObj->edollar
     ] ;
 }
 
@@ -72,7 +110,7 @@ $bid_results = [];
 foreach ($bids as $bidObj){
     $bid_results[] = [
         "userid" => $bidObj->userid,
-        "amount" => $bidObj->amount,
+        "amount" => (float)$bidObj->amount,
         "course" => $bidObj->code,
         "section" => $bidObj->section
     ];
@@ -93,7 +131,7 @@ foreach ($sectionStudents as $secstu_Obj){
         "userid" => $secstu_Obj->userid,
         "course" => $secstu_Obj->code,
         "section" => $secstu_Obj->section,
-        "amount" => $secstu_Obj->amount
+        "amount" => (float)$secstu_Obj->amount
     ];
 }
 
@@ -110,6 +148,6 @@ $result = [
 
 
 header('Content-Type: application/json');
-echo json_encode($result, JSON_PRETTY_PRINT);
+echo json_encode($result, JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION);
 
 ?>

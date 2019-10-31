@@ -39,7 +39,7 @@ if($round == 0){
     echo "<br/>you haven't bidded a course";
 }elseif($round == 1 && $status == "inactive" && empty($successInfo) && empty($failBidInfo)){
     echo "<br/>you haven't bidded a course";
-}elseif($round == 2 && $status == "active" && empty($pendingInfo) && empty($failBidInfo) && empty($successIno)){
+}elseif($round == 2 && $status == "active" && empty($pendingInfo) && empty($failBidInfo) && empty($successInfo)){
     // var_dump($successInfo);
     echo "<br/>you haven't bidded a course";
 }

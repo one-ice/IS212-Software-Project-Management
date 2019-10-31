@@ -534,7 +534,7 @@ function doBootstrap($viaWeb = false) {
                 ["section.csv" => $section_processed],
                 ["student.csv" => $student_processed]                
             ],
-			"messages" => $errors
+			"error" => $errors
 		];
     }
     
