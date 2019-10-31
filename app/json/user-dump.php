@@ -37,7 +37,7 @@ if ($message == [])
                 "password" => $student->password,
                 "name" => $student->name,
                 "school" => $student->school,
-                "edollar" => $student->edollar
+                "edollar" => (float)$student->edollar
             ];
 }
 else

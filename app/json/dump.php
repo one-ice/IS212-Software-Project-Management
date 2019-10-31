@@ -92,7 +92,7 @@ foreach ($students as $studentObj){
         "password" =>  $studentObj->password ,
         "name" =>  $studentObj->name ,
         "school" =>  $studentObj->school ,
-        "edollar" =>  $studentObj->edollar
+        "edollar" =>  (float)$studentObj->edollar
     ] ;
 }
 
@@ -108,7 +108,7 @@ $bid_results = [];
 foreach ($bids as $bidObj){
     $bid_results[] = [
         "userid" => $bidObj->userid,
-        "amount" => $bidObj->amount,
+        "amount" => (float)$bidObj->amount,
         "course" => $bidObj->code,
         "section" => $bidObj->section
     ];
@@ -129,7 +129,7 @@ foreach ($sectionStudents as $secstu_Obj){
         "userid" => $secstu_Obj->userid,
         "course" => $secstu_Obj->code,
         "section" => $secstu_Obj->section,
-        "amount" => $secstu_Obj->amount
+        "amount" => (float)$secstu_Obj->amount
     ];
 }
 
@@ -146,6 +146,6 @@ $result = [
 
 
 header('Content-Type: application/json');
-echo json_encode($result, JSON_PRETTY_PRINT);
+echo json_encode($result, JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION);
 
 ?>

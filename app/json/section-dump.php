@@ -38,7 +38,7 @@ if (sizeof($errors) > 0){
         "message" => $errors
     ];
     header('Content-Type: application/json');
-    echo json_encode($result, JSON_PRETTY_PRINT);
+    echo json_encode($result, JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION);
 }
 else {
 	if (is_Object($course) > 0) {
@@ -48,7 +48,7 @@ else {
 		for($row = 0; $row < sizeof($sectionStudentObj); $row++)
 		{
 			$values[$row]['userid'] = $sectionStudentObj[$row]->userid;
-			$values[$row]['amount'] = $sectionStudentObj[$row]->amount;
+			$values[$row]['amount'] = (float)$sectionStudentObj[$row]->amount;
 		}
 	
 	$result = [ 
@@ -57,7 +57,7 @@ else {
 		
     ];
 	header('Content-Type: application/json');
-	echo json_encode($result, JSON_PRETTY_PRINT);
+	echo json_encode($result, JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION );
 		} 
 	}
 	else {
@@ -66,7 +66,7 @@ else {
             "message" => [ "invalid section" ]
         ];
 	header('Content-Type: application/json');
-	echo json_encode($result, JSON_PRETTY_PRINT);
+	echo json_encode($result, JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION );
 		}
 }
 else {
@@ -75,7 +75,7 @@ else {
 			"message" => [ "invalid course" ]
 			];
 			header('Content-Type: application/json');
-			echo json_encode($result, JSON_PRETTY_PRINT);
+			echo json_encode($result, JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION);
 }
 
 }
