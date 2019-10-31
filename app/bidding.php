@@ -221,6 +221,11 @@ if(isset($_POST['submit']))
         $amount_left = $studentDetails->edollar;
         echo "<p> Bid updated successfully! 
         Amount left: $$amount_left </p>";
+
+        if ($round->round == 2)
+        {
+          second_bid_valid($username, $course, $bid_section, $bid_amt);
+        }
     }
     else{
             echo "<ul>";
