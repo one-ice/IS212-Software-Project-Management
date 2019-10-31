@@ -67,7 +67,7 @@ $allRecords = $json_string['num-record-loaded'];
             }
           }
           if($status == 'error'){
-            $messages = $json_string['messages'];
+            $messages = $json_string['error'];
             foreach($messages as $message){
               $fileName = $message['file'];
               $lineNumber = $message['line'];
