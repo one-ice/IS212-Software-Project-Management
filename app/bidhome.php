@@ -15,7 +15,7 @@
 
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #01579b">
-  <a class="navbar-brand" href="#" style="color:white;">BIOS: Bid Home</a>
+  <a class="navbar-brand" href="bidhome.php" style="color:white;">BIOS: Bid Home</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -23,16 +23,19 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" style="color:white;" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" style="color:white;" href="bidhome.php">Home<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" style="color:white;" href="drop-bid-form.php">Drop Bid <span class="sr-only">(current)</span></a>
+        <a class="nav-link" style="color:white;" href="drop-bid-form.php">Drop Bid<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" style="color:white;" href="drop_section.php">Drop Section <span class="sr-only">(current)</span></a>
+        <a class="nav-link" style="color:white;" href="drop_section.php">Drop Section<span class="sr-only">(current)</span></a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" style="color:white;" href="bidding_status.php">Bidding Status</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" style="color:white;" href="logout.php">Logout</a>
+        <a class="nav-link" style="color:white;" href="logout.php">&Logout</a>
       </li>
       </li>
     </ul>
@@ -59,13 +62,9 @@ $status = (($roundDAO->retrieveAll())->status);
 #Retrieve student's edollar
 $studentDAO =  new StudentDAO();
 $studentedollar = ($studentDAO->retrieve($username))->edollar;
-echo "<h5 class='card-title'>Round $round</h5>";
+echo "<h5 class='card-title'>Round $round: $status</h5>";
 echo "<p class='card-text'>You have $$studentedollar</p>";
 echo "</div></div>";
-# view bidding status button
-echo "<form action = 'bidding_status.php' >";
-echo "<input type = 'submit' name = 'view bidding status' value ='view bidding status'>";
-echo "</form>";
 
 echo "<div class='row' style='margin-top:30px;'>";
 echo "<div class='col-sm'>";
@@ -81,7 +80,12 @@ if ($round == 1)
 
 
 	echo "<div class='card bg-light mb-3'>";
-	echo "<div class='card-header'>List of Biddable Modules</div>";
+	if ($status == "active") {
+		echo "<div class='card-header'>List of Biddable Modules</div>";
+	} 
+	else {
+		echo "<div class='card-header'><p style='font-weight:bold;font-size:1.25em;color:red;'>Round 1 is inactive. You cannot bid any module now</p>List of Modules</div>";
+	}
 	echo " </div>";
 
   echo "<table style='margin-bottom:30px;border-style:solid;border-width: 1.5px 1.5px 1.5px 1.5px;' class='table table-striped table-hover table-sm table-responsive'> 
@@ -122,8 +126,13 @@ if ($round == 2)
   $courseDAO = new CourseDAO();
   $courses = $courseDAO->retrieveAll();
 
-  echo "<div class='card bg-light mb-3'>";
-	echo "<div class='card-header'>List of Biddable Modules</div>";
+	echo "<div class='card bg-light mb-3'>";
+	if ($status == "active") {
+		echo "<div class='card-header'>List of Biddable Modules</div>";
+	} 
+	else {
+		echo "<div class='card-header'><p style='font-weight:bold;font-size:1.25em;color:red;'>Round 2 is inactive. You cannot bid any module now</p>List of Modules</div>";
+	}
 	echo " </div>";
 
     echo "<table style='margin-bottom:30px;border-style:solid;border-width: 1.5px 1.5px 1.5px 1.5px;' class='table table-striped table-hover table-sm table-responsive'> 
