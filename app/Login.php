@@ -22,7 +22,7 @@
             }
             
         }else{
-            $messages = $result["messages"];
+            $messages = $result["message"];
             if(sizeof($messages) == 2){
                 $error1 = $messages[0];
                 $error2 = $messages[1];

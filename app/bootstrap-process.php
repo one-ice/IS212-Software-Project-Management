@@ -54,34 +54,34 @@ $status = $json_string['status'];
 $allRecords = $json_string['num-record-loaded'];
 ?>
 
-        <?php 
-        if(isset($_POST['submit'])){
-        echo"<table class='bootstrap-form'>
-        <thead>
-            <th>Bootstrap Results</th>
-        </thead>";  
-          echo "<tr><td>Status</td><td>$status</td></tr>";
-          foreach ($allRecords as $recordFile){
-            foreach($recordFile as $fileName => $number){
-             echo "<tr><td>$fileName</td><td>$number</td></tr>";
-            }
-          }
-          if($status == 'error'){
-            $messages = $json_string['error'];
-            foreach($messages as $message){
-              $fileName = $message['file'];
-              $lineNumber = $message['line'];
-              $errors = "";
-              foreach($message['message'] as $message1){
-                $errors = $errors.$message1." ";
-              }
-              echo "<tr><td>$fileName</td><td>Line: $lineNumber </td> <td> $errors </td> </tr>";
-            }
-          }
-        }
-        
-        
-        ?>
+<?php 
+if(isset($_POST['submit'])){
+echo"<table class='bootstrap-form'>
+<thead>
+    <th>Bootstrap Results</th>
+</thead>";  
+  echo "<tr><td>Status</td><td>$status</td></tr>";
+  foreach ($allRecords as $recordFile){
+      foreach($recordFile as $fileName => $number){
+          echo "<tr><td>$fileName</td><td>$number</td></tr>";
+      } 
+  }
+  if($status == 'error'){
+    $messages = $json_string['error'];
+    foreach($messages as $message){
+      $fileName = $message['file'];
+      $lineNumber = $message['line'];
+      $errors = "";
+      foreach($message['message'] as $message1){
+        $errors = $errors.$message1." ";
+      }
+      echo "<tr><td>$fileName</td><td>Line: $lineNumber </td> <td> $errors </td> </tr>";
+    }
+  }
+}
+
+
+?>
 </table>
 </pre>
 <br/>
