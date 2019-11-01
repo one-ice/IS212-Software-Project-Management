@@ -15,7 +15,7 @@
 
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #01579b">
-  <a class="navbar-brand" href="#" style="color:white;">BIOS: Bidding</a>
+  <a class="navbar-brand" href="bidhome.php" style="color:white;">BIOS: Bidding</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -23,7 +23,16 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" style="color:white;" href="bidhome.php">Bid Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" style="color:white;" href="bidhome.php">Home<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" style="color:white;" href="drop-bid-form.php">Drop Bid<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" style="color:white;" href="drop_section.php">Drop Section<span class="sr-only">(current)</span></a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" style="color:white;" href="bidding_status.php">Bidding Status</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" style="color:white;" href="logout.php">Logout</a>
@@ -181,16 +190,11 @@ if (count($sections) != 0)
 	</div>
 	</div>
 	 
-	</div>
-	</div>
-	</div>
-	</div>
-	</div>
-	<br>";
+	";
 }
 else
 {
-    echo "<p> No sections available to bid </p>";
+    echo "<p style='color:red;font-weight:bold;'> No sections available to bid </p>";
 }
 ?>
     </form> </body> 
@@ -219,7 +223,7 @@ if(isset($_POST['submit']))
         $studentDAO = new StudentDAO();
         $studentDetails = $studentDAO->retrieve($dataArray[0]);
         $amount_left = $studentDetails->edollar;
-        echo "<p> Bid updated successfully! 
+        echo "<br/><p style='color:green;font-weight:bold;'> Bid updated successfully! 
         Amount left: $$amount_left </p>";
 
         if ($round->round == 2)
@@ -228,16 +232,24 @@ if(isset($_POST['submit']))
         }
     }
     else{
-            echo "<ul>";
+            echo "<br/><ul>";
             foreach($errors as $error)
             {   
-                echo "<li> $error </li>";
+                echo "<li style='color:red;font-weight:bold;'> $error </li>";
             }
             echo "</ul>";
     }
 
 }
 ?>
+
+</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	<br>
+
 
 </div>
 		</div>
