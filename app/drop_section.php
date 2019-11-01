@@ -71,6 +71,8 @@ if($round == 2 && $status == 'active'){
 	$username, you have $$studentedollar in your account
 	</div>
 	</div>";
+	echo "<div class='card bg-light mb-3' style='margin-top:30px;'>
+	<div class='card-header'>";
     if(count($bidInfos = $sectionStudentDAO->retrieveByUserID($username)) != 0){
         echo "<table style='margin-bottom:30px;border-style:solid;border-width: 1.5px 1.5px 1.5px 1.5px;' class='table table-striped table-hover table-sm table-responsive'>
         <tr>
@@ -91,7 +93,7 @@ if($round == 2 && $status == 'active'){
             </tr>";
         }
         
-        echo"</table><input type = 'submit'></form>";
+        echo"</table><input type = 'submit' ></form></div></div>";
     }else{
         echo "<div class='card bg-light mb-3' style='margin-top:30px;'>
 			<div class='card-header' style='font-size:1.25em;color:red;font-weight:bold'>
@@ -125,7 +127,6 @@ if(isset($_GET['drop'])){
             $ed = $studentedollar +$amount;
             $studentDAO->update($username,$ed);
         };
-
         header("Location:drop_section.php");
     }
 }
