@@ -35,7 +35,7 @@
         <a class="nav-link" style="color:white;" href="bidding_status.php">Bidding Status</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" style="color:white;" href="logout.php">&Logout</a>
+        <a class="nav-link" style="color:white;" href="logout.php">Logout</a>
       </li>
       </li>
     </ul>
