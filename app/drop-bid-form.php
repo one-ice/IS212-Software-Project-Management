@@ -1,7 +1,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>BIOS: Bidding</title>
+<title>BIOS: Drop Bid</title>
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -77,12 +77,13 @@ echo "<div class='col-sm'>";
 $BidDAO = new BidDAO();
 $mods = [];
 $mods = $BidDAO->retrieve($username);
-echo "<div class='card bg-light mb-3'>";
-echo "<div class='card-header'>List of Modules Bidded</div>";
-echo " </div>";
+
 
 if ($status == 'active' && $mods != [])
 {
+	echo "<div class='card bg-light mb-3'>";
+	echo "<div class='card-header'>List of Modules Bidded</div>";
+	echo " </div>";
   echo "<table style='margin-bottom:30px;border-style:solid;border-width: 1.5px 1.5px 1.5px 1.5px;' class='table table-striped table-hover table-sm table-responsive'> 
   <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Module Code </th> 
   <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'> Section </th> 
@@ -104,7 +105,11 @@ if ($status == 'active' && $mods != [])
 }
 else
 {
-  echo "No bids available to drop";
+  echo "<div class='card bg-light mb-3' style='margin-top:30px;'>
+			<div class='card-header' style='font-size:1.25em;color:black;font-weight:bold'>
+		No bids available to drop<br/>
+		</div>
+		</div>";
 }
 
 
