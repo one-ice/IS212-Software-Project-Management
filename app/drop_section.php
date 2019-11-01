@@ -65,21 +65,27 @@ $username = $_SESSION['username'];
 
 if($round == 2 && $status == 'active'){
     $studentedollar = ($studentDAO->retrieve($username))->edollar;
-    echo "$username, you have $$studentedollar in your account";
+
+    echo "<div class='card bg-light mb-3' style='margin-top:30px;'>
+	<div class='card-header'>
+	$username, you have $$studentedollar in your account
+	</div>
+	</div>";
     if(count($bidInfos = $sectionStudentDAO->retrieveByUserID($username)) != 0){
-        echo "<table border = 1px>
+        echo "<table style='margin-bottom:30px;border-style:solid;border-width: 1.5px 1.5px 1.5px 1.5px;' class='table table-striped table-hover table-sm table-responsive'>
         <tr>
-        <th>Course</th>
-        <th>Section</th>
-        <th>Amount</th>
-        <th></th>
-        </tr><form action = 'drop_section.php'>";
+        <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'>Course</th>
+        <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'>Section</th>
+        <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'>Amount</th>
+        <th scope='col' style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;'></th>
+        </tr>
+		<form action = 'drop_section.php'>";
         foreach($bidInfos as $bidInfo){
             echo "<tr>
-            <td>$bidInfo->code</td>
-            <td>$bidInfo->section</td>
-            <td>$bidInfo->amount</td>
-            <td>
+            <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'>$bidInfo->code</td>
+            <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'>$bidInfo->section</td>
+            <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'>$bidInfo->amount</td>
+            <td style='border-style:solid;border-width:1.5px 1.5px 1.5px 1.5px;' class='font-weight-normal'>
             <input type = 'checkbox' name = 'drop[]' value = '$bidInfo->code,$bidInfo->section,$bidInfo->amount'>drop
             </td>
             </tr>";
@@ -87,11 +93,21 @@ if($round == 2 && $status == 'active'){
         
         echo"</table><input type = 'submit'></form>";
     }else{
-        echo "You did not bid a course in round1";
+        echo "<div class='card bg-light mb-3' style='margin-top:30px;'>
+			<div class='card-header' style='font-size:1.25em;color:red;font-weight:bold'>
+		Error: Unable to drop any section.<br/>You did not bid a course in round 1<br/><br/>
+		<a href='bidhome.php'><button type='button' class='btn btn-info'>Back</button></a>
+		</div>
+		</div>";
     }
 
 }else{
-    echo "You are not able to drop sections now";
+	echo "<div class='card bg-light mb-3' style='margin-top:30px;'>
+			<div class='card-header' style='font-size:1.25em;color:red;font-weight:bold'>
+		Error: Unable to drop any section now<<br/><br/>
+		<a href='bidhome.php'><button type='button' class='btn btn-info'>Back</button></a>
+		</div>
+		</div>";
 }
 
 if(isset($_GET['drop'])){
