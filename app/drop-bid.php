@@ -42,7 +42,9 @@
   </div>
 </nav>
 <!-- Navigation Bar -->
-
+<body class="d-flex flex-column h-100" style="background-color: #eeeeee;">
+	<main role="main" class="flex-shrink-0">
+<div class="container">
 
 <?php
 include_once "include/common.php";
@@ -72,18 +74,33 @@ if ($roundstatus == 'active')
     if ($bid_dropstatus == True)
     {
         $edollar_left = $studentedollar + $bidded_amt;
-        echo "Bid drop successfully! You have $$edollar_left left.";
         $studentDAO->update($userid, $edollar_left);
-        echo "<a href='drop-bid-form.php'><type = 'submit' name = 'back' value = 'Back'> Back </a>";
+		echo "<div class='card bg-light mb-3' style='margin-top:30px;'>
+			<div class='card-header' style='font-size:1.25em;color:green;font-weight:bold'>
+		Success: Bid drop successfully! You have $$edollar_left left.<br/><br/>
+		<a href='drop-bid-form.php'><button type='button' class='btn btn-info'>Back</button></a>
+		</div>
+		</div>";
     }
     else
     {
-        echo "Unable to drop bid.";
+        echo "<div class='card bg-light mb-3' style='margin-top:30px;'>
+			<div class='card-header' style='font-size:1.25em;color:red;font-weight:bold'>
+		Error: Unable to drop bid<br/><br/>
+		<a href='drop-bid-form.php'><button type='button' class='btn btn-info'>Back</button></a>
+		</div>
+		</div>";
     }
 }
 else
 {
-    echo "Unable to drop bid.";
+	 echo "<div class='card bg-light mb-3' style='margin-top:30px;'>
+			<div class='card-header' style='font-size:1.25em;color:red;font-weight:bold'>
+		Error: Unable to drop bid<br/><br/>
+		<a href='drop-bid-form.php'><button type='button' class='btn btn-info'>Back</button></a>
+		</div>
+		</div>";
+
 }
 
 ?>
