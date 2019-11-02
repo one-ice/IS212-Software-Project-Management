@@ -95,7 +95,7 @@ if($round == 2 && $status == 'active'){
     }else{
         echo "<div class='card bg-light mb-3' style='margin-top:30px;'>
 			<div class='card-header' style='font-size:1.25em;color:red;font-weight:bold'>
-		Error: Unable to drop any section.<br/>You did not bid a course in round 1<br/><br/>
+		Error: No section to drop.<br/><br/>
 		<a href='bidhome.php'><button type='button' class='btn btn-info'>Back</button></a>
 		</div>
 		</div>";
@@ -104,7 +104,7 @@ if($round == 2 && $status == 'active'){
 }else{
 	echo "<div class='card bg-light mb-3' style='margin-top:30px;'>
 			<div class='card-header' style='font-size:1.25em;color:red;font-weight:bold'>
-		Error: Unable to drop any section now<<br/><br/>
+		Error: Unable to drop any section now<br/><br/>
 		<a href='bidhome.php'><button type='button' class='btn btn-info'>Back</button></a>
 		</div>
 		</div>";
@@ -125,7 +125,12 @@ if(isset($_GET['drop'])){
             $ed = $studentedollar +$amount;
             $studentDAO->update($username,$ed);
         };
-        header("Location:drop_section.php");
+		echo "
+            <script type=\"text/javascript\">
+			alert('Course drop successfully');
+			window.location.replace('../app/drop_section.php');
+            </script>
+        ";
     }
 }
 ?>
