@@ -77,14 +77,11 @@ $status = $roundR->status;
     # retrieve from bid table -- pending
     $BidDAO = new BidDAO();
     $pendingInfo = $BidDAO->retrieve($_SESSION["username"]);
+	$name = $_SESSION["username"];
     
-	$name =[];
-	$name = explode(".", $username);
-	$firstName = ucfirst($name[0]);
-	$lastName = ucfirst($name[1]);
 	echo "<div class='card bg-light mb-3' style='margin-top:30px;'>
 			<div class='card-header' style='font-size:1.10em;'>
-			Welcome $firstName $lastName <br/>Here are your Bidding Results
+			Welcome $name <br/>Here are your Bidding Results
 		</div>
 		</div>";
 
