@@ -8,7 +8,7 @@ function checkForEmptyCol( $data, $header){
     $errors = [];
     for ($i=0; $i < sizeof($data); $i++) { 
         if ($data[$i] == ""){
-            $fieldname = "Blank " . $header[$i];
+            $fieldname = "blank " . $header[$i];
             array_push($errors , $fieldname);
         }
     }

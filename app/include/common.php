@@ -49,13 +49,13 @@ function printErrors() {
 
 function isMissingOrEmpty($name) {
     if (!isset($_REQUEST[$name])) {
-        return "$name cannot be empty";
+        return "blank $name";
     }
 
     // client did send the value over
     $value = $_REQUEST[$name];
     if (empty($value)) {
-        return "$name cannot be empty";
+        return "blank $name";
     }
 }
 
@@ -265,7 +265,7 @@ function isPrerequisiteValid($course,$prereq){
         $prereqValid = True;
     }
     if(!$courseValid){
-        $errors[] = "invaild course";
+        $errors[] = "invalid course";
     }
     if(!$prereqValid){
         $errors[] = "invalid prerequisite";
