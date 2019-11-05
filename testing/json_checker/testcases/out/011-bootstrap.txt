@@ -20,7 +20,7 @@
             "student.csv": 26
         }
     ],
-    "messages": [
+    "error": [
         {
             "file": "bid.csv",
             "line": 7,
@@ -109,8 +109,7 @@
             "file": "section.csv",
             "line": 37,
             "message": [
-                "invalid course",
-                "invalid section"
+                "invalid course"
             ]
         }
     ]
