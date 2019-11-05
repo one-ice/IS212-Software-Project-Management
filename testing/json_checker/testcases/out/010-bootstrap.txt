@@ -20,7 +20,7 @@
             "student.csv": 26
         }
     ],
-    "messages": [
+    "error": [
         {
             "file": "bid.csv",
             "line": 7,

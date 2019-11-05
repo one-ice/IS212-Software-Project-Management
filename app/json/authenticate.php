@@ -25,12 +25,12 @@ else{
     
     if( ($student != null) && ($student->password == $password) ){
         $generatedToken = generate_token($userid);
-        $result = [
+        $result =  [
             "status" => "success",
             "token" => $generatedToken,
         ];
     }else{
-        $result = [
+        $result =  [
             "status" => "error",
             "message" => array_values(["invalid username/password"])
         ];

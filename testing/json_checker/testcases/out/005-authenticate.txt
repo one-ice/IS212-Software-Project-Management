@@ -1,6 +1,6 @@
 {
     "status": "error",
-    "messages": [
+    "message": [
         "username cannot be empty",
         "password cannot be empty"
     ]
