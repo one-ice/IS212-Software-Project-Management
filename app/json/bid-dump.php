@@ -59,7 +59,7 @@ if($message == [])
     $round = $current_round->round;
     $status = $current_round->status;
 
-    if ($status == 'active')
+    if (($status == 'active') || ($status == 'inactive' && $round == 2))
     {
         $bidDAO = new BidDAO();
         $bids = $bidDAO->retrieveBidForEachSection($course, $section);
@@ -109,7 +109,7 @@ if($message == [])
                 "bids" => $values];
             
     }
-    elseif($status == 'inactive')
+    elseif($status == 'inactive' && $round == 1)
     {
         $sectionstudentDAO = new SectionStudentDAO();
         $successbids = $sectionstudentDAO->retrieveAllCourseAndSection($course,$section);

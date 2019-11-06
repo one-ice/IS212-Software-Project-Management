@@ -298,7 +298,7 @@ function isStudentValid($userid, $password, $name, $edollar)
     #Convert edollar (decimal) to string
     $stringedollar = strval($edollar);
     $explodestringedollar = explode('.', $edollar);
-    if($edollar > 0.0)
+    if($edollar >= 0.0)
     {
         if (count($explodestringedollar) == 2)
         {
