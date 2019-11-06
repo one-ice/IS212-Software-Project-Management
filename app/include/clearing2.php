@@ -39,7 +39,7 @@ function second_bid_valid($userid, $code, $section, $amount){
             $clearing_bid = $bids_now[$current_vacancy-1];
             $clearing_price = $clearing_bid->amount;
 
-            if ($amount < $clearing_price){
+            if ($amount <= $clearing_price){
                 $state = 'Unsuccessful';
             }
             else{
