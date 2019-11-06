@@ -18,6 +18,7 @@ $message = ["invalid section"];
 
 $fields = ['course','section' ];
 $json_decoded = json_decode($r, true);
+
 foreach ($json_decoded as $key => $value){
     $check[] = $key;
         
@@ -79,7 +80,5 @@ else {
 }
 
 }
-
-
 
 ?>

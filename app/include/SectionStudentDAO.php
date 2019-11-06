@@ -20,7 +20,7 @@ class SectionStudentDAO {
     }
 
 	public function retrieveAllCourseAndSection($code,$section){
-        $sql = 'SELECT * FROM `section-student` where code = :code and section = :section ORDER BY amount DESC, userid ASC';
+        $sql = 'SELECT * FROM `section-student` where code = :code and section = :section ORDER BY userid ASC, amount DESC';
         $connMgr = new ConnectionManager();      
         $conn = $connMgr->getConnection();
     
