@@ -18,7 +18,6 @@ $message = ["invalid section"];
 
 $fields = ['course','section' ];
 $json_decoded = json_decode($r, true);
-
 foreach ($json_decoded as $key => $value){
     $check[] = $key;
         
@@ -44,22 +43,28 @@ if (sizeof($errors) > 0){
 else {
 	if (is_Object($course) > 0) {
 	if (is_Object($sectionValid) > 0) {
-		if (sizeof($sectionStudentObj)>0) {
 		$values = array();
+		if (sizeof($sectionStudentObj)>0) {
 		for($row = 0; $row < sizeof($sectionStudentObj); $row++)
 		{
 			$values[$row]['userid'] = $sectionStudentObj[$row]->userid;
 			$values[$row]['amount'] = (float)$sectionStudentObj[$row]->amount;
 		}
-	
+		}
 	$result = [ 
         "status" => "success",
 		"students" => $values
 		
-    ];
+	];
+	if(sizeof($values) == 0){
+		$result = [
+			'status' => 'success',
+			'students' => "[]"
+		];
+	}
 	header('Content-Type: application/json');
 	echo json_encode($result, JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION );
-		} 
+		
 	}
 	else {
 	$result = [ 
@@ -80,5 +85,7 @@ else {
 }
 
 }
+
+
 
 ?>
