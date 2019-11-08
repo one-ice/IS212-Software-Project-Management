@@ -39,18 +39,48 @@ function second_bid_valid($userid, $code, $section, $amount){
             $clearing_bid = $bids_now[$current_vacancy-1];
             $clearing_price = $clearing_bid->amount;
 
+            $count = 0;
+            foreach ($bids_now as $bid_obj){
+                if ($bid_obj->amount == $clearing_price){
+                    $count +=1;
+                }
+            }
+            # find first index of person with clearing price
+            $c = 0;
+            foreach ($bids_now as $bid_obj){
+                $c += 1;
+                if ($bid_obj->amount == $clearing_price){
+                    break;
+                }
+            }
+            
             if ($amount < $clearing_price){
                 $state = 'Unsuccessful';
             }
-            else{
-                $state = 'Successful'; 
-                
-                if($clearing_price >= $minBidNow){
-                #change minbid price
-                    $sectionDAO->updateMinBid($clearing_price+1, $code, $section);
-                    $minBidNow = $sectionDAO->retrieveMinBid($code, $section);
+            elseif ($amount == $clearing_price){
+
+                $left = $current_vacancy - $c + 1;
+                if ($count == $left){
+                    if($clearing_price >= $minBidNow){
+                        #change minbid price
+                            $sectionDAO->updateMinBid($clearing_price+1, $code, $section);
+                            $minBidNow = $sectionDAO->retrieveMinBid($code, $section);
+                    }
+                    $state = 'Successful'; 
+                }
+                else{
+                    if($clearing_price >= $minBidNow){
+                        #change minbid price
+                            $sectionDAO->updateMinBid($clearing_price+1, $code, $section);
+                            $minBidNow = $sectionDAO->retrieveMinBid($code, $section);
+                    }
+                    $state = 'Unsuccessful';
+
                 }
 
+            }
+            else{
+                $state = 'Successful'; 
             }
             #find the number of people at clearing price
        
