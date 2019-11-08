@@ -41,19 +41,24 @@ function bidValidation($data){
     }
 
     if (sizeof($errors) == 0){
-        if (sizeof(bidOwnSchool($data[0],$data[2])) > 0 ){
-            $errorDetails = bidOwnSchool($data[0],$data[2]);
-            array_push($errors, $errorDetails[0]);
-        }
+        $roundDAO = new RoundDAO();
+        $roundStatus = $roundDAO->retrieveAll();
 
+        if ($roundStatus->round == 1 && $roundStatus == 'active'){
+            if (sizeof(bidOwnSchool($data[0],$data[2])) > 0 ){
+                $errorDetails = bidOwnSchool($data[0],$data[2]);
+                array_push($errors, $errorDetails[0]);
+            }
+        }
+       
         $bidDAO = new BidDAO();
         $bidsPlaced = $bidDAO->retrieve($data[0]);
         if($bidDAO->retrieveBid($data[0], $data[2])){
             $bidsPlaced = $bidDAO->retrieveBidsForRepeatedCourse($data[0],$data[2]);
         }
         $sectionStudentDAO = new SectionStudentDAO();
-        $roundDAO = new RoundDAO();
-        $roundStatus = $roundDAO->retrieveAll();
+        
+        
         if($roundStatus->status == 'active'){
             $courseEnrolled = $sectionStudentDAO->retrieveByUserID($data[0]);
             if(sizeof($courseEnrolled) != 0){
