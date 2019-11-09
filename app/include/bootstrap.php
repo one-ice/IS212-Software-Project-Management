@@ -422,17 +422,13 @@ function doBootstrap($viaWeb = false) {
                         }
 
                         $bidDAO = new BidDAO();
-                        $bidsPlaced = $bidDAO->retrieve($data[0]);
-                        if($bidDAO->retrieveBid($data[0], $data[2])){
-                            $bidsPlaced = $bidDAO->retrieveBidsForRepeatedCourse($data[0],$data[2]);
-                        }
-                        if (sizeof(bidClass($bidsPlaced, $data[2], $data[3])) > 0){
-                            $errorDetails = bidClass($bidsPlaced, $data[2], $data[3]);
+                        if (sizeof(bidClass($bidDAO->retrieve($data[0]), $data[2], $data[3])) > 0 && !$bidDAO->retrieveBid($data[0], $data[2])){
+                            $errorDetails = bidClass($bidDAO->retrieve($data[0]), $data[2], $data[3]);
                             array_push($errorInRow, $errorDetails[0]);
                         }
                         
-                        if (sizeof(bidExam($bidsPlaced, $data[2])) > 0){
-                            $errorDetails = bidExam($bidsPlaced, $data[2]);
+                        if (sizeof(bidExam($bidDAO->retrieve($data[0]), $data[2])) > 0 && !$bidDAO->retrieveBid($data[0], $data[2])){
+                            $errorDetails = bidExam($bidDAO->retrieve($data[0]), $data[2]);
                             array_push($errorInRow, $errorDetails[0]);
                         }
 
@@ -446,7 +442,7 @@ function doBootstrap($viaWeb = false) {
                             array_push($errorInRow, $errorDetails[0]);
                         }
 
-                        if (sizeof(bidSectionLimit($bidsPlaced)) > 0){
+                        if (sizeof(bidSectionLimit($bidDAO->retrieve($data[0]))) > 0 && !$bidDAO->retrieveBid($data[0], $data[2])){
                             $errorDetails = bidSectionLimit($bidDAO->retrieve($data[0]));
                             array_push($errorInRow, $errorDetails[0]);
                         }

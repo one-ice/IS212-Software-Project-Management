@@ -44,28 +44,6 @@ class BidDAO {
         return $result;
     }
 
-    public  function retrieveBidsForRepeatedCourse($userid,$code) {
-        $sql = 'SELECT * FROM bid WHERE userid=:userid AND NOT code = :code';
-        
-        
-        $connMgr = new ConnectionManager();
-        $conn = $connMgr->getConnection();
-        
-        $stmt = $conn->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        $stmt->bindParam(':userid', $userid, PDO::PARAM_STR);
-        $stmt->bindParam(':code', $code, PDO::PARAM_STR);
-        $stmt->execute();
-
-        $result = array();
-
-        while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $result[] = new Bid($row['userid'], $row['amount'], $row['code'], $row['section'], $row['status']);
-        }
-        
-        return $result;
-    }
-
     #get a distinct array of [code and section]
     public  function retrieveCodeSection() {
         $sql = 'SELECT DISTINCT code, section FROM bid ORDER BY code, section';

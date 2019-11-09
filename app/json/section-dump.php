@@ -3,80 +3,83 @@ include_once "../include/common.php";
 require_once "protect_json.php";
 
 
-$r = $_REQUEST["r"];
-$obj = json_decode($r, true);
-
-
-$course = trim($obj['course']);
-$section = trim($obj['section']);
-
-$result = [];
-$message = [];
-
-
-#Check if course is missing
-if(!array_key_exists('course', $obj))
-{
-    $message[] = 'missing course';
-}
-#Check if course is empty
-elseif ($course == '')
-{
-    $message[] = 'blank course';
-}
-#Check if section is missing
-if(!array_key_exists('section', $obj))
-{
-    $message[] = 'missing section';
-}
-#Check if section is empty
-elseif($section == '')
-{
-    $message[] = 'empty section';
-}
-
-else {
-	#Check if course exist
-	$courseDAO = new CourseDAO();
-	$course_exist = $courseDAO->retrieve($course);
-	if ($course_exist == False) {
-		$message[] = 'invalid course';
-	}
-	else {
-
-		#Check if section exist
-	 	$sectionDAO = new SectionDAO();
-        $section_exist = $sectionDAO->retrievebyCourseAndSection($course, $section);
-        if($section_exist == null)
-        {
-            $message[] = 'invalid section';
-        }
-	 }
-
-}
-
-if ($message == []) {
+$r = $_GET["r"];
+$obj = json_decode($r);
+$code = $obj->course;
+$section = $obj->section;
 $sectionStudentDAO = new SectionStudentDAO();
-$sectionStudentObj = $sectionStudentDAO->retrieveAllCourseAndSection($course,$section);
+$sectionStudentObj = $sectionStudentDAO->retrieveAllCourseAndSection($code,$section);
+$courseDAO = new CourseDAO();
+$course = "";
+$course = $courseDAO->retrieve($code);
+$sectionDAO = new SectionDAO();
+$sectionValid = $sectionDAO->retrieve($code,$section);
+$message = ["invalid section"];
 
-for($row = 0; $row < sizeof($sectionStudentObj); $row++)
+$fields = ['course','section' ];
+$json_decoded = json_decode($r, true);
+foreach ($json_decoded as $key => $value){
+    $check[] = $key;
+        
+    if ($value == ""){
+        $errors[] = 'blank '. $key;
+    }
+}
+foreach ($fields as $things){
+    if (!in_array($things, $check)){
+        $errors[] = 'missing ' . $things;
+    }
+}
+
+if (sizeof($errors) > 0){ 
+
+    $result = [ 
+        "status" => "error",
+        "message" => $errors
+    ];
+    header('Content-Type: application/json');
+    echo json_encode($result, JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION);
+}
+else {
+	if (is_Object($course) > 0) {
+	if (is_Object($sectionValid) > 0) {
+		if (sizeof($sectionStudentObj)>0) {
+		$values = array();
+		for($row = 0; $row < sizeof($sectionStudentObj); $row++)
 		{
 			$values[$row]['userid'] = $sectionStudentObj[$row]->userid;
 			$values[$row]['amount'] = (float)$sectionStudentObj[$row]->amount;
 		}
-	 $result = ["status" => 'success',
-                "students" => $values
-            ];
-
-} 
-
-else {
- $result = [ 
-        "status" => "error",
-        "message" => $message
+	
+	$result = [ 
+        "status" => "success",
+		"students" => $values
+		
     ];
+	header('Content-Type: application/json');
+	echo json_encode($result, JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION );
+		} 
+	}
+	else {
+	$result = [ 
+            "status" => "error",
+            "message" => [ "invalid section" ]
+        ];
+	header('Content-Type: application/json');
+	echo json_encode($result, JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION );
+		}
 }
-header('Content-Type: application/json');
-echo json_encode($result, JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION);
+else {
+	$result = [ 
+			"status" => "error",
+			"message" => [ "invalid course" ]
+			];
+			header('Content-Type: application/json');
+			echo json_encode($result, JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION);
+}
+
+}
+
+
 
 ?>
