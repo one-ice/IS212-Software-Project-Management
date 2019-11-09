@@ -41,19 +41,37 @@ function bidValidation($data){
     }
 
     if (sizeof($errors) == 0){
-        if (sizeof(bidOwnSchool($data[0],$data[2])) > 0 && $data[4]->round == 1){
-            $errorDetails = bidOwnSchool($data[0],$data[2]);
-            array_push($errors, $errorDetails[0]);
-        }
+        $roundDAO = new RoundDAO();
+        $roundStatus = $roundDAO->retrieveAll();
 
+        if ($roundStatus->round == 1 && $roundStatus == 'active'){
+            if (sizeof(bidOwnSchool($data[0],$data[2])) > 0 ){
+                $errorDetails = bidOwnSchool($data[0],$data[2]);
+                array_push($errors, $errorDetails[0]);
+            }
+        }
+       
         $bidDAO = new BidDAO();
-        if (sizeof(bidClass($bidDAO->retrieve($data[0]), $data[2], $data[3])) > 0 && !$bidDAO->retrieveBid($data[0], $data[2])){
-            $errorDetails = bidClass($bidDAO->retrieve($data[0]), $data[2], $data[3]);
+        $bidsPlaced = $bidDAO->retrieve($data[0]);
+        if($bidDAO->retrieveBid($data[0], $data[2])){
+            $bidsPlaced = $bidDAO->retrieveBidsForRepeatedCourse($data[0],$data[2]);
+        }
+        $sectionStudentDAO = new SectionStudentDAO();
+        
+        
+        if($roundStatus->status == 'active'){
+            $courseEnrolled = $sectionStudentDAO->retrieveByUserID($data[0]);
+            if(sizeof($courseEnrolled) != 0){
+                $bidsPlaced = array_merge($bidsPlaced, $courseEnrolled);
+            }
+        }
+        if (sizeof(bidClass($bidsPlaced, $data[2], $data[3])) > 0){
+            $errorDetails = bidClass($bidsPlaced, $data[2], $data[3]);
             array_push($errors, $errorDetails[0]);
         }
         
-        if (sizeof(bidExam($bidDAO->retrieve($data[0]), $data[2])) > 0 && !$bidDAO->retrieveBid($data[0], $data[2])){
-            $errorDetails = bidExam($bidDAO->retrieve($data[0]), $data[2]);
+        if (sizeof(bidExam($bidsPlaced, $data[2])) > 0){
+            $errorDetails = bidExam($bidsPlaced, $data[2]);
             array_push($errors, $errorDetails[0]);
         }
 
@@ -89,9 +107,9 @@ function bidValidation($data){
         $num_of_bids = sizeof($bids_now);
         $slots = $current_vacancy - $num_of_bids;
     
-        if ($data[4]->round == 2 && $slots <= 0){
+        if ($data[4]->round == 2 && $roundStatus->status == 'active'){
             
-            if ( $data[1] <= $sectionDetails->min_bid ){
+            if ( $data[1] < $sectionDetails->min_bid ){
                 $errors[] = 'bid too low';
             }
     

@@ -171,7 +171,7 @@ function isSectionValid($course,$section,$day,$start,$end,$instructor,$venue,$si
             #getting the num string of section
             $num = substr($section,1);
             #check if the numbers of the section is between 1 to 99
-            if ($num>=1 and $num<=99){
+            if (! ($num<1 || $num>99 || strlen($num) > 2) ){
                 $sectionValid = True;
             }
         }
@@ -575,9 +575,9 @@ function bidExam($array_of_bid_objs, $code){
             $start_prev = $course->exam_start;
             $end_now = $courseDetails->exam_end;
             $end_prev = $course->exam_end;
-
-            if (!(($start_now >= $end_prev)||($end_now <= $start_prev))){
+            if (!($start_now >= $end_prev || $end_now <= $start_prev)){
                 $errors[] = 'exam timetable clash';
+                break;
             }
         }
     }

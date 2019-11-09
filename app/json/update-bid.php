@@ -8,18 +8,22 @@ $check = [];
 $user_bid = $_GET['r'];
 $json_decoded = json_decode($user_bid, true);
 $fields = ['amount','course','section','userid' ];
-
+$error1 = [];
 foreach ($json_decoded as $key => $value){
     $check[] = $key;
         
     if ($value == ""){
-        $errors[] = 'blank '. $key;
+        $error1[] = 'blank '. $key;
     }
 }
+sort($error1);
 foreach ($fields as $things){
     if (!in_array($things, $check)){
         $errors[] = 'missing ' . $things;
     }
+}
+foreach($error1 as $error){
+    array_push($errors, $error);
 }
 
 if (sizeof($errors) > 0){ 

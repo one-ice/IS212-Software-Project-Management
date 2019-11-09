@@ -1,4 +1,5 @@
 <?php
+set_time_limit(300);
 // Change the value of $url to point to the web path that contains all your JSON APIs.
 $url = 'http://localhost/project-g5t4/app/json/';
 
