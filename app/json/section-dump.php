@@ -59,14 +59,22 @@ if ($message == []) {
 $sectionStudentDAO = new SectionStudentDAO();
 $sectionStudentObj = $sectionStudentDAO->retrieveAllCourseAndSection($course,$section);
 
-for($row = 0; $row < sizeof($sectionStudentObj); $row++)
+	if (count($sectionStudentObj)>0){
+		for($row = 0; $row < sizeof($sectionStudentObj); $row++)
 		{
 			$values[$row]['userid'] = $sectionStudentObj[$row]->userid;
 			$values[$row]['amount'] = (float)$sectionStudentObj[$row]->amount;
 		}
-	 $result = ["status" => 'success',
+		$result = ["status" => 'success',
                 "students" => $values
             ];
+	}
+	else{
+		$result = ["status" => 'success',
+                "students" => []
+            ];
+	}
+	 
 
 } 
 
