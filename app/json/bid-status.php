@@ -120,16 +120,17 @@ if($message == [])
         $sectionstudentDAO = new SectionStudentDAO();
         $enrolled = $sectionstudentDAO->retrieveVacancy($course, $section);
         $vacancy = $size - $enrolled;
-
         #lowest successful bid
         if ($enrolled > 0)
         {
-            $succesful_bids_amt = [];
-            foreach($enrolled as $enroll)
+            $enrolled_course = $sectionstudentDAO->retrieveAllCourseAndSection($course,$section);
+            $successful_bids_amt = [];
+            foreach($enrolled_course as $enroll)
             {
-                $succesful_bids_amt[] = $enroll->amount;
+                $successful_bids_amt[] = $enroll->amount;
             }
-            $min_bid_price = min($succesful_bids_amt);
+            $min_bid_price = min($successful_bids_amt);
+            var_dump($successful_bids_amt);
         }
         else
         {
@@ -204,9 +205,9 @@ if($message == [])
         $sectionDAO = new SectionDAO();
         $section_exist = $sectionDAO->retrievebyCourseAndSection($course, $section);
         $size = $section_exist[0]->size;
+        echo($size);
         $sectionstudentDAO = new SectionStudentDAO();
         $enrolled = $sectionstudentDAO->retrieveVacancy($course, $section);
-        $vacancy = $size - $enrolled;
         
         #lowest successful bid
         if ($enrolled != null)
@@ -215,43 +216,29 @@ if($message == [])
             {
                 $succesful_bids_amt = [];
                 $enrolled_course = $sectionstudentDAO->retrieveAllCourseAndSection($course,$section);
+                $no_of_enrollment = sizeof($enrolled_course);
                 foreach($enrolled_course as $enroll)
                 {
                     $studentDAO = new StudentDAO();
                     $student = $studentDAO->retrieve($enroll->userid);
                     $balance = $student->edollar;
+                    $succesful_bids_amt[] = $enroll->amount;
+                    
+
                     $students[] = [
                         "userid" => $enroll->userid,
-                        "amount" => $enroll->amount,
+                        "amount" => $bid_amt,
                         "balance" => $balance,
-                        "status" => 'successful'
+                        "status" => "successful"
                     ];
-                    $succesful_bids_amt[] = $enroll->amount;
                 }
+                $vacancy = $size - $no_of_enrollment;
                 $min_bid_price = min($succesful_bids_amt);
             }
             else
             {
                 $min_bid_price = 10;
             }
-        }
-
-        foreach($bids as $bid)
-        {
-            if ($bid->status == 'successful')
-            {
-                $vacancy = $vacancy-1;
-            }
-            $bid_amt = $bid->amount;
-            $studentDAO = new StudentDAO();
-            $student = $studentDAO->retrieve($bid->userid);
-            $balance = $student->edollar;
-            $students[] = [
-                "userid" => $bid->userid,
-                "amount" => $bid_amt,
-                "balance" => $balance,
-                "status" => $bid->status
-            ];
         }
     }
     $result = 
