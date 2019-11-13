@@ -1,7 +1,7 @@
 {
     "status": "error",
     "message": [
-        "username cannot be empty",
-        "password cannot be empty"
+        "blank username",
+        "blank password"
     ]
 }
