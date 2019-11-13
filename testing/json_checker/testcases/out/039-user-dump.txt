@@ -4,5 +4,5 @@
     "password": "qwerty150",
     "name": "Winston NG",
     "school": "SIS",
-    "edollar": 186
+    "edollar": 186.0
 }
