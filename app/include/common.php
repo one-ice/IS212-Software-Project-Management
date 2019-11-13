@@ -295,26 +295,13 @@ function isStudentValid($userid, $password, $name, $edollar)
     }
 
     #Check whether edollar is valid
-    #Convert edollar (decimal) to string
-    $stringedollar = strval($edollar);
-    $explodestringedollar = explode('.', $edollar);
-    if($edollar >= 0.0)
-    {
-        if (count($explodestringedollar) == 2)
-        {
-            if ((strlen($explodestringedollar[1])) != 2)
-            {
-                $errors[] = "invalid e-dollar";
-            }
-        }  
-        elseif (count($explodestringedollar) > 2){
-            $errors[] = "invalid e-dollar";
-        }
-    } 
-    else
-    {
-        $errors[] = "invalid e-dollar";
-    }
+    if ($edollar < 0.0) {
+		$errors[] = "invalid e-dollar" ;
+	}
+	#Not Numeric in Amount
+	elseif (!preg_match('/^-?[0-9]+(?:\.[0-9]{1,2})?$/', $edollar)) {
+	    $errors[] =  "invalid e-dollar";
+	}
 
     #Check whether password is valid
     if(strlen($password) > 128)
