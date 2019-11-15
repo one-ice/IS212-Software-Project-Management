@@ -130,7 +130,6 @@ if($message == [])
                 $successful_bids_amt[] = $enroll->amount;
             }
             $min_bid_price = min($successful_bids_amt);
-            var_dump($successful_bids_amt);
         }
         else
         {
@@ -205,7 +204,6 @@ if($message == [])
         $sectionDAO = new SectionDAO();
         $section_exist = $sectionDAO->retrievebyCourseAndSection($course, $section);
         $size = $section_exist[0]->size;
-        echo($size);
         $sectionstudentDAO = new SectionStudentDAO();
         $enrolled = $sectionstudentDAO->retrieveVacancy($course, $section);
         
@@ -223,11 +221,10 @@ if($message == [])
                     $student = $studentDAO->retrieve($enroll->userid);
                     $balance = $student->edollar;
                     $succesful_bids_amt[] = $enroll->amount;
-                    
 
                     $students[] = [
                         "userid" => $enroll->userid,
-                        "amount" => $bid_amt,
+                        "amount" => $enroll->amount,
                         "balance" => $balance,
                         "status" => "successful"
                     ];
@@ -241,6 +238,16 @@ if($message == [])
             }
         }
     }
+
+    function sortByAmt($a, $b)
+    {
+    $a = $a['amount'];
+    $b = $b['amount'];
+
+    if ($a == $b) return 0;
+    return ($a > $b) ? -1 : 1;
+    }
+    usort($students, 'sortbyAmt');
     $result = 
     [
         "status" => "success",
