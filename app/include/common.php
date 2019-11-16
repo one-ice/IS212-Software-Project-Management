@@ -172,7 +172,14 @@ function isSectionValid($course,$section,$day,$start,$end,$instructor,$venue,$si
             $num = substr($section,1);
             #check if the numbers of the section is between 1 to 99
             if (! ($num<1 || $num>99 || strlen($num) > 2) ){
-                $sectionValid = True;
+                if($num<10){
+                    if($num[0]!=0){
+                        $sectionValid = True;
+                    }
+                }
+                else{
+                    $sectionValid = True;
+                }
             }
         }
     }
