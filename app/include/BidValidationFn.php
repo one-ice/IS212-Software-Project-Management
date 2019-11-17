@@ -114,10 +114,7 @@ function bidValidation($data){
             }
     
         }
-    
-        if ($data[4]->status == 'inactive'){
-            $errors[] = 'round ended';
-        }
+      
         #add vacancy validation
         $sectionstuDAO = new SectionStudentDAO();
         $taken = $sectionstuDAO->retrieveVacancy($data[2], $data[3]);
@@ -139,6 +136,11 @@ function bidValidation($data){
             if ($course_stu->code == $data[2]){
                 $errors[] = 'course enrolled';
             }
+        }
+
+        if ($data[4]->status == 'inactive'){
+            $errors = [];
+            $errors[] = 'round ended';
         }
         
 
