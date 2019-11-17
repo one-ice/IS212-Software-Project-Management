@@ -1,37 +1,37 @@
 {
     "status": "success",
     "vacancy": 0,
-    "min_bid_amt": "13.00",
+    "min-bid-amount": 18.0,
     "students": [
         {
             "userid": "calvin.ng.2009",
-            "amount": "18.00",
-            "balance": "170.00",
-            "status": "successful"
+            "amount": 18.0,
+            "balance": 170.0,
+            "status": "success"
         },
         {
             "userid": "gary.ng.2009",
-            "amount": "16.00",
-            "balance": "184.00",
-            "status": "successful"
+            "amount": 16.0,
+            "balance": 184.0,
+            "status": "success"
         },
         {
             "userid": "fred.ng.2009",
-            "amount": "15.00",
-            "balance": "170.00",
-            "status": "successful"
+            "amount": 15.0,
+            "balance": 170.0,
+            "status": "success"
         },
         {
             "userid": "eddy.ng.2009",
-            "amount": "14.00",
-            "balance": "172.00",
-            "status": "successful"
+            "amount": 14.0,
+            "balance": 172.0,
+            "status": "success"
         },
         {
             "userid": "dawn.ng.2009",
-            "amount": "13.00",
-            "balance": "174.00",
-            "status": "successful"
+            "amount": 13.0,
+            "balance": 174.0,
+            "status": "success"
         }
     ]
 }

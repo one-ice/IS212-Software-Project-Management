@@ -35,7 +35,7 @@ if(!array_key_exists('section', $json_decoded))
 #Check if section is empty
 elseif($section == '')
 {
-    $message[] = 'empty section';
+    $message[] = 'blank section';
 }
 else
 {
@@ -50,7 +50,7 @@ else
     {   
         #Check if section exist
         $sectionDAO = new SectionDAO();
-        $section_exist = $sectionDAO->retrievebyCourseAndSection($course, $section);
+        $section_exist = $sectionDAO->retrieveByCourseAndSection($course, $section);
         if($section_exist == null)
         {
             $message[] = 'invalid section';
@@ -101,12 +101,14 @@ if($message == [])
             $studentDAO = new StudentDAO();
             $student = $studentDAO->retrieve($bid->userid);
             $balance = $student->edollar;
+
             $students[] = [
                 "userid" => $bid->userid,
-                "amount" => $bid_amt,
-                "balance" => $balance,
+                "amount" => (float)$bid_amt,
+                "balance" => (float)$balance,
                 "status" => $bid->status
             ];
+           
         }
     }
     elseif($round == 1 && $status == "inactive")
@@ -115,7 +117,7 @@ if($message == [])
 
         #get vacancy
         $sectionDAO = new SectionDAO();
-        $section_exist = $sectionDAO->retrievebyCourseAndSection($course, $section);
+        $section_exist = $sectionDAO->retrieveByCourseAndSection($course, $section);
         $size = $section_exist[0]->size;
         $sectionstudentDAO = new SectionStudentDAO();
         $enrolled = $sectionstudentDAO->retrieveVacancy($course, $section);
@@ -143,9 +145,9 @@ if($message == [])
             $balance = $student->edollar;
             $students[] = [
                 "userid" => $enroll->userid,
-                "amount" => $enroll->amount,
-                "balance" => $balance,
-                "status" => 'successful'
+                "amount" => (float)$enroll->amount,
+                "balance" => (float)$balance,
+                "status" => 'success'
             ];
         }
         $fail_bidDAO = new Fail_BidDAO();
@@ -157,56 +159,68 @@ if($message == [])
             $balance = $student->edollar;
             $students[] = [
                 "userid" => $fail->userid,
-                "amount" => $fail->amount,
-                "balance" => $balance,
-                "status" => 'unsuccessful'
+                "amount" => (float)$fail->amount,
+                "balance" => (float)$balance,
+                "status" => 'fail'
             ];
         }
 
     }
     elseif($round == 2 && $status == 'active')
     {
+        $min_bid_price = 0;
         #get vacancy
         $sectionDAO = new SectionDAO();
-        $section_exist = $sectionDAO->retrievebyCourseAndSection($course, $section);
-        $vacancy = $section_exist[0]->size;
+        $section_exist = $sectionDAO->retrieveByCourseAndSection($course, $section);
+        $size = $section_exist[0]->size;
+        $min_bid = $section_exist[0]->min_bid;
+
+        $sectionstudentDAO = new SectionStudentDAO();
+        $enrolled = $sectionstudentDAO->retrieveVacancy($course, $section);
+        $vacancy = $size - $enrolled;
+
         foreach($bids as $bid)
         {
             $bid_amt = $bid->amount;
-            $minBidInfo = $sectionDAO->retrieveByCourseAndSection($bid->code,$bid->section);
-            $bid_status = second_bid_valid($bid->userid,$bid->code, $bid->section, $bid_amt);
+            $minBidInfo = $sectionDAO->retrieveByCourseAndSection($course,$section);
+            $bid_status = second_bid_valid($bid->userid,$course, $section, $bid_amt);
 
             $studentDAO = new StudentDAO();
             $student = $studentDAO->retrieve($bid->userid);
-            $students[] = [
-                "userid" => $bid->userid,
-                "amount" => $bid_amt,
-                "balance" => $student->edollar,
-                "status" => $bid_status
-            ];
+            $balance = $student->edollar;
+            if ($bid_status == 'Unsuccessful'){
+                $students[] = [
+                    "userid" => $bid->userid,
+                    "amount" => (float)$bid_amt,
+                    "balance" => (float)$balance,
+                    "status" => 'fail'
+                ];
+            }else{
+                $students[] = [
+                    "userid" => $bid->userid,
+                    "amount" => (float)$bid_amt,
+                    "balance" => (float)$balance,
+                    "status" => 'success'
+                ];
 
-            $min_bid_price = $minBidInfo[0]->min_bid;
+            }
+
+
         }
-        
-        if($min_bid_price != null)
-        {
-            $min_bid_price = $minBidInfo[0]->min_bid;
-        }
-        else
-        {
-            $min_bid_price = 10;
-        }
+
+        $min_bid_price = $min_bid;
         
     }
     elseif($round == 2 && $status == 'inactive')
     {
         #get vacancy
         $sectionDAO = new SectionDAO();
-        $section_exist = $sectionDAO->retrievebyCourseAndSection($course, $section);
+        $section_exist = $sectionDAO->retrieveByCourseAndSection($course, $section);
         $size = $section_exist[0]->size;
         $sectionstudentDAO = new SectionStudentDAO();
         $enrolled = $sectionstudentDAO->retrieveVacancy($course, $section);
-        
+        $vacancy = $size - $enrolled;
+
         #lowest successful bid
         if ($enrolled != null)
         {
@@ -220,17 +234,32 @@ if($message == [])
                     $studentDAO = new StudentDAO();
                     $student = $studentDAO->retrieve($enroll->userid);
                     $balance = $student->edollar;
-                    $succesful_bids_amt[] = $enroll->amount;
-
+                    
                     $students[] = [
                         "userid" => $enroll->userid,
-                        "amount" => $enroll->amount,
-                        "balance" => $balance,
-                        "status" => "successful"
+                        "amount" => (float)$enroll->amount,
+                        "balance" => (float)$balance,
+                        "status" => "success"
                     ];
                 }
                 $vacancy = $size - $no_of_enrollment;
-                $min_bid_price = min($succesful_bids_amt);
+
+                if (sizeof($bids) == 0)
+                {
+                    $min_bid_price = 10;
+                }
+                else
+                {
+                    foreach($bids as $bid)
+                    {
+                        if ($bid->status == 'successful')
+                        {
+                            $succesful_bids_amt[] = $bid->amount;
+                        }
+                        
+                    }
+                    $min_bid_price = min($succesful_bids_amt);
+                }
             }
             else
             {
@@ -247,14 +276,16 @@ if($message == [])
     if ($a == $b) return 0;
     return ($a > $b) ? -1 : 1;
     }
+
     usort($students, 'sortbyAmt');
     $result = 
     [
         "status" => "success",
-        "vacancy" => $vacancy,
-        "min_bid_amt" => $min_bid_price,
+        "vacancy" => (int)$vacancy,
+        "min-bid-amount" => (float)$min_bid_price,
         "students" => $students
     ];
+    
 }
 
 header('Content-Type: application/json');

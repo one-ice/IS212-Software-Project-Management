@@ -55,7 +55,7 @@ public  function retrieveCodeSection() {
 
 
 public  function retrieveBidsbyCodeSection($code,$section) {
-    $sql = 'SELECT * FROM `fail_bid` where code = :code and section = :section';
+    $sql = 'SELECT * FROM `fail_bid` where code = :code and section = :section ORDER BY amount DESC, userid ASC ';
     
     $connMgr = new ConnectionManager();
     $conn = $connMgr->getConnection();

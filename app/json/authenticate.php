@@ -30,10 +30,27 @@ else{
             "token" => $generatedToken,
         ];
     }else{
-        $result =  [
-            "status" => "error",
-            "message" => array_values(["invalid username/password"])
-        ];
+
+        if ($password != $student->password && $userid == $student->userid){
+            $result =  [
+                "status" => "error",
+                "message" => array_values(["invalid password"])
+            ];
+        }
+        elseif ($userid != $student->userid && $password == $student->password){
+            $result =  [
+                "status" => "error",
+                "message" => array_values(["invalid username"])
+            ];
+        }
+        else{
+            $result =  [
+                "status" => "error",
+                "message" => array_values(["invalid username, invalid password"])
+            ];
+        }
+        
+        
     }
 
 }

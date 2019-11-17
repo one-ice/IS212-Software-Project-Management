@@ -44,7 +44,7 @@ function bidValidation($data){
         $roundDAO = new RoundDAO();
         $roundStatus = $roundDAO->retrieveAll();
 
-        if ($roundStatus->round == 1 && $roundStatus == 'active'){
+        if ($roundStatus->round == 1 && $roundStatus->status == 'active'){
             if (sizeof(bidOwnSchool($data[0],$data[2])) > 0 ){
                 $errorDetails = bidOwnSchool($data[0],$data[2]);
                 array_push($errors, $errorDetails[0]);
@@ -114,10 +114,7 @@ function bidValidation($data){
             }
     
         }
-    
-        if ($data[4]->status == 'inactive'){
-            $errors[] = 'round ended';
-        }
+      
         #add vacancy validation
         $sectionstuDAO = new SectionStudentDAO();
         $taken = $sectionstuDAO->retrieveVacancy($data[2], $data[3]);
@@ -139,6 +136,11 @@ function bidValidation($data){
             if ($course_stu->code == $data[2]){
                 $errors[] = 'course enrolled';
             }
+        }
+
+        if ($data[4]->status == 'inactive'){
+            $errors = [];
+            $errors[] = 'round ended';
         }
         
 

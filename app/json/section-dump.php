@@ -57,7 +57,7 @@ else {
 
 if ($message == []) {
 $sectionStudentDAO = new SectionStudentDAO();
-$sectionStudentObj = $sectionStudentDAO->retrieveAllCourseAndSection($course,$section);
+$sectionStudentObj = $sectionStudentDAO->getCourseAndSection($course,$section);
 
 	if (count($sectionStudentObj)>0){
 		for($row = 0; $row < sizeof($sectionStudentObj); $row++)

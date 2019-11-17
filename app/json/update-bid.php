@@ -11,8 +11,8 @@ $fields = ['amount','course','section','userid' ];
 $error1 = [];
 foreach ($json_decoded as $key => $value){
     $check[] = $key;
-        
-    if ($value == ""){
+    $value = trim($value);
+    if ($value == ""){ 
         $error1[] = 'blank '. $key;
     }
 }
