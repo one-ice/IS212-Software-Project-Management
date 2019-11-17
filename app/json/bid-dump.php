@@ -29,9 +29,9 @@ if(!array_key_exists('section', $json_decoded))
 #Check if section is empty
 elseif($section == '')
 {
-    $message[] = 'empty section';
+    $message[] = 'blank section';
 }
-else
+if($message == [])
 {
     #Check if course exist
     $courseDAO = new CourseDAO();
@@ -156,7 +156,8 @@ if($message == [])
     }
 }
 else
-{       sort($message);
+{       
+        sort($message);
         $result = ["status" => 'error', 
                     "message" => $message];
 }
