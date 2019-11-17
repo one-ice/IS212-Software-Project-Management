@@ -47,71 +47,59 @@ if (sizeof($errors) > 0){
     echo json_encode($result, JSON_PRETTY_PRINT);
 }
 else{
+	$userid = trim($obj->userid);
+	$code = trim($obj->course);
+	$section = trim($obj->section);
+	$errors = [];
 
-if ($round == 2 && $status == 'active') {		#round 2 & active
-	
-	if (count((array)$student) > 0) {			#Valid user id
-	
-		if (is_Object($course) > 0) {			#Valid course
-			
-			if (is_Object($sectionValid) > 0) {		#Valid course & section
-				$sectionStudentDAO = new SectionStudentDAO();
-				$sectionStudent = $sectionStudentDAO->retrieveByUserIDCourseSection($userid,$code,$section);
-				
-				#remove record
-				$sectionStudentDAO2 = new SectionStudentDAO();
-				$sectionStudentDAO2->removeByStuAndSection($userid,$code,$section);
-				$result = [ 
-					"status" => "success"
-					];
-					header('Content-Type: application/json');
-					echo json_encode($result, JSON_PRETTY_PRINT);
-				}
-				
-			else {								#Valid Course + Invalid section
-				$result = [ 
-					"status" => "error",
-					"message" => ["invalid section"]
-					];
-					header('Content-Type: application/json');
-					echo json_encode($result, JSON_PRETTY_PRINT);
-			}
-
-		}
-		else {									#Invalid Course
-
-			$result = [ 
-					"status" => "error",
-					"message" => ["invalid course"]
-					];
-					header('Content-Type: application/json');
-					echo json_encode($result, JSON_PRETTY_PRINT);
-		
-		}
-
+	if ($status != 'active') {	
+		$errors[] = 'round not active';
 	}
-	 else 
-	 {										#Invalid userid
-		$result = [ 
-        "status" => "error",
-		"message" => ["invalid userid"]
-    ];
-	header('Content-Type: application/json');
-	echo json_encode($result, JSON_PRETTY_PRINT);
-	 }
 	
-} 
-else 
-{											#Not Round 2 or not active or both
-	$result = [ 
-        "status" => "error",
-		"message" => ["round not active"]
-    ];
-	header('Content-Type: application/json');
-	echo json_encode($result, JSON_PRETTY_PRINT);
+	if  (sizeof(checkValidUserID($userid)) > 0 ){
+		$errors[] = 'invalid userid';
+	}
+
+	if (sizeof(checkValidCourse($code, $section)) > 0){
+		$errors[] = 'invalid course';
+	}
+	else{
+		if (sizeof(checkValidSection($code, $section)) > 0){
+			$errors[] = 'invalid section';
+		}
+	}
+
+	if (sizeof($errors)> 0){
+		$result = [ 
+			"status" => "error",
+			"message" => $errors
+		];
+
+		header('Content-Type: application/json');
+		echo json_encode($result, JSON_PRETTY_PRINT);
+	}
+	else{
+		
+		$sectionStudentDAO = new SectionStudentDAO();
+		$sectionStudent = $sectionStudentDAO->retrieveByUserIDCourseSection($userid,$code,$section);
+		$studentDAO = new StudentDAO();
+		$student_objj = $studentDAO->retrieve($userid);
+		$current_amt = $student_objj->edollar;
+		foreach ($sectionStudent as $stu){
+			$bid_amount = $stu->amount;
+			$studentDAO->update($userid, $current_amt + $bid_amount);
+		}
+		#remove record
+		$sectionStudentDAO->removeByStuAndSection($userid,$code,$section);
+		$result = [ 
+			"status" => "success"
+		];
+		header('Content-Type: application/json');
+		echo json_encode($result, JSON_PRETTY_PRINT);
+	}
 }
 
-}
+
 
 
 
