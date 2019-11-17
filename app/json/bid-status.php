@@ -50,7 +50,7 @@ else
     {   
         #Check if section exist
         $sectionDAO = new SectionDAO();
-        $section_exist = $sectionDAO->retrievebyCourseAndSection($course, $section);
+        $section_exist = $sectionDAO->retrieveByCourseAndSection($course, $section);
         if($section_exist == null)
         {
             $message[] = 'invalid section';
@@ -117,7 +117,7 @@ if($message == [])
 
         #get vacancy
         $sectionDAO = new SectionDAO();
-        $section_exist = $sectionDAO->retrievebyCourseAndSection($course, $section);
+        $section_exist = $sectionDAO->retrieveByCourseAndSection($course, $section);
         $size = $section_exist[0]->size;
         $sectionstudentDAO = new SectionStudentDAO();
         $enrolled = $sectionstudentDAO->retrieveVacancy($course, $section);
@@ -171,7 +171,7 @@ if($message == [])
         $min_bid_price = 0;
         #get vacancy
         $sectionDAO = new SectionDAO();
-        $section_exist = $sectionDAO->retrievebyCourseAndSection($course, $section);
+        $section_exist = $sectionDAO->retrieveByCourseAndSection($course, $section);
         $size = $section_exist[0]->size;
         $min_bid = $section_exist[0]->min_bid;
 
@@ -215,7 +215,7 @@ if($message == [])
     {
         #get vacancy
         $sectionDAO = new SectionDAO();
-        $section_exist = $sectionDAO->retrievebyCourseAndSection($course, $section);
+        $section_exist = $sectionDAO->retrieveByCourseAndSection($course, $section);
         $size = $section_exist[0]->size;
         $sectionstudentDAO = new SectionStudentDAO();
         $enrolled = $sectionstudentDAO->retrieveVacancy($course, $section);
