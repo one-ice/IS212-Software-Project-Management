@@ -20,7 +20,8 @@ class SectionStudentDAO {
     }
 
 	public function retrieveAllCourseAndSection($code,$section){
-        $sql = 'SELECT * FROM `section-student` where code = :code and section = :section ORDER BY userid ASC, amount DESC';        $connMgr = new ConnectionManager();      
+        $sql = 'SELECT * FROM `section-student` where code = :code and section = :section ORDER BY amount DESC, userid ASC';        
+        $connMgr = new ConnectionManager();      
         $conn = $connMgr->getConnection();
     
         $stmt = $conn->prepare($sql);
@@ -37,6 +38,27 @@ class SectionStudentDAO {
 
         return $result;
     }
+
+    public function getCourseAndSection($code,$section){
+        $sql = 'SELECT * FROM `section-student` where code = :code and section = :section ORDER BY userid ASC, amount DESC';        
+        $connMgr = new ConnectionManager();      
+        $conn = $connMgr->getConnection();
+    
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':code', $code, PDO::PARAM_STR);
+        $stmt->bindParam(':section', $section, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+    
+        $result = array();
+    
+        while($row = $stmt->fetch()) {
+            $result[] = new SectionStudent($row['userid'], $row['code'], $row['section'], $row['amount']);
+        }
+
+        return $result;
+    }
+
 
     # for each stu, retrieve info
     public function retrieveByUserID($userid){
