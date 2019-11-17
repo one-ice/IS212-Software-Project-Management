@@ -23,35 +23,28 @@ else{
     $studentDao = new StudentDAO();
     $student = $studentDao->retrieve($userid);
     
-    if( ($student != null) && ($student->password == $password) ){
+    if ($student == null){
+        $result =  [
+            "status" => "error",
+            "message" => array_values(["invalid username"])
+        ];
+    }
+    else if ( ($student != null) && ($student->password == $password) ){
+
         $generatedToken = generate_token($userid);
         $result =  [
             "status" => "success",
             "token" => $generatedToken,
         ];
-    }else{
-
-        if ($password != $student->password && $userid == $student->userid){
-            $result =  [
-                "status" => "error",
-                "message" => array_values(["invalid password"])
-            ];
-        }
-        elseif ($userid != $student->userid && $password == $student->password){
-            $result =  [
-                "status" => "error",
-                "message" => array_values(["invalid username"])
-            ];
-        }
-        else{
-            $result =  [
-                "status" => "error",
-                "message" => array_values(["invalid username, invalid password"])
-            ];
-        }
-        
-        
     }
+    else{
+
+        $result =  [
+            "status" => "error",
+            "message" => array_values(["invalid password"])
+        ];
+    }
+        
 
 }
 
