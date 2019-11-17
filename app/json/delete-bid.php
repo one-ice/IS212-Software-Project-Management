@@ -15,7 +15,7 @@ $fields = ['course','section','userid'];
 
 foreach ($json_decoded as $key => $value){
     $check[] = $key;
-        
+    $value = trim($value);
     if ($value == ""){
         $errors[] = 'blank '. $key;
     }
