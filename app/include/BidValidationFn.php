@@ -44,7 +44,7 @@ function bidValidation($data){
         $roundDAO = new RoundDAO();
         $roundStatus = $roundDAO->retrieveAll();
 
-        if ($roundStatus->round == 1 && $roundStatus == 'active'){
+        if ($roundStatus->round == 1 && $roundStatus->status == 'active'){
             if (sizeof(bidOwnSchool($data[0],$data[2])) > 0 ){
                 $errorDetails = bidOwnSchool($data[0],$data[2]);
                 array_push($errors, $errorDetails[0]);
